@@ -81,6 +81,7 @@ class zookeeper(
   }->
   class { 'zookeeper::config':
     id                      => $id,
+    ensemble                => $ensemble,
     datastore               => $datastore,
     datalogstore            => $datalogstore,
     initialize_datastore    => $initialize_datastore,

@@ -21,6 +21,7 @@
 #
 class zookeeper::config(
   $id                      = '1',
+  $ensemble                = false,
   $datastore               = '/var/lib/zookeeper',
   $datalogstore            = undef,
   $initialize_datastore    = false,
