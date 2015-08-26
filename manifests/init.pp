@@ -13,7 +13,7 @@
 #   class { 'zookeeper': }
 #
 class zookeeper(
-  $ensemble                = hiera('sys11stack::ensemble', false)
+  $ensemble                = hiera('sys11stack::ensemble', false),
   $datastore               = '/var/lib/zookeeper',
   # datalogstore used to put transaction logs in separate location than snapshots
   $datalogstore            = undef,
