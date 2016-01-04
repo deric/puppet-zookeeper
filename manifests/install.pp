@@ -10,19 +10,22 @@
 # Should not be included directly
 #
 class zookeeper::install(
-  $ensure            = present,
-  $snap_retain_count = 3,
-  $cleanup_sh        = '/usr/lib/zookeeper/bin/zkCleanup.sh',
-  $datastore         = '/var/lib/zookeeper',
-  $user              = 'zookeeper',
-  $start_with        = 'init.d',
-  $ensure_cron       = true,
-  $service_package   = 'zookeeperd',
-  $packages          = ['zookeeper'],
-  $repo_source       = undef,
-  $cdhver            = cdhver,
-  $install_java      = false,
-  $java_package      = undef
+  $ensure             = present,
+  $snap_retain_count  = 3,
+  $cleanup_sh         = '/usr/lib/zookeeper/bin/zkCleanup.sh',
+  $datastore          = '/var/lib/zookeeper',
+  $user               = 'zookeeper',
+  $start_with         = 'init.d',
+  $ensure_cron        = true,
+  $service_package    = 'zookeeperd',
+  $packages           = ['zookeeper'],
+  $repo_source        = undef,
+  $cdhver             = cdhver,
+  $install_java       = false,
+  $java_package       = undef,
+  $reponame           = undef,
+  $repourl            = undef,
+  $repodescr          = undef
 ) {
   anchor { 'zookeeper::install::begin': }
   anchor { 'zookeeper::install::end': }
@@ -48,8 +51,11 @@ class zookeeper::install(
     'RedHat': {
 
       class { 'zookeeper::repo':
-        source => $repo_source,
-        cdhver => $cdhver,
+        source    => $repo_source,
+        cdhver    => $cdhver,
+        reponame  => $reponame,
+        repourl   => $repourl,
+        repodescr => $repodescr
       }
 
       class { 'zookeeper::os::redhat':
