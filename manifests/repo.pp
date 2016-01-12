@@ -85,23 +85,43 @@ class zookeeper::repo(
             $osrel = $::operatingsystemmajrelease
             case $osrel {
               '6', '7': {
-                # parameter ensure is not supported before Puppet 3.5
-                if versioncmp($::puppetversion, '3.5.0') >= 0 {
+                if versioncmp($::puppetversion, '3.0.0') < 0{
+                  # parameter 'sslverify' is not supported before puppet 3.0
+                  yumrepo { $config['name']:
+                    descr    => $config['descr'],
+                    baseurl  => $config['url'],
+                    enabled  => 1,
+                    gpgcheck => 0
+                  }
+                } elsif versioncmp($::puppetversion, '3.5.0') >= 0 {
+                  # parameter ensure is not supported before Puppet 3.5
                   yumrepo { $config['name']:
                     ensure    => $ensure,
                     descr     => $config['descr'],
                     baseurl   => $config['url'],
                     enabled   => 1,
-                    sslverify => 0,
-                    gpgcheck  => 0
+                    sslverify => empty($config['sslverify']) ? {
+                      true  => 0,
+                      false => $config['sslverify']
+                    },
+                    gpgcheck  => empty($config['gpgcheck']) ? {
+                      true  => 0,
+                      false => $config['gpgcheck']
+                    },
                   }
                 } else {
                   yumrepo { $config['name']:
                     descr     => $config['descr'],
                     baseurl   => $config['url'],
                     enabled   => 1,
-                    sslverify => 0,
-                    gpgcheck  => 0
+                    sslverify => empty($config['sslverify']) ? {
+                      true  => 0,
+                      false => $config['sslverify']
+                    },
+                    gpgcheck  => empty($config['gpgcheck']) ? {
+                      true  => 0,
+                      false => $config['gpgcheck']
+                    },
                   }
                 }
               }
