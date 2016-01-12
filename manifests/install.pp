@@ -19,16 +19,18 @@ class zookeeper::install(
   $ensure_cron        = true,
   $service_package    = 'zookeeperd',
   $packages           = ['zookeeper'],
-  $repo_source        = undef,
   $cdhver             = cdhver,
   $install_java       = false,
   $java_package       = undef,
-  $reponame           = undef,
-  $repourl            = undef,
-  $repodescr          = undef
+  $repo               = undef,
 ) {
   anchor { 'zookeeper::install::begin': }
   anchor { 'zookeeper::install::end': }
+
+  $repo_source = is_hash($repo) ? {
+      true  => 'custom',
+      false => $repo
+  }
 
   case $::osfamily {
     'Debian': {
@@ -49,13 +51,10 @@ class zookeeper::install(
       }
     }
     'RedHat': {
-
       class { 'zookeeper::repo':
-        source    => $repo_source,
-        cdhver    => $cdhver,
-        reponame  => $reponame,
-        repourl   => $repourl,
-        repodescr => $repodescr
+        source => $repo_source,
+        cdhver => $cdhver,
+        config => $repo
       }
 
       class { 'zookeeper::os::redhat':

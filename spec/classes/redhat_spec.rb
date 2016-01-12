@@ -56,7 +56,6 @@ describe 'zookeeper::os::redhat', :type => :class do
       } }
 
       it {
-
         should contain_package('zookeeper').with({
         'ensure'  => 'absent',
         })

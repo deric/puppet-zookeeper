@@ -7,9 +7,7 @@ class zookeeper::repo(
   $source     = undef,
   $cdhver     = undef,
   $ensure     = present,
-  $reponame   = undef,
-  $repourl    = undef,
-  $repodescr  = undef
+  $config     = undef,
 ) {
 
   if $source {
@@ -80,31 +78,35 @@ class zookeeper::repo(
             }
           }
           'custom':{
-            if $repodescr == undef or $repourl == undef or $reponame == undef {
-              fail("Invalid parameter settings for custom repo")
+            validate_hash($config)
+            if $config['name'] == undef or $config['url'] == undef or $config['descr'] == undef {
+              fail('Invalid parameter settings for custom repo')
             }
             $osrel = $::operatingsystemmajrelease
             case $osrel {
               '6', '7': {
                 # parameter ensure is not supported before Puppet 3.5
                 if versioncmp($::puppetversion, '3.5.0') >= 0 {
-                  yumrepo { $reponame:
+                  yumrepo { $config['name']:
                     ensure    => $ensure,
-                    descr     => $repodescr,
-                    baseurl   => $repourl,
+                    descr     => $config['descr'],
+                    baseurl   => $config['url'],
                     enabled   => 1,
                     sslverify => 0,
                     gpgcheck  => 0
                   }
                 } else {
-                  yumrepo { $reponame:
-                    descr     => $repodescr,
-                    baseurl   => $repourl,
+                  yumrepo { $config['name']:
+                    descr     => $config['descr'],
+                    baseurl   => $config['url'],
                     enabled   => 1,
                     sslverify => 0,
                     gpgcheck  => 0
                   }
                 }
+              }
+              default: {
+                fail("Redhat '${osrel}' is not a supported.")
               }
             }
           }

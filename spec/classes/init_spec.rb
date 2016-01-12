@@ -78,4 +78,34 @@ describe 'zookeeper', :type => :class do
     it { should_not contain_service('zookeeper').with({:ensure => 'running'}) }
     it { should_not contain_class('zookeeper::service') }
   end
+
+  context 'use Cloudera RPM repo' do
+    let(:facts) {{
+      :ipaddress => '192.168.1.1',
+      :osfamily => 'RedHat',
+      :operatingsystemmajrelease => '7',
+      :hardwaremodel => 'x86_64',
+    }}
+
+    let(:params) {{
+      :repo => 'cloudera',
+      :cdhver => '5',
+    }}
+
+    it { should contain_class('zookeeper::repo') }
+    it { should contain_yumrepo('cloudera-cdh5') }
+
+    context 'custom RPM repo' do
+      let(:params) {{
+        :repo => {
+          'name'  => 'myrepo',
+          'url'   => 'http://repo.url',
+          'descr' => 'custom repo',
+        },
+        :cdhver => '5',
+      }}
+      it { should contain_yumrepo('myrepo').with({:baseurl => 'http://repo.url'}) }
+    end
+  end
+
 end
