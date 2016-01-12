@@ -72,7 +72,7 @@ class zookeeper::config(
     ensure  => directory,
     owner   => $user,
     group   => $group,
-    recurse => true,
+    recurse => false,
     mode    => '0644',
   }
 
@@ -81,7 +81,7 @@ class zookeeper::config(
     owner   => $user,
     group   => $group,
     mode    => '0644',
-    recurse => true,
+    recurse => false, # intentionally, puppet run would take too long #41
   }
 
   if $datalogstore {
@@ -90,7 +90,7 @@ class zookeeper::config(
       owner   => $user,
       group   => $group,
       mode    => '0644',
-      recurse => true,
+      recurse => false, # intentionally, puppet run would take too long #41
     }
   }
 
