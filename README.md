@@ -68,9 +68,10 @@ class { 'zookeeper':
 }
 ```
 
-### Setting IP address
+### Set binding interface
 
-If `$::ipaddress` is not your public IP (e.g. you are using Docker) make sure to setup correct IP:
+By default ZooKeeper should bind to all interfaces. When you specify `client_ip` only single interface
+will be used. If `$::ipaddress` is not your public IP (e.g. you are using Docker) make sure to setup correct IP:
 
 ```puppet
 class { 'zookeeper':

@@ -19,7 +19,12 @@ dataLogDir=<%= @datalogstore %>
 
 # the port at which the clients will connect
 clientPort=<%= @client_port %>
+# interface to bind
+<% if @client_ip -%>
 clientPortAddress=<%= @client_ip %>
+<% else -%>
+#clientPortAddress=
+<% end -%>
 
 # specify all zookeeper servers
 # The fist port is used by followers to connect to the leader
@@ -77,7 +82,11 @@ autopurge.snapRetainCount=<%= @snap_retain_count %>
 autopurge.purgeInterval=<%= @purge_interval %>
 
 # Maximum allowed connections
+<% if @max_allowed_connections -%>
 maxClientCnxns=<%= @max_allowed_connections %>
+<% else -%>
+#maxClientCnxns=60
+<% end -%>
 
 <% if @peer_type != 'UNSET' -%>
 # Zookeeper peer type

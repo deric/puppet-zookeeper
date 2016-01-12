@@ -50,6 +50,19 @@ describe 'zookeeper::config', :type => :class do
       it {
         should contain_file('/etc/zookeeper/conf/zoo.cfg').with_content(/snapCount=15000/)
       }
+
+      # leave the default value to be determined by ZooKeeper
+      it 'does not set maxClientCnxns by default' do
+        # due to problem with should_not not matcher, we're using more complicated way
+        should contain_file(
+        '/etc/zookeeper/conf/zoo.cfg'
+        ).with_content(/^#maxClientCnxns=/)
+      end
+
+      # by default do not set client IP address
+      it { should contain_file(
+        '/etc/zookeeper/conf/zoo.cfg'
+      ).with_content(/^#clientPortAddress=/) }
     end
 
     context 'max allowed connections' do

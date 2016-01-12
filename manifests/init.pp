@@ -19,7 +19,7 @@ class zookeeper(
   $datalogstore            = undef,
   $initialize_datastore    = false,
   # fact from which we get public ip address
-  $client_ip               = $::ipaddress,
+  $client_ip               = undef, # use e.g. $::ipaddress if you want to bind to single interface
   $client_port             = 2181,
   $election_port           = 2888,
   $leader_port             = 3888,
@@ -45,7 +45,7 @@ class zookeeper(
   # log4j properties
   $rollingfile_threshold   = 'ERROR',
   $tracefile_threshold     = 'TRACE',
-  $max_allowed_connections = 10,
+  $max_allowed_connections = undef,
   $peer_type               = 'UNSET',
   $start_with              = 'init.d',
   $ensure_cron             = true,

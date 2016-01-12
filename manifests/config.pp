@@ -24,7 +24,8 @@ class zookeeper::config(
   $datastore               = '/var/lib/zookeeper',
   $datalogstore            = undef,
   $initialize_datastore    = false,
-  $client_ip               = $::ipaddress,
+  # use either IP address, or a fact, e.g.: $::ipaddress
+  $client_ip               = undef,
   $client_port             = 2181,
   $election_port           = 2888,
   $leader_port             = 3888,
@@ -48,7 +49,7 @@ class zookeeper::config(
   # log4j properties
   $rollingfile_threshold   = 'ERROR',
   $tracefile_threshold     = 'TRACE',
-  $max_allowed_connections = 10,
+  $max_allowed_connections = undef,
   $export_tag              = 'zookeeper',
   $peer_type               = 'UNSET',
   $tick_time               = 2000,
@@ -134,10 +135,14 @@ class zookeeper::config(
     notify  => Class['zookeeper::service'],
   }
 
-  # keep track of all hosts in a cluster
-  zookeeper::host { $client_ip:
+  # keep track of all hosts in a cluster, experimental feature
+  $ip = empty($client_ip) ? {
+    true  => $::ipaddress,
+    false => $client_ip
+  }
+  zookeeper::host { $ip:
     id            => $id,
-    client_ip     => $client_ip,
+    client_ip     => $ip,
     election_port => $election_port,
     leader_port   => $leader_port,
   }
