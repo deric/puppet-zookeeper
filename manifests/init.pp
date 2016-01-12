@@ -32,7 +32,7 @@ class zookeeper(
   $pid_dir                 = '/var/run/zookeeper',
   $pid_file                = '$PIDDIR/zookeeper.pid',
   $zoo_main                = 'org.apache.zookeeper.server.quorum.QuorumPeerMain',
-  $log4j_prop               = 'INFO,ROLLINGFILE',
+  $log4j_prop              = 'INFO,ROLLINGFILE',
   $cleanup_sh              = '/usr/share/zookeeper/bin/zkCleanup.sh',
   $servers                 = [],
   $observers               = [],
@@ -45,7 +45,7 @@ class zookeeper(
   # log4j properties
   $rollingfile_threshold   = 'ERROR',
   $tracefile_threshold     = 'TRACE',
-  $max_allowed_connections = 60, # default since 3.4.0
+  $max_allowed_connections = 10,
   $peer_type               = 'UNSET',
   $start_with              = 'init.d',
   $ensure_cron             = true,
@@ -60,6 +60,9 @@ class zookeeper(
   $max_session_timeout     = undef,
   $manage_service          = true,
   $manage_systemd          = true,
+  $reponame                 = undef,
+  $repourl                  = undef,
+  $repodescr                = undef
 ) {
 
   validate_array($packages)
@@ -80,7 +83,11 @@ class zookeeper(
     repo_source       => $repo,
     cdhver            => $cdhver,
     install_java      => $install_java,
-    java_package      => $java_package
+    java_package      => $java_package,
+    reponame          => $reponame,
+    repourl           => $repourl,
+    repodescr         => $repodescr
+
   }->
   class { 'zookeeper::config':
     id                      => $id,

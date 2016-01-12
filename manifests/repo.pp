@@ -4,9 +4,12 @@
 #
 
 class zookeeper::repo(
-  $source = undef,
-  $cdhver = undef,
-  $ensure = present,
+  $source     = undef,
+  $cdhver     = undef,
+  $ensure     = present,
+  $reponame   = undef,
+  $repourl    = undef,
+  $repodescr  = undef
 ) {
 
   if $source {
@@ -73,6 +76,35 @@ class zookeeper::repo(
                 baseurl  => "http://archive.cloudera.com/cdh${cdhver}/redhat/${osrel}/${::hardwaremodel}/cdh/${cdhver}/",
                 gpgkey   => "http://archive.cloudera.com/cdh${cdhver}/redhat/${osrel}/${::hardwaremodel}/cdh/RPM-GPG-KEY-cloudera",
                 gpgcheck => 1
+              }
+            }
+          }
+          'custom':{
+            if $repodescr == undef or $repourl == undef or $reponame == undef {
+              fail("Invalid parameter settings for custom repo")
+            }
+            $osrel = $::operatingsystemmajrelease
+            case $osrel {
+              '6', '7': {
+                # parameter ensure is not supported before Puppet 3.5
+                if versioncmp($::puppetversion, '3.5.0') >= 0 {
+                  yumrepo { $reponame:
+                    ensure    => $ensure,
+                    descr     => $repodescr,
+                    baseurl   => $repourl,
+                    enabled   => 1,
+                    sslverify => 0,
+                    gpgcheck  => 0
+                  }
+                } else {
+                  yumrepo { $reponame:
+                    descr     => $repodescr,
+                    baseurl   => $repourl,
+                    enabled   => 1,
+                    sslverify => 0,
+                    gpgcheck  => 0
+                  }
+                }
               }
             }
           }
