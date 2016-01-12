@@ -45,7 +45,7 @@ class zookeeper(
   # log4j properties
   $rollingfile_threshold   = 'ERROR',
   $tracefile_threshold     = 'TRACE',
-  $max_allowed_connections = 10,
+  $max_allowed_connections = 60, # default since 3.4.0
   $peer_type               = 'UNSET',
   $start_with              = 'init.d',
   $ensure_cron             = true,
