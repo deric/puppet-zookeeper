@@ -4,10 +4,10 @@
 #
 
 class zookeeper::repo(
-  $source     = undef,
-  $cdhver     = undef,
-  $ensure     = present,
-  $config     = undef,
+  $cdhver     = $::zookeeper::params::cdhver,
+  $config     = $::zookeeper::params::repo,
+  $ensure     = $::zookeeper::params::ensure,
+  $source     = $::zookeeper::parmas::repo_source
 ) {
 
   if $source {

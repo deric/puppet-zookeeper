@@ -1,12 +1,12 @@
 # Class: zookeeper::service
 
 class zookeeper::service(
-  $cfg_dir        = '/etc/zookeeper/conf',
-  $service_name   = 'zookeeper',
-  $service_ensure = 'running',
-  $manage_systemd = true,
-  $user           = 'zookeeper',
-  $group          = 'zookeeper'
+  $cfg_dir        = $::zookeeper::params::cfg_dir,
+  $group          = $::zookeeper::params::group,
+  $manage_systemd = $::zookeeper::params::manage_systemd,
+  $service_ensure = $::zookeeper::params::service_ensure,
+  $service_name   = $::zookeeper::params::service_name,
+  $user           = $::zookeeper::params::user
 ){
   require zookeeper::install
 

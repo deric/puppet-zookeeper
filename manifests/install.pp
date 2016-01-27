@@ -10,65 +10,63 @@
 # Should not be included directly
 #
 class zookeeper::install(
-  $ensure             = present,
-  $snap_retain_count  = 3,
-  $cleanup_sh         = '/usr/lib/zookeeper/bin/zkCleanup.sh',
-  $datastore          = '/var/lib/zookeeper',
-  $user               = 'zookeeper',
-  $start_with         = 'init.d',
-  $ensure_cron        = true,
-  $service_package    = 'zookeeperd',
-  $packages           = ['zookeeper'],
-  $cdhver             = cdhver,
-  $install_java       = false,
-  $java_package       = undef,
-  $repo               = undef,
+  $cdhver             = $::zookeeper::params::cdhver,
+  $cleanup_sh         = $::zookeeper::params::cleanup_sh,
+  $datastore          = $::zookeeper::params::datastore,
+  $ensure             = $::zookeeper::params::ensure,
+  $ensure_cron        = $::zookeeper::params::ensure_cron,
+  $install_java       = $::zookeeper::params::install_java,
+  $java_package       = $::zookeeper::params::java_package,
+  $manual_clean       = $::zookeeper::params::manual_clean,
+  $packages           = $::zookeeper::params::packages,
+  $repo               = $::zookeeper::params::repo,
+  $repo_source        = $::zookeeper::params::repo_source,
+  $service_package    = $::zookeeper::params::service_package,
+  $snap_retain_count  = $::zookeeper::params::snap_retain_count,
+  $start_with         = $::zookeeper::params::start_with,
+  $user               = $::zookeeper::params::user
 ) {
   anchor { 'zookeeper::install::begin': }
   anchor { 'zookeeper::install::end': }
 
-  $repo_source = is_hash($repo) ? {
-      true  => 'custom',
-      false => $repo
-  }
-
   case $::osfamily {
     'Debian': {
       class { 'zookeeper::os::debian':
-        ensure            => $ensure,
-        snap_retain_count => $snap_retain_count,
+        before            => Anchor['zookeeper::install::end'],
         cleanup_sh        => $cleanup_sh,
         datastore         => $datastore,
-        user              => $user,
-        start_with        => $start_with,
+        ensure            => $ensure,
         ensure_cron       => $ensure_cron,
-        service_package   => $service_package,
-        packages          => $packages,
-        before            => Anchor['zookeeper::install::end'],
-        require           => Anchor['zookeeper::install::begin'],
         install_java      => $install_java,
-        java_package      => $java_package
+        java_package      => $java_package,
+        packages          => $packages,
+        require           => Anchor['zookeeper::install::begin'],
+        service_package   => $service_package,
+        snap_retain_count => $snap_retain_count,
+        start_with        => $start_with,
+        user              => $user
       }
     }
     'RedHat': {
       class { 'zookeeper::repo':
-        source => $repo_source,
         cdhver => $cdhver,
-        config => $repo
+        config => $repo,
+        ensure => $ensure,
+        source => $repo_source
       }
 
       class { 'zookeeper::os::redhat':
-        ensure            => $ensure,
-        snap_retain_count => $snap_retain_count,
+        before            => Anchor['zookeeper::install::end'],
         cleanup_sh        => $cleanup_sh,
         datastore         => $datastore,
-        user              => $user,
+        ensure            => $ensure,
         ensure_cron       => $ensure_cron,
+        install_java      => $install_java,
+        java_package      => $java_package,
         packages          => $packages,
         require           => Anchor['zookeeper::install::begin'],
-        before            => Anchor['zookeeper::install::end'],
-        install_java      => $install_java,
-        java_package      => $java_package
+        snap_retain_count => $snap_retain_count,
+        user              => $user
       }
     }
     default: {
