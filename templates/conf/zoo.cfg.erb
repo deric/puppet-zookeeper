@@ -96,9 +96,13 @@ peerType=<%= @peer_type %>
 # The minimum session timeout in milliseconds that the server will allow the # client to negotiate. Defaults to 2 times the tickTime.
 <% if @min_session_timeout -%>
 minSessionTimeout=<%= @min_session_timeout %>
+<% else -%>
+#minSessionTimeout=2
 <% end -%>
 
 # The maximum session timeout in milliseconds that the server will allow the # client to negotiate. Defaults to 20 times the tickTime.
 <% if @max_session_timeout -%>
 maxSessionTimeout=<%= @max_session_timeout %>
+ <% else -%>
+#maxSessionTimeout=20
 <% end -%>
