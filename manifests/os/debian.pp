@@ -1,18 +1,17 @@
 #
 # ZooKeeper installation on Debian
 class zookeeper::os::debian(
-  $ensure            = present,
-  $snap_retain_count = 3,
-  $cleanup_sh        = '/usr/lib/zookeeper/bin/zkCleanup.sh',
-  $datastore         = '/var/lib/zookeeper',
-  $user              = 'zookeeper',
-  $start_with        = 'init.d',
-  $ensure_cron       = true,
-  # cloudera package is called zookeeper-server
-  $service_package   = 'zookeeperd',
-  $packages          = ['zookeeper'],
-  $install_java      = false,
-  $java_package      = undef
+  $cleanup_sh        = $::zookeeper::params::cleanup_sh,
+  $datastore         = $::zookeeper::params::datastore,
+  $ensure            = $::zookeeper::params::ensure,
+  $ensure_cron       = $::zookeeper::params::ensure_cron,
+  $install_java      = $::zookeeper::params::install_java,
+  $java_package      = $::zookeeper::params::java_package,
+  $packages          = $::zookeeper::params::packages,
+  $service_package   = $::zookeeper::params::service_package,
+  $snap_retain_count = $::zookeeper::params::snap_retain_count,
+  $start_with        = $::zookeeper::params::start_with,
+  $user              = $::zookeeper::params::user
 ) {
 
   validate_bool($install_java)

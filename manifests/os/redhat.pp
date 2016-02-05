@@ -1,16 +1,16 @@
 #
 # ZooKeeper installation on Redhat
 class zookeeper::os::redhat(
-  $ensure            = present,
-  $snap_retain_count = 3,
-  $cleanup_sh        = '/usr/lib/zookeeper/bin/zkCleanup.sh',
-  $datastore         = '/var/lib/zookeeper',
-  $user              = 'zookeeper',
-  $ensure_cron       = true,
-  $packages          = ['zookeeper'],
-  $manual_clean      = false,
-  $install_java      = false,
-  $java_package      = undef
+  $cleanup_sh        = $::zookeeper::params::cleanup_sh,
+  $datastore         = $::zookeeper::params::datastore,
+  $ensure            = $::zookeeper::params::ensure,
+  $ensure_cron       = $::zookeeper::params::ensure_cron,
+  $install_java      = $::zookeeper::params::install_java,
+  $java_package      = $::zookeeper::params::java_package,
+  $manual_clean      = $::zookeeper::params::manual_clean,
+  $packages          = $::zookeeper::params::packages,
+  $snap_retain_count = $::zookeeper::params::snap_retain_count,
+  $user              = $::zookeeper::params::user
 ) {
 
   validate_bool($install_java)
