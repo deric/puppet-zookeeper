@@ -58,6 +58,10 @@ class zookeeper::config(
   $leader                  = true,
   $min_session_timeout     = undef,
   $max_session_timeout     = undef,
+  # systemd_unit_want and _after can be overridden to 
+  # donate the matching directives in the [Unit] section
+  $systemd_unit_want       = undef,
+  $systemd_unit_after      = 'network.target',
 ) {
   require zookeeper::install
 
