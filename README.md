@@ -87,6 +87,34 @@ zookeeper::client_ip: "%{::ipaddress_eth0}"
 
 This is a workaround for a a [Facter issue](https://tickets.puppetlabs.com/browse/FACT-380).
 
+### Systemd Unit 'After' and 'Want' control
+By default the module will create the following Unit section in /etc/systemd/system/multi-user.target.wants/zookeeper.service
+````
+[Unit]
+Description=Apache ZooKeeper
+After=network.target
+````
+
+Both After and Want (omitted when using the module defaults) can be controled using this module.
+
+E.g on CentOS 7 those might have to be configured for 'netwrok-online.target' using the following syntax:
+
+```puppet
+class { 'zookeeper':
+   systemd_unit_after => 'network-online.target',
+   systemd_unit_want => 'network-online.target',
+}
+```
+
+Which will modify the Unit section to look like:
+
+````
+[Unit]
+Description=Apache ZooKeeper
+Want=network-online.target
+After=network-online.target
+````
+
 ##  Parameters
 
    - `id` - cluster-unique zookeeper's instance id (1-255)

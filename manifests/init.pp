@@ -60,6 +60,10 @@ class zookeeper(
   $manage_service          = true,
   $manage_systemd          = true,
   $repo                    = undef,
+  # systemd_unit_want and _after can be overridden to  
+  # donate the matching directives in the [Unit] section
+  $systemd_unit_want       = undef,
+  $systemd_unit_after      = 'network.target',
 ) {
 
   validate_array($packages)
@@ -111,6 +115,8 @@ class zookeeper(
     peer_type               => $peer_type,
     min_session_timeout     => $min_session_timeout,
     max_session_timeout     => $max_session_timeout,
+    systemd_unit_want       => $systemd_unit_want,
+    systemd_unit_after      => $systemd_unit_after,
   }
 
   if ($manage_service) {
