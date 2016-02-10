@@ -15,6 +15,7 @@ class zookeeper::install(
   $cleanup_sh        = '/usr/lib/zookeeper/bin/zkCleanup.sh',
   $datastore         = '/var/lib/zookeeper',
   $user              = 'zookeeper',
+  $group             = 'zookeeper',
   $start_with        = 'init.d',
   $ensure_cron       = true,
   $service_package   = 'zookeeperd',
@@ -26,6 +27,19 @@ class zookeeper::install(
 ) {
   anchor { 'zookeeper::install::begin': }
   anchor { 'zookeeper::install::end': }
+
+
+  group { $group:
+    ensure => present,
+  } 
+
+  user { $user:
+    comment => 'Zookeeper user',
+    ensure => present,
+    gid => $group,
+    shell => '/sbin/nologin',
+    require => Group['${group}'],
+  } ~>
 
   case $::osfamily {
     'Debian': {
