@@ -31,14 +31,14 @@ class zookeeper::install(
 
   group { $group:
     ensure => present,
-  } 
+  }
 
   user { $user:
     comment => 'Zookeeper user',
     ensure => present,
     gid => $group,
     shell => '/sbin/nologin',
-    require => Group['${group}'],
+    require => Group[$group],
   } ~>
 
   case $::osfamily {
