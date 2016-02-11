@@ -76,6 +76,7 @@ class zookeeper(
     snap_retain_count => $snap_retain_count,
     datastore         => $datastore,
     user              => $user,
+    group             => $group,
     cleanup_sh        => $cleanup_sh,
     start_with        => $start_with,
     ensure_cron       => $ensure_cron,
