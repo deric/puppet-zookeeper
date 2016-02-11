@@ -13,7 +13,7 @@
 #   class { 'zookeeper': }
 #
 class zookeeper(
-  $id                      = '1',
+  $ensemble                = hiera('sys11stack::ensemble', false),
   $datastore               = '/var/lib/zookeeper',
   # datalogstore used to put transaction logs in separate location than snapshots
   $datalogstore            = undef,
@@ -70,6 +70,8 @@ class zookeeper(
   validate_bool($ensure_cron)
   validate_bool($manage_service)
 
+  $id = $ensemble[$::hostname]['myid']
+
   anchor { 'zookeeper::start': }->
   class { 'zookeeper::install':
     ensure            => $ensure,
@@ -88,6 +90,7 @@ class zookeeper(
   }->
   class { 'zookeeper::config':
     id                      => $id,
+    ensemble                => $ensemble,
     datastore               => $datastore,
     datalogstore            => $datalogstore,
     initialize_datastore    => $initialize_datastore,
