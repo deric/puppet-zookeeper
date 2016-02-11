@@ -26,11 +26,10 @@ class zookeeper(
   $log_dir                 = '/var/log/zookeeper',
   $cfg_dir                 = '/etc/zookeeper/conf',
   $user                    = 'zookeeper',
-  $group                   = 'zookeeper',
   $java_bin                = '/usr/bin/java',
   $java_opts               = '',
-  $pid_dir                 = '/var/run/zookeeper',
-  $pid_file                = '$PIDDIR/zookeeper.pid',
+  $pid_dir                 = '/var/run',
+  $pid_file                = "${pid_dir}/zookeeper.pid",
   $zoo_main                = 'org.apache.zookeeper.server.quorum.QuorumPeerMain',
   $log4j_prop               = 'INFO,ROLLINGFILE',
   $cleanup_sh              = '/usr/share/zookeeper/bin/zkCleanup.sh',
@@ -98,6 +97,7 @@ class zookeeper(
     java_bin                => $java_bin,
     java_opts               => $java_opts,
     pid_dir                 => $pid_dir,
+    pid_file                => $pid_file,
     zoo_main                => $zoo_main,
     log4j_prop              => $log4j_prop,
     servers                 => $servers,
@@ -115,11 +115,17 @@ class zookeeper(
 
   if ($manage_service) {
     class { 'zookeeper::service':
-      cfg_dir        => $cfg_dir,
-      service_name   => $service_name,
-      require        => Class['zookeeper::config'],
-      before         => Anchor['zookeeper::end'],
-      manage_systemd => $manage_systemd,
+      cfg_dir         => $cfg_dir,
+      service_name    => $service_name,
+      require         => Class['zookeeper::config'],
+      before          => Anchor['zookeeper::end'],
+      manage_systemd  => $manage_systemd,
+      user            => $user,
+      group           => $group,
+      pid_file        => $pid_file,
+      zoo_main        => $zoo_main,
+      log_dir         => $log_dir,
+      log4j_prop      => $log4j_prop
     }
   }
   anchor { 'zookeeper::end': }

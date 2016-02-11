@@ -6,7 +6,12 @@ class zookeeper::service(
   $service_ensure = 'running',
   $manage_systemd = true,
   $user           = 'zookeeper',
-  $group          = 'zookeeper'
+  $group          = 'zookeeper',
+  $service_name   = 'zookeeper',
+  $pid_file       = '/var/run/zookeeper.pid',
+  $zoo_main       = 'org.apache.zookeeper.server.quorum.QuorumPeerMain',
+  $log_dir        = '/var/log/zookeeper',
+  $log4j_prop     = 'INFO,ROLLINGFILE'
 ){
   require zookeeper::install
 
@@ -30,6 +35,13 @@ class zookeeper::service(
       refreshonly => true,
       path        => $::path,
       notify      => Service[$service_name]
+    }
+  } elsif ($initstyle == 'upstart') {
+    file {"/etc/init.d/${service_name}":
+      ensure  => present,
+      content => template('zookeeper/zookeeper_init.erb'),
+      mode    => '755',
+      notify  => Service[$service_name]
     }
   }
 
