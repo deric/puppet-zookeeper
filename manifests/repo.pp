@@ -41,8 +41,8 @@ class zookeeper::repo(
               '5': {
                 case $::hardwaremodel {
                   'x86_64': {
-                    case $osrel {
-                      '6', '7': {
+                    case $osrel { # CentOS uses osrel=2015
+                      '6', '7', '2015': {
                         $release = $osrel
                       }
                       default: {
