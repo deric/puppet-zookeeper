@@ -33,14 +33,6 @@ class zookeeper::install(
       false => $repo
   }
 
-  user { $user:
-    comment => 'Zookeeper user',
-    ensure => present,
-    gid => $group,
-    shell => '/sbin/nologin',
-    require => Group[$group],
-  } ~>
-
   case $::osfamily {
     'Debian': {
       class { 'zookeeper::os::debian':
@@ -84,4 +76,24 @@ class zookeeper::install(
       fail("Module '${module_name}' is not supported on OS: '${::operatingsystem}', family: '${::osfamily}'")
     }
   }
+
+  # make sure user and group exists for ZooKeeper. #49
+  # cron task for older versions is dependent of $user existence, thus we can't
+  # put it after package installation
+  ensure_resource('group',
+    [$group],
+    {'ensure' => $ensure, 'require' => Anchor['zookeeper::install::begin']}
+  )
+
+  ensure_resource('user',
+    [$user],
+    {
+      'ensure'  => $ensure,
+      'home'    => $datastore,
+      'comment' => 'Zookeeper',
+      'gid'     => $group,
+      'shell'   => '/sbin/nologin',
+      'require' => Group[$group]
+    }
+  )
 }

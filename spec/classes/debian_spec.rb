@@ -115,7 +115,7 @@ describe 'zookeeper::os::debian', :type => :class do
         'command'   => '/usr/lib/zookeeper/bin/zkCleanup.sh /var/lib/zookeeper 1',
         'user'      => 'zookeeper',
         'hour'      => '2',
-        'minute'      => '42',
+        'minute'    => '42',
       })
     end
   end

@@ -28,6 +28,9 @@ describe 'zookeeper', :type => :class do
     it { should contain_service('zookeeper').with({:ensure => 'running'}) }
     # datastore exec is not included by default
     it { should_not contain_exec('initialize_datastore') }
+
+    it { should contain_user('zookeeper').with({:ensure => 'present'}) }
+    it { should contain_group('zookeeper').with({:ensure => 'present'}) }
   end
 
   context 'Cloudera packaging' do
