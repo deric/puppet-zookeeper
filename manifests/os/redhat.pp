@@ -61,13 +61,11 @@ class zookeeper::os::redhat(
           hour    => 2,
           minute  => 42,
           user    => $user,
-          require => Package['zookeeper'],
       }
     }else {
       file { '/etc/cron.daily/zkcleanup':
         ensure  => present,
         content =>  "${cleanup_sh} ${datastore} ${snap_retain_count}",
-        require => Package['zookeeper'],
       }
     }
   }
