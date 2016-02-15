@@ -228,6 +228,7 @@ If you are versioning your puppet conf with git just add it as submodule, from y
 ## Dependencies
 
   * stdlib `> 2.3.3` - function `ensure_resources` is required
+  * datacat - experimental (might be removed in future releases)
 
 ## Supported platforms
 
