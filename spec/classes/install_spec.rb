@@ -1,6 +1,7 @@
 require 'spec_helper'
 
 describe 'zookeeper::install', :type => :class do
+
   shared_examples 'debian-install' do |os, codename, puppet|
     let(:facts) {{
       :operatingsystem => os,
@@ -12,6 +13,8 @@ describe 'zookeeper::install', :type => :class do
     it { should contain_package('zookeeper') }
     it { should contain_package('zookeeperd') }
     it { should contain_package('cron') }
+    it { should contain_class('zookeeper::post_install') }
+    it { should compile.with_all_deps }
 
     it 'installs cron script' do
       should contain_cron('zookeeper-cleanup').with({
@@ -120,6 +123,19 @@ describe 'zookeeper::install', :type => :class do
     end
   end
 
+  # create user with proper shell #50 (https://github.com/deric/puppet-zookeeper/issues/50)
+  context 'ensure user resource exists' do
+    let(:facts) {{
+      :operatingsystem => 'Ubuntu',
+      :osfamily => 'Debian',
+      :lsbdistcodename => 'trusty',
+    }}
+
+    it { should contain_user('zookeeper').with({
+      'ensure' => 'present',
+      'shell' => '/bin/false',
+    }) }
+  end
 
   shared_examples 'redhat-install' do |os, codename, puppet|
     let(:facts) {{

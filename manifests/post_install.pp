@@ -16,13 +16,22 @@ class zookeeper::post_install(
   $manual_clean,
 ){
 
-  # make sure user and group exists for ZooKeeper. #49
-  # cron task for older versions is dependent of $user existence, thus we can't
-  # put it after package installation
+  # make sure user and group exists for ZooKeeper #49, if the OS package
+  # doesn't handle its creation
   ensure_resource('group',
     [$group],
     {'ensure' => $ensure}
   )
+
+  case $::osfamily {
+    'Redhat': {
+      $shell = '/sbin/nologin'
+    }
+    default: {
+      # sane default for most OS
+      $shell = '/bin/false'
+    }
+  }
 
   ensure_resource('user',
     [$user],
@@ -31,7 +40,7 @@ class zookeeper::post_install(
       'home'    => $datastore,
       'comment' => 'Zookeeper',
       'gid'     => $group,
-      'shell'   => '/sbin/nologin',
+      'shell'   => $shell,
       'require' => Group[$group]
     }
   )
