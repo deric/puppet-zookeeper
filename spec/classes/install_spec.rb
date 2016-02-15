@@ -227,15 +227,14 @@ describe 'zookeeper::install', :type => :class do
     let(:group) { 'zookeeper' }
     # ENV variable might contain characters which are not supported
     # by versioncmp function (like '~>')
-    puppet = `puppet --version`
 
     let(:params) { {
       :snap_retain_count => 1,
     } }
 
-    it_behaves_like 'redhat-install', 'RedHat', '6', puppet
-    it_behaves_like 'redhat-install', 'CentOS', '5', puppet
-    it_behaves_like 'redhat-install', 'Fedora', '20', puppet
+    it_behaves_like 'redhat-install', 'RedHat', '6', Puppet.version
+    it_behaves_like 'redhat-install', 'CentOS', '5', Puppet.version
+    it_behaves_like 'redhat-install', 'Fedora', '20', Puppet.version
   end
 
 end

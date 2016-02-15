@@ -7,7 +7,7 @@ describe 'zookeeper::os::debian', :type => :class do
       :operatingsystem => 'Ubuntu',
       :osfamily => 'Debian',
       :lsbdistcodename => 'trusty',
-      :puppetversion => `puppet --version`,
+      :puppetversion => Puppet.version,
     }}
 
     let(:params) { {

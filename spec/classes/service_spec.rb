@@ -14,7 +14,7 @@ describe 'zookeeper::service' do
   )}
 
   context 'RHEL 7' do
-    puppet = `puppet --version`
+    puppet = Puppet.version
     let(:facts) {{
       :operatingsystem => 'RedHat',
       :osfamily => 'RedHat',

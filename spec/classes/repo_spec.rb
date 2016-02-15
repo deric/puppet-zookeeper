@@ -24,9 +24,8 @@ describe 'zookeeper::repo', :type => :class do
     }}
     # ENV variable might contain characters which are not supported
     # by versioncmp function (like '~>')
-    puppet = `puppet --version`
 
-    it_behaves_like 'redhat-install', 'RedHat', '6', puppet
+    it_behaves_like 'redhat-install', 'RedHat', '6', Puppet.version
   end
 
   context 'fail when architecture not supported' do
