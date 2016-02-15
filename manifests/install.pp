@@ -10,20 +10,21 @@
 # Should not be included directly
 #
 class zookeeper::install(
-  $ensure             = present,
-  $snap_retain_count  = 3,
-  $cleanup_sh         = '/usr/lib/zookeeper/bin/zkCleanup.sh',
-  $datastore          = '/var/lib/zookeeper',
-  $user               = 'zookeeper',
-  $group              = 'zookeeper',
-  $start_with         = 'init.d',
-  $ensure_cron        = true,
-  $service_package    = 'zookeeperd',
-  $packages           = ['zookeeper'],
-  $cdhver             = cdhver,
-  $install_java       = false,
-  $java_package       = undef,
-  $repo               = undef,
+  $ensure            = present,
+  $snap_retain_count = 3,
+  $cleanup_sh        = '/usr/lib/zookeeper/bin/zkCleanup.sh',
+  $datastore         = '/var/lib/zookeeper',
+  $user              = 'zookeeper',
+  $group             = 'zookeeper',
+  $start_with        = 'init.d',
+  $ensure_cron       = true,
+  $service_package   = 'zookeeperd',
+  $packages          = ['zookeeper'],
+  $cdhver            = undef,
+  $install_java      = false,
+  $java_package      = undef,
+  $repo              = undef,
+  $manual_clean      = undef,
 ) {
   anchor { 'zookeeper::install::begin': }
   anchor { 'zookeeper::install::end': }
@@ -36,19 +37,14 @@ class zookeeper::install(
   case $::osfamily {
     'Debian': {
       class { 'zookeeper::os::debian':
-        ensure            => $ensure,
-        snap_retain_count => $snap_retain_count,
-        cleanup_sh        => $cleanup_sh,
-        datastore         => $datastore,
-        user              => $user,
-        start_with        => $start_with,
-        ensure_cron       => $ensure_cron,
-        service_package   => $service_package,
-        packages          => $packages,
-        before            => Anchor['zookeeper::install::end'],
-        require           => Anchor['zookeeper::install::begin'],
-        install_java      => $install_java,
-        java_package      => $java_package
+        ensure          => $ensure,
+        start_with      => $start_with,
+        service_package => $service_package,
+        packages        => $packages,
+        before          => Anchor['zookeeper::install::end'],
+        require         => Anchor['zookeeper::install::begin'],
+        install_java    => $install_java,
+        java_package    => $java_package
       }
     }
     'RedHat': {
@@ -59,17 +55,12 @@ class zookeeper::install(
       }
 
       class { 'zookeeper::os::redhat':
-        ensure            => $ensure,
-        snap_retain_count => $snap_retain_count,
-        cleanup_sh        => $cleanup_sh,
-        datastore         => $datastore,
-        user              => $user,
-        ensure_cron       => $ensure_cron,
-        packages          => $packages,
-        require           => Anchor['zookeeper::install::begin'],
-        before            => Anchor['zookeeper::install::end'],
-        install_java      => $install_java,
-        java_package      => $java_package
+        ensure       => $ensure,
+        packages     => $packages,
+        require      => Anchor['zookeeper::install::begin'],
+        before       => Anchor['zookeeper::install::end'],
+        install_java => $install_java,
+        java_package => $java_package
       }
     }
     default: {
@@ -77,23 +68,16 @@ class zookeeper::install(
     }
   }
 
-  # make sure user and group exists for ZooKeeper. #49
-  # cron task for older versions is dependent of $user existence, thus we can't
-  # put it after package installation
-  ensure_resource('group',
-    [$group],
-    {'ensure' => $ensure, 'require' => Anchor['zookeeper::install::begin']}
-  )
+  class { 'zookeeper::post_install':
+    ensure            => $ensure,
+    ensure_cron       => $ensure_cron,
+    user              => $user,
+    group             => $group,
+    datastore         => $datastore,
+    snap_retain_count => $snap_retain_count,
+    cleanup_sh        => $cleanup_sh,
+    manual_clean      => $manual_clean,
+    require           => Anchor['zookeeper::install::end'],
+  }
 
-  ensure_resource('user',
-    [$user],
-    {
-      'ensure'  => $ensure,
-      'home'    => $datastore,
-      'comment' => 'Zookeeper',
-      'gid'     => $group,
-      'shell'   => '/sbin/nologin',
-      'require' => Group[$group]
-    }
-  )
 }
