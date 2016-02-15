@@ -49,9 +49,9 @@ class zookeeper(
   $peer_type               = 'UNSET',
   $start_with              = 'init.d',
   $ensure_cron             = true,
-  $service_package         = 'zookeeperd',
-  $service_name            = 'zookeeper',
-  $packages                = ['zookeeper'],
+  $service_package         = undef,
+  $service_name            = $::zookeeper::params::service_name,
+  $packages                = $::zookeeper::params::packages,
   $cdhver                  = undef,
   $install_java            = false,
   $java_package            = undef,
@@ -60,15 +60,19 @@ class zookeeper(
   $manage_service          = true,
   $manage_systemd          = true,
   $repo                    = undef,
-  # systemd_unit_want and _after can be overridden to  
+  # systemd_unit_want and _after can be overridden to
   # donate the matching directives in the [Unit] section
   $systemd_unit_want       = undef,
   $systemd_unit_after      = 'network.target',
-) {
+) inherits ::zookeeper::params {
 
   validate_array($packages)
   validate_bool($ensure_cron)
   validate_bool($manage_service)
+
+  if($service_package) {
+    warning('Parameter `service_package` is deprecated, use `packages` array instead.')
+  }
 
   anchor { 'zookeeper::start': }->
   class { 'zookeeper::install':

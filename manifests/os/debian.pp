@@ -44,7 +44,8 @@ class zookeeper::os::debian(
     ensure_resource('package', $packages, {'ensure' => $ensure})
   }
 
-  if ($start_with == 'init.d') {
+  # make sure, that service package was not installed earlier
+  if ($start_with == 'init.d' and (!member($packages, $service_package))) {
     package { [$service_package]: #init.d scripts for zookeeper
       ensure  => $ensure,
     }
