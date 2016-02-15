@@ -13,7 +13,7 @@ class zookeeper::post_install(
   $datastore,
   $snap_retain_count,
   $cleanup_sh,
-  $manual_clean,
+  $manual_clean = undef,
 ){
 
   # make sure user and group exists for ZooKeeper #49, if the OS package
