@@ -39,7 +39,7 @@ class zookeeper::service(
   } elsif ($initstyle == 'upstart') {
     file {"/etc/init.d/${service_name}":
       ensure  => present,
-      content => template('zookeeper/zookeeper_init.erb'),
+      content => template('zookeeper/zookeeper.init.erb'),
       mode    => '755',
       notify  => Service[$service_name]
     }
