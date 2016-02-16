@@ -60,7 +60,8 @@ class zookeeper::repo(
               }
             }
             # parameter ensure is not supported before Puppet 3.5
-            if versioncmp($::puppetversion, '3.5.0') >= 0 {
+            # Puppet 4 compatibility: force variable to be a String
+            if versioncmp("${::puppetversion}", '3.5.0') >= 0 { # lint:ignore:only_variable_string
               yumrepo { "cloudera-cdh${cdhver}":
                 ensure   => $ensure,
                 descr    => "Cloudera's Distribution for Hadoop, Version ${cdhver}",
@@ -85,7 +86,8 @@ class zookeeper::repo(
             $osrel = $::operatingsystemmajrelease
             case $osrel {
               '6', '7': {
-                if versioncmp($::puppetversion, '3.0.0') < 0{
+                # Puppet 4 compatibility: force variable to be a String
+                if versioncmp("${::puppetversion}", '3.0.0') < 0 { # lint:ignore:only_variable_string
                   # parameter 'sslverify' is not supported before puppet 3.0
                   yumrepo { $config['name']:
                     descr    => $config['descr'],
@@ -93,7 +95,8 @@ class zookeeper::repo(
                     enabled  => 1,
                     gpgcheck => 0
                   }
-                } elsif versioncmp($::puppetversion, '3.5.0') >= 0 {
+                # Puppet 4 compatibility: force variable to be a String
+                } elsif versioncmp("${::puppetversion}", '3.5.0') >= 0 { # lint:ignore:only_variable_string
                   # parameter ensure is not supported before Puppet 3.5
                   yumrepo { $config['name']:
                     ensure    => $ensure,
