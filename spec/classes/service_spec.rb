@@ -7,6 +7,11 @@ describe 'zookeeper::service' do
     :lsbdistcodename => 'wheezy',
   }}
 
+  let(:params){{
+    :zoo_dir => '/usr/lib/zookeeper',
+    :log_dir => '/var/log/zookeeper',
+  }}
+
   it { should contain_package('zookeeperd') }
   it { should contain_service('zookeeper').with(
     :ensure => 'running',
@@ -43,7 +48,9 @@ describe 'zookeeper::service' do
 
     context 'do not manage systemd' do
       let(:params){{
-          :manage_systemd => false,
+        :manage_systemd => false,
+        :zoo_dir => '/usr/lib/zookeeper',
+        :log_dir => '/var/log/zookeeper',
       }}
 
       it { should_not contain_file(

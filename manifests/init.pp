@@ -25,6 +25,7 @@ class zookeeper(
   $leader_port             = 3888,
   $log_dir                 = '/var/log/zookeeper',
   $cfg_dir                 = '/etc/zookeeper/conf',
+  $zoo_dir                 = '/usr/lib/zookeeper',
   $user                    = 'zookeeper',
   $group                   = 'zookeeper',
   $java_bin                = '/usr/bin/java',
@@ -127,6 +128,8 @@ class zookeeper(
   if ($manage_service) {
     class { 'zookeeper::service':
       cfg_dir        => $cfg_dir,
+      zoo_dir        => $zoo_dir,
+      log_dir        => $log_dir,
       service_name   => $service_name,
       require        => Class['zookeeper::config'],
       before         => Anchor['zookeeper::end'],

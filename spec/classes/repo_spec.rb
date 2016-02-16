@@ -8,6 +8,7 @@ describe 'zookeeper::repo', :type => :class do
       :operatingsystem => os,
       :osfamily => 'RedHat',
       :lsbdistcodename => codename,
+      :operatingsystemrelease => codename,
       :operatingsystemmajrelease => codename,
       :hardwaremodel => hardwaremodel,
       :puppetversion => puppet,
@@ -25,7 +26,7 @@ describe 'zookeeper::repo', :type => :class do
     # ENV variable might contain characters which are not supported
     # by versioncmp function (like '~>')
 
-    it_behaves_like 'redhat-install', 'RedHat', '6', Puppet.version
+    it_behaves_like 'redhat-install', 'RedHat', '7', Puppet.version
   end
 
   context 'fail when architecture not supported' do
