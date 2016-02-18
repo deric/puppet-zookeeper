@@ -2,7 +2,7 @@
 # ZooKeeper installation on Debian
 class zookeeper::os::debian(
   $ensure            = present,
-  $start_with        = 'init.d',
+  $service_provider  = 'init.d',
   # cloudera package is called zookeeper-server
   $service_package   = 'zookeeperd',
   $packages          = ['zookeeper'],
@@ -45,7 +45,7 @@ class zookeeper::os::debian(
   }
 
   # make sure, that service package was not installed earlier
-  if ($start_with == 'init.d' and (!member($packages, $service_package))) {
+  if ($service_provider == 'init.d' and (!member($packages, $service_package))) {
     package { [$service_package]: #init.d scripts for zookeeper
       ensure  => $ensure,
     }

@@ -16,7 +16,7 @@ class zookeeper::install(
   $datastore         = '/var/lib/zookeeper',
   $user              = 'zookeeper',
   $group             = 'zookeeper',
-  $start_with        = 'init.d',
+  $service_provider  = 'init.d',
   $ensure_cron       = true,
   $service_package   = 'zookeeperd',
   $packages          = ['zookeeper'],
@@ -37,14 +37,14 @@ class zookeeper::install(
   case $::osfamily {
     'Debian': {
       class { 'zookeeper::os::debian':
-        ensure          => $ensure,
-        start_with      => $start_with,
-        service_package => $service_package,
-        packages        => $packages,
-        before          => Anchor['zookeeper::install::end'],
-        require         => Anchor['zookeeper::install::begin'],
-        install_java    => $install_java,
-        java_package    => $java_package
+        ensure           => $ensure,
+        service_provider => $service_provider,
+        service_package  => $service_package,
+        packages         => $packages,
+        before           => Anchor['zookeeper::install::end'],
+        require          => Anchor['zookeeper::install::begin'],
+        install_java     => $install_java,
+        java_package     => $java_package
       }
     }
     'RedHat': {

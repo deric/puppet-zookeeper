@@ -33,9 +33,9 @@ describe 'zookeeper::service' do
     let(:group) { 'zookeeper' }
 
     let(:params){{
-      :zoo_dir    => '/usr/lib/zookeeper',
-      :log_dir    => '/var/log/zookeeper',
-      :start_with => 'systemd',
+      :zoo_dir          => '/usr/lib/zookeeper',
+      :log_dir          => '/var/log/zookeeper',
+      :service_provider => 'systemd',
     }}
 
     it { should contain_package('zookeeper') }

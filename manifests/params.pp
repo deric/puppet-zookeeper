@@ -19,9 +19,9 @@ class zookeeper::params {
         default: { $initstyle = undef }
       }
       $_os_overrides = {
-        'packages'     => ['zookeeper', 'zookeeper-server'],
-        'service_name' => 'zookeeper-server',
-        'start_with'   => $initstyle,
+        'packages'         => ['zookeeper', 'zookeeper-server'],
+        'service_name'     => 'zookeeper-server',
+        'service_provider' => $initstyle,
       }
     }
 
@@ -33,4 +33,5 @@ class zookeeper::params {
 
 
   $packages = $_params['packages']
+  $service_provider = $_params['service_provider']
 }

@@ -52,6 +52,7 @@ class zookeeper(
   $ensure_cron             = true,
   $service_package         = undef,
   $service_name            = $::zookeeper::params::service_name,
+  $service_provider        = $::zookeeper::params::service_provider,
   $packages                = $::zookeeper::params::packages,
   $cdhver                  = undef,
   $install_java            = false,
@@ -70,9 +71,18 @@ class zookeeper(
   validate_array($packages)
   validate_bool($ensure_cron)
   validate_bool($manage_service)
+  validate_bool($install_java)
+  validate_bool($initialize_datastore)
 
   if($service_package) {
     warning('Parameter `service_package` is deprecated, use `packages` array instead.')
+  }
+
+  if ($start_with) {
+    warning('Parameter `start_with` is deprecated, use `service_provider` instead. `start_with` will be removed in next major release.')
+    $_service_provider = $start_with
+  } else {
+    $_service_provider = $service_provider
   }
 
   anchor { 'zookeeper::start': }->
@@ -83,7 +93,7 @@ class zookeeper(
     user              => $user,
     group             => $group,
     cleanup_sh        => $cleanup_sh,
-    start_with        => $start_with,
+    service_provider  => $_service_provider,
     ensure_cron       => $ensure_cron,
     service_package   => $service_package,
     packages          => $packages,
@@ -127,14 +137,14 @@ class zookeeper(
 
   if ($manage_service) {
     class { 'zookeeper::service':
-      cfg_dir        => $cfg_dir,
-      zoo_dir        => $zoo_dir,
-      log_dir        => $log_dir,
-      start_with     => $start_with,
-      service_name   => $service_name,
-      require        => Class['zookeeper::config'],
-      before         => Anchor['zookeeper::end'],
-      manage_systemd => $manage_systemd,
+      cfg_dir          => $cfg_dir,
+      zoo_dir          => $zoo_dir,
+      log_dir          => $log_dir,
+      service_provider => $_service_provider,
+      service_name     => $service_name,
+      require          => Class['zookeeper::config'],
+      before           => Anchor['zookeeper::end'],
+      manage_systemd   => $manage_systemd,
     }
   }
   anchor { 'zookeeper::end': }

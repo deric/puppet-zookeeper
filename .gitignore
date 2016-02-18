@@ -8,3 +8,4 @@ Gemfile.lock
 spec/fixtures/modules/*
 .vagrant
 Puppetfile.lock
+README.html

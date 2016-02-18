@@ -3,17 +3,17 @@
 class zookeeper::service(
   $zoo_dir,
   $log_dir,
-  $start_with     = undef,    # init mechanism
-  $cfg_dir        = '/etc/zookeeper/conf',
-  $service_name   = 'zookeeper',
-  $service_ensure = 'running',
-  $manage_systemd = true,
-  $user           = 'zookeeper',
-  $group          = 'zookeeper'
+  $service_provider = undef,    # init mechanism
+  $cfg_dir          = '/etc/zookeeper/conf',
+  $service_name     = 'zookeeper',
+  $service_ensure   = 'running',
+  $manage_systemd   = true,
+  $user             = 'zookeeper',
+  $group            = 'zookeeper'
 ){
   require zookeeper::install
 
-  if ($start_with == 'systemd' and $manage_systemd == true) {
+  if ($service_provider == 'systemd' and $manage_systemd == true) {
     file { '/usr/lib/systemd/system/zookeeper.service':
       ensure  => 'present',
       content => template('zookeeper/zookeeper.service.erb'),

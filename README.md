@@ -87,6 +87,26 @@ zookeeper::client_ip: "%{::ipaddress_eth0}"
 
 This is a workaround for a a [Facter issue](https://tickets.puppetlabs.com/browse/FACT-380).
 
+### ZooKeeper service
+
+Use `service_provider` to override Puppet detection for starting service.
+
+```puppet
+class { 'zookeeper':
+  service_provider => 'init.d'
+}
+```
+
+
+Some reasonable values are:
+
+  * `init`
+  * `upstart` - e.g. Ubuntu
+  * `systemd`
+  * `runit`
+  * `none` - service won't be installed
+
+
 ### Systemd Unit 'After' and 'Want' control
 By default the module will create the following Unit section in /etc/systemd/system/multi-user.target.wants/zookeeper.service
 ````
