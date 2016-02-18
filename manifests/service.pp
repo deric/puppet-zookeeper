@@ -1,8 +1,11 @@
 # Class: zookeeper::service
-
+#
+# Should not be included directly
+#
 class zookeeper::service(
   $zoo_dir,
   $log_dir,
+  $pid_file         = undef,
   $service_provider = undef,    # init mechanism
   $cfg_dir          = '/etc/zookeeper/conf',
   $service_name     = 'zookeeper',
@@ -10,10 +13,7 @@ class zookeeper::service(
   $manage_systemd   = true,
   $user             = 'zookeeper',
   $group            = 'zookeeper',
-  $service_name     = 'zookeeper',
-  $pid_file         = '/var/run/zookeeper.pid',
   $zoo_main         = 'org.apache.zookeeper.server.quorum.QuorumPeerMain',
-  $log_dir          = '/var/log/zookeeper',
   $log4j_prop       = 'INFO,ROLLINGFILE'
 ){
   require zookeeper::install

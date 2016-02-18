@@ -138,18 +138,19 @@ class zookeeper(
 
   if ($manage_service) {
     class { 'zookeeper::service':
-      cfg_dir        => $cfg_dir,
-      zoo_dir        => $zoo_dir,
-      service_name   => $service_name,
-      require        => Class['zookeeper::config'],
-      before         => Anchor['zookeeper::end'],
-      manage_systemd => $manage_systemd,
-      user           => $user,
-      group          => $group,
-      pid_file       => $pid_file,
-      zoo_main       => $zoo_main,
-      log_dir        => $log_dir,
-      log4j_prop     => $log4j_prop
+      cfg_dir          => $cfg_dir,
+      zoo_dir          => $zoo_dir,
+      service_name     => $service_name,
+      service_provider => $_service_provider,
+      require          => Class['zookeeper::config'],
+      before           => Anchor['zookeeper::end'],
+      manage_systemd   => $manage_systemd,
+      user             => $user,
+      group            => $group,
+      pid_file         => $pid_file,
+      zoo_main         => $zoo_main,
+      log_dir          => $log_dir,
+      log4j_prop       => $log4j_prop
     }
   }
   anchor { 'zookeeper::end': }
