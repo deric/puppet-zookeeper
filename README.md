@@ -67,6 +67,7 @@ class { 'zookeeper':
   observers => ['192.168.1.4', '192.168.1.5']
 }
 ```
+**Note**: Currently observer server needs to be listed between standard servers (this behavior might change in feature).
 
 ### Set binding interface
 
