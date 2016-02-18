@@ -313,4 +313,19 @@ describe 'zookeeper::config', :type => :class do
     ).with_content(/maxSessionTimeout=50000/) }
   end
 
+
+  context 'make sure port is not included in server IP/hostname' do
+    let(:params) {{
+      :servers => ['192.168.1.1:2888', '192.168.1.2:2333'],
+    }}
+
+    it { should contain_file(
+      '/etc/zookeeper/conf/zoo.cfg'
+    ).with_content(/server.1=192.168.1.1:2888:3888/) }
+
+    it { should contain_file(
+      '/etc/zookeeper/conf/zoo.cfg'
+    ).with_content(/server.2=192.168.1.2:2888:3888/) }
+  end
+
 end

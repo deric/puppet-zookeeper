@@ -34,9 +34,13 @@ clientPortAddress=<%= @client_ip %>
 #server.3=zookeeper3:2888:3888
 <% i = 1 -%>
 <% @servers.each_with_index do |h, i| -%>
-<% if @observers.include? h -%>
-<% observer_text=':observer' -%>
-<% end -%>
+<%# make sure port is not included in hostname %>
+  <% if h.index(':') -%>
+    <% h = h[0...(h.index(':'))] -%>
+  <% end -%>
+  <% if @observers.include? h -%>
+    <% observer_text=':observer' -%>
+  <% end -%>
 <%= "server.#{i+1}=#{h}:%s:%s%s" % [ @election_port, @leader_port, observer_text ] %>
 <% end -%>
 
