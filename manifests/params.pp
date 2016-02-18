@@ -7,9 +7,27 @@ class zookeeper::params {
 
   case $::osfamily {
     'Debian': {
+      case $::operatingsystem {
+        'Debian': {
+          case $::majdistrelease {
+            '7': { $initstyle = 'init' }
+            '8': { $initstyle = 'systemd' }
+            default: { $initstyle = undef }
+          }
+        }
+        'Ubuntu': {
+          case $::majdistrelease {
+            '14.04': { $initstyle = 'upstart' }
+            default: { $initstyle = undef }
+          }
+        }
+        default: { $initstyle = undef }
+      }
+
       $_os_overrides = {
-        'packages'     => ['zookeeper', 'zookeeperd'],
-        'service_name' => 'zookeeper',
+        'packages'         => ['zookeeper', 'zookeeperd'],
+        'service_name'     => 'zookeeper',
+        'service_provider' => $initstyle,
       }
     }
     'Redhat': {

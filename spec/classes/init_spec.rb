@@ -140,4 +140,23 @@ describe 'zookeeper', :type => :class do
     it { should contain_class('zookeeper::service') }
   end
 
+  context 'upstart is used on Ubuntu' do
+    let(:facts) {{
+      :ipaddress => '192.168.1.1',
+      :osfamily => 'Debian',
+      :operatingsystem => 'Ubuntu',
+      :majdistrelease => '14.04',
+    }}
+
+    let(:params) {{
+
+    }}
+
+    it { should contain_package('zookeeper').with({:ensure => 'present'}) }
+    it { should contain_package('zookeeperd').with({:ensure => 'present'}) }
+    it { should contain_service('zookeeper').with({
+      :ensure => 'running',
+      :provider => 'upstart',
+    })}
+  end
 end
