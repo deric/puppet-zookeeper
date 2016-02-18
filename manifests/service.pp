@@ -10,11 +10,11 @@ class zookeeper::service(
   $manage_systemd   = true,
   $user             = 'zookeeper',
   $group            = 'zookeeper',
-  $service_name   = 'zookeeper',
-  $pid_file       = '/var/run/zookeeper.pid',
-  $zoo_main       = 'org.apache.zookeeper.server.quorum.QuorumPeerMain',
-  $log_dir        = '/var/log/zookeeper',
-  $log4j_prop     = 'INFO,ROLLINGFILE'
+  $service_name     = 'zookeeper',
+  $pid_file         = '/var/run/zookeeper.pid',
+  $zoo_main         = 'org.apache.zookeeper.server.quorum.QuorumPeerMain',
+  $log_dir          = '/var/log/zookeeper',
+  $log4j_prop       = 'INFO,ROLLINGFILE'
 ){
   require zookeeper::install
 
@@ -32,7 +32,7 @@ class zookeeper::service(
     file {"/etc/init.d/${service_name}":
       ensure  => present,
       content => template('zookeeper/zookeeper.init.erb'),
-      mode    => '755',
+      mode    => '0755',
       notify  => Service[$service_name]
     }
   }
