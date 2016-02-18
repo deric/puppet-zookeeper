@@ -11,8 +11,8 @@ gem 'rspec-system-puppet',     :require => false
 gem 'serverspec',              :require => false
 gem 'rspec-system-serverspec', :require => false
 # coverage reports will be in release 2.0
-gem 'rspec-puppet', '>= 2.2'
-gem 'rspec', '~> 2.13'
+gem 'rspec-puppet'
+gem 'rspec'
 gem 'metadata-json-lint', :require => false
 
 group :development do

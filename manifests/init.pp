@@ -13,7 +13,7 @@
 #   class { 'zookeeper': }
 #
 class zookeeper(
-  $id                      = '1',
+  $id                      = undef, # unique ID in ZooKeeper cluster (1-255)
   $datastore               = '/var/lib/zookeeper',
   # datalogstore used to put transaction logs in separate location than snapshots
   $datalogstore            = undef,
@@ -67,6 +67,7 @@ class zookeeper(
   # donate the matching directives in the [Unit] section
   $systemd_unit_want       = undef,
   $systemd_unit_after      = 'network.target',
+  $id_generator            = 'mod',
 ) inherits ::zookeeper::params {
 
   validate_array($packages)
@@ -93,6 +94,13 @@ class zookeeper(
     $_manage_service_file = $manage_service_file
   }
 
+  if ($id) {
+    $_id = $id
+  } else {
+    # automatically generate ID
+    $_id = zookeeper_genid($client_ip, $id_generator)
+  }
+
   anchor { 'zookeeper::start': }->
   class { 'zookeeper::install':
     ensure            => $ensure,
@@ -111,7 +119,7 @@ class zookeeper(
     java_package      => $java_package,
   }->
   class { 'zookeeper::config':
-    id                      => $id,
+    id                      => $_id,
     datastore               => $datastore,
     datalogstore            => $datalogstore,
     initialize_datastore    => $initialize_datastore,
