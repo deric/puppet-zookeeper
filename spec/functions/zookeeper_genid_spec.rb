@@ -39,4 +39,13 @@ describe 'zookeeper_genid' do
       subject.should run.with_params(ip, strategy).and_return(126)
     end
   end
+
+  describe 'md5 strategy' do
+    strategy = 'md5'
+    it 'return valid id' do
+      ip = '192.168.1.1'
+      subject.should run.with_params(ip, strategy).and_return(34)
+    end
+  end
+
 end

@@ -20,7 +20,7 @@
 # Sample Usage: include zookeeper::config
 #
 class zookeeper::config(
-  $id                      = '1',
+  $id                      = undef,
   $datastore               = '/var/lib/zookeeper',
   $datalogstore            = undef,
   $initialize_datastore    = false,
@@ -58,7 +58,7 @@ class zookeeper::config(
   $leader                  = true,
   $min_session_timeout     = undef,
   $max_session_timeout     = undef,
-  # systemd_unit_want and _after can be overridden to 
+  # systemd_unit_want and _after can be overridden to
   # donate the matching directives in the [Unit] section
   $systemd_unit_want       = undef,
   $systemd_unit_after      = 'network.target',

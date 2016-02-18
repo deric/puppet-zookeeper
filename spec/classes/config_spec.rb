@@ -168,18 +168,22 @@ describe 'zookeeper::config', :type => :class do
     let(:id_file) { '/etc/zookeeper/conf/myid' }
     let(:myid)    { /1/ }
 
+    let(:params) {{
+      :id => 1
+    }}
+
     it_behaves_like 'common', 'Debian', 'wheezy'
   end
 
   context 'custom parameters' do
     # set custom params
-    let(:params) { {
-      :id      => '2',
+    let(:params) {{
+      :id      => 2,
       :user    => 'zoo',
       :group   => 'zoo',
       :cfg_dir => '/var/lib/zookeeper/conf',
       :log_dir => '/var/lib/zookeeper/log',
-    } }
+    }}
 
     let(:user)    { 'zoo' }
     let(:group)   { 'zoo' }

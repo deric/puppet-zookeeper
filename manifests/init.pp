@@ -99,7 +99,10 @@ class zookeeper(
   } else {
     # automatically generate ID
     $_id = zookeeper_genid($client_ip, $id_generator)
+    warning("genrated ID: ${_id}")
   }
+  # should be an integer
+  validate_integer($_id)
 
   anchor { 'zookeeper::start': }->
   class { 'zookeeper::install':
