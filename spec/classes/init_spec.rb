@@ -111,4 +111,33 @@ describe 'zookeeper', :type => :class do
     end
   end
 
+  context 'service provider' do
+    let(:user) { 'zookeeper' }
+    let(:group) { 'zookeeper' }
+
+    context 'do not set provider by default' do
+      it { should contain_package('zookeeper').with({:ensure => 'present'}) }
+      it { should contain_service('zookeeper').with({
+        :ensure => 'running',
+        :provider => nil,
+      })}
+    end
+
+    context 'autodetect provider on RedHat 7' do
+      let(:facts) {{
+        :ipaddress => '192.168.1.1',
+        :osfamily => 'RedHat',
+        :operatingsystemmajrelease => '7',
+      }}
+      it { should contain_package('zookeeper').with({:ensure => 'present'}) }
+      it { should contain_package('zookeeper-server').with({:ensure => 'present'}) }
+      it { should contain_service('zookeeper-server').with({
+        :ensure => 'running',
+        :provider => 'systemd',
+      })}
+    end
+
+    it { should contain_class('zookeeper::service') }
+  end
+
 end

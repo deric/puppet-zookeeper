@@ -30,6 +30,7 @@ class zookeeper::service(
     ensure     => $service_ensure,
     hasstatus  => true,
     hasrestart => true,
+    provider   => $service_provider,
     enable     => true,
     require    => [
       Class['zookeeper::install'],
