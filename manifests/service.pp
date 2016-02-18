@@ -3,6 +3,7 @@
 class zookeeper::service(
   $zoo_dir,
   $log_dir,
+  $start_with     = undef,    # init mechanism
   $cfg_dir        = '/etc/zookeeper/conf',
   $service_name   = 'zookeeper',
   $service_ensure = 'running',
@@ -12,18 +13,7 @@ class zookeeper::service(
 ){
   require zookeeper::install
 
-  case $::osfamily {
-    'redhat': {
-      case $::operatingsystemmajrelease {
-        '6': { $initstyle = 'upstart' }
-        '7': { $initstyle = 'systemd' }
-        default: { $initstyle = 'unknown' }
-      }
-    }
-    default: { $initstyle = 'unknown' }
-  }
-
-  if ($initstyle == 'systemd' and $manage_systemd == true) {
+  if ($start_with == 'systemd' and $manage_systemd == true) {
     file { '/usr/lib/systemd/system/zookeeper.service':
       ensure  => 'present',
       content => template('zookeeper/zookeeper.service.erb'),
