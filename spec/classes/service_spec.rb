@@ -67,4 +67,39 @@ describe 'zookeeper::service' do
       }
     end
   end
+
+  context 'Debian 7' do
+    puppet = Puppet.version
+    let(:facts) {{
+      :operatingsystem => 'Debian',
+      :osfamily => 'Debian',
+      :lsbdistcodename => 'wheezy',
+      :puppetversion => puppet,
+      :path => '/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin',
+    }}
+
+    let(:user) { 'zookeeper' }
+    let(:group) { 'zookeeper' }
+
+    let(:params){{
+      :zoo_dir             => '/usr/lib/zookeeper',
+      :log_dir             => '/var/log/zookeeper',
+      :manage_service_file => true,
+      :service_provider    => 'init',
+    }}
+
+    it { should contain_file(
+      '/etc/init.d/zookeeper'
+      ).with({
+        'ensure'  => 'present',
+      })
+    }
+
+    it { should contain_service('zookeeper').with(
+      :ensure   => 'running',
+      :enable   => true,
+      :provider => 'init',
+    )}
+
+  end
 end
