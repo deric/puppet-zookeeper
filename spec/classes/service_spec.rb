@@ -54,7 +54,7 @@ describe 'zookeeper::service' do
 
     context 'do not manage systemd' do
       let(:params){{
-        :manage_systemd => false,
+        :manage_service_file => false,
         :zoo_dir => '/usr/lib/zookeeper',
         :log_dir => '/var/log/zookeeper',
       }}

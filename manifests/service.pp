@@ -5,20 +5,20 @@
 class zookeeper::service(
   $zoo_dir,
   $log_dir,
-  $pid_file         = undef,
-  $service_provider = undef,    # init mechanism
-  $cfg_dir          = '/etc/zookeeper/conf',
-  $service_name     = 'zookeeper',
-  $service_ensure   = 'running',
-  $manage_systemd   = true,
-  $user             = 'zookeeper',
-  $group            = 'zookeeper',
-  $zoo_main         = 'org.apache.zookeeper.server.quorum.QuorumPeerMain',
-  $log4j_prop       = 'INFO,ROLLINGFILE'
+  $pid_file            = undef,
+  $service_provider    = undef,    # init mechanism
+  $cfg_dir             = '/etc/zookeeper/conf',
+  $service_name        = 'zookeeper',
+  $service_ensure      = 'running',
+  $manage_service_file = true,
+  $user                = 'zookeeper',
+  $group               = 'zookeeper',
+  $zoo_main            = 'org.apache.zookeeper.server.quorum.QuorumPeerMain',
+  $log4j_prop          = 'INFO,ROLLINGFILE'
 ){
   require zookeeper::install
 
-  if ($service_provider == 'systemd' and $manage_systemd == true) {
+  if ($service_provider == 'systemd' and $manage_service_file == true) {
     file { '/usr/lib/systemd/system/zookeeper.service':
       ensure  => 'present',
       content => template('zookeeper/zookeeper.service.erb'),

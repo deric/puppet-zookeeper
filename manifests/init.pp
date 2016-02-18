@@ -53,14 +53,15 @@ class zookeeper(
   $service_package         = undef,
   $service_name            = $::zookeeper::params::service_name,
   $service_provider        = $::zookeeper::params::service_provider,
+  $manage_service          = true,
+  $manage_service_file     = false,
   $packages                = $::zookeeper::params::packages,
   $cdhver                  = undef,
   $install_java            = false,
   $java_package            = undef,
   $min_session_timeout     = undef,
   $max_session_timeout     = undef,
-  $manage_service          = true,
-  $manage_systemd          = true,
+  $manage_systemd          = undef,
   $repo                    = undef,
   # systemd_unit_want and _after can be overridden to
   # donate the matching directives in the [Unit] section
@@ -83,6 +84,13 @@ class zookeeper(
     $_service_provider = $start_with
   } else {
     $_service_provider = $service_provider
+  }
+
+  if ($manage_systemd) {
+    warning('Parameter `manage_systemd` is deprecated, use `manage_service_file` instead. `manage_systemd` will be removed in next major release.')
+    $_manage_service_file = $manage_systemd
+  } else {
+    $_manage_service_file = $manage_service_file
   }
 
   anchor { 'zookeeper::start': }->
@@ -138,19 +146,19 @@ class zookeeper(
 
   if ($manage_service) {
     class { 'zookeeper::service':
-      cfg_dir          => $cfg_dir,
-      zoo_dir          => $zoo_dir,
-      service_name     => $service_name,
-      service_provider => $_service_provider,
-      require          => Class['zookeeper::config'],
-      before           => Anchor['zookeeper::end'],
-      manage_systemd   => $manage_systemd,
-      user             => $user,
-      group            => $group,
-      pid_file         => $pid_file,
-      zoo_main         => $zoo_main,
-      log_dir          => $log_dir,
-      log4j_prop       => $log4j_prop
+      cfg_dir             => $cfg_dir,
+      zoo_dir             => $zoo_dir,
+      service_name        => $service_name,
+      service_provider    => $_service_provider,
+      manage_service_file => $_manage_service_file,
+      require             => Class['zookeeper::config'],
+      before              => Anchor['zookeeper::end'],
+      user                => $user,
+      group               => $group,
+      pid_file            => $pid_file,
+      zoo_main            => $zoo_main,
+      log_dir             => $log_dir,
+      log4j_prop          => $log4j_prop
     }
   }
   anchor { 'zookeeper::end': }

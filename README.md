@@ -7,7 +7,7 @@ A puppet receipt for [Apache Zookeeper](http://zookeeper.apache.org/). ZooKeeper
 
 ## Requirements
 
-  * Puppet >= 2.7, Puppet 3.x
+  * Puppet >= 2.7, Puppet 3.x, Puppet 4.x
   * Ruby 1.9.3, 2.0.0, 2.1.x
   * binary package of ZooKeeper
 
@@ -93,18 +93,20 @@ Use `service_provider` to override Puppet detection for starting service.
 
 ```puppet
 class { 'zookeeper':
-  service_provider => 'init.d'
+  service_provider    => 'init',
+  manage_service_file => false,
 }
 ```
 
-
 Some reasonable values are:
 
-  * `init`
-  * `upstart` - e.g. Ubuntu
-  * `systemd`
+  * `init` - RHEL6, Debian 7
+  * `upstart` - Ubuntu
+  * `systemd` - RHEL 7, Debian 8
   * `runit`
   * `none` - service won't be installed
+
+Parameter `manage_service_file` controls whether service definition should be managed by Puppet (default: `false`). Currently supported for `systemd` and `init`.
 
 
 ### Systemd Unit 'After' and 'Want' control
@@ -146,7 +148,7 @@ After=network-online.target
    - `min_session_timeout` - the minimum session timeout in milliseconds that the server will allow the client to negotiate. Defaults to 2 times the **tickTime** (since ZooKeeper 3.3.0)
    - `max_session_timeout` - the maximum session timeout in milliseconds that the server will allow the client to negotiate. Defaults to 20 times the **tickTime** (since ZooKeeper 3.3.0)
    - `manage_service` (default: `true`) whether Puppet should ensure running service
-   - `manage_systemd` when enabled on RHEL 7.0 a service configuration will be managed
+   - `manage_service_file` when enabled on RHEL 7.0 a systemd config will be managed
 
 and many others, see the `init.pp` file for more details.
 
@@ -259,6 +261,6 @@ If you are versioning your puppet conf with git just add it as submodule, from y
 
 ### Tested on:
 
-  * Debian 6 Squeeze, 7 Wheezy
+  * Debian 6 - Squeeze, 7 - Wheezy, 8 - Jessie
   * Ubuntu 12.04.03 LTS, 14.04
-  * CentOS 6
+  * RHEL 6, RHEL 7, CentOS 6
