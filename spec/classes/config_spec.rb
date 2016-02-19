@@ -70,7 +70,8 @@ describe 'zookeeper::config', :type => :class do
       max_conn = 15
 
       let(:params) {{
-        :max_allowed_connections => max_conn
+        :max_allowed_connections => max_conn,
+        :id => 1,
       }}
 
       it { should contain_file(
@@ -81,7 +82,8 @@ describe 'zookeeper::config', :type => :class do
     context 'set client ip address' do
       ipaddress = '192.168.1.1'
       let(:params){{
-        :client_ip => ipaddress
+        :client_ip => ipaddress,
+        :id => 1,
       }}
 
       it { should contain_file(
@@ -113,9 +115,10 @@ describe 'zookeeper::config', :type => :class do
 
     context 'setting tick time' do
       tick_time = 3000
-      let(:params) { {
+      let(:params) {{
         :tick_time => tick_time,
-      } }
+        :id => nil, # for puppet 2.7
+      }}
 
       it {
         should contain_file('/etc/zookeeper/conf/zoo.cfg').with_content(/tickTime=#{tick_time}/)
@@ -125,10 +128,11 @@ describe 'zookeeper::config', :type => :class do
     context 'setting init and sync limit' do
       init_limit = 15
       sync_limit = 10
-      let(:params) { {
+      let(:params) {{
         :init_limit => init_limit,
         :sync_limit => sync_limit,
-      } }
+        :id => nil, # for puppet 2.7
+      }}
 
       it {
         should contain_file('/etc/zookeeper/conf/zoo.cfg').with_content(/initLimit=#{init_limit}/)
@@ -140,9 +144,10 @@ describe 'zookeeper::config', :type => :class do
     end
 
     context 'setting leader' do
-      let(:params) { {
+      let(:params) {{
         :leader => false,
-      } }
+        :id => nil, # for puppet 2.7
+      }}
 
       it {
         should contain_file('/etc/zookeeper/conf/zoo.cfg').with_content(/leaderServes=no/)
@@ -151,7 +156,8 @@ describe 'zookeeper::config', :type => :class do
 
     context 'set peer_type to observer' do
       let(:params){{
-        :peer_type => 'observer'
+        :peer_type => 'observer',
+        :id => nil, # for puppet 2.7
       }}
 
       it { should contain_file(
@@ -215,6 +221,7 @@ describe 'zookeeper::config', :type => :class do
   context 'with datalogstore parameter' do
     let(:params) {{
       :datalogstore => '/zookeeper/transaction/device',
+      :id => nil, # for puppet 2.7
     }}
 
     let(:datalogstore)  { '/zookeeper/transaction/device' }
@@ -233,7 +240,8 @@ describe 'zookeeper::config', :type => :class do
     let(:params) {{
       :election_port => 3000,
       :leader_port   => 4000,
-      :servers       => ['192.168.1.1', '192.168.1.2']
+      :servers       => ['192.168.1.1', '192.168.1.2'],
+      :id => nil, # for puppet 2.7
     }}
 
     it { should contain_file(
@@ -247,7 +255,8 @@ describe 'zookeeper::config', :type => :class do
 
   context 'setting quorum of servers with default ports' do
     let(:params) {{
-      :servers => ['192.168.1.1', '192.168.1.2']
+      :servers => ['192.168.1.1', '192.168.1.2'],
+      :id => nil, # for puppet 2.7
     }}
 
     it { should contain_file(
@@ -262,7 +271,8 @@ describe 'zookeeper::config', :type => :class do
   context 'setting quorum of servers with default ports with observer' do
     let(:params) {{
       :servers => ['192.168.1.1', '192.168.1.2', '192.168.1.3', '192.168.1.4', '192.168.1.5'],
-      :observers => ['192.168.1.4', '192.168.1.5']
+      :observers => ['192.168.1.4', '192.168.1.5'],
+      :id => nil, # for puppet 2.7
     }}
 
     it { should contain_file(
@@ -300,7 +310,8 @@ describe 'zookeeper::config', :type => :class do
 
   context 'setting minSessionTimeout' do
     let(:params) {{
-      :min_session_timeout => 5000
+      :min_session_timeout => 5000,
+      :id => nil, # for puppet 2.7
     }}
 
     it { should contain_file(
@@ -310,7 +321,8 @@ describe 'zookeeper::config', :type => :class do
 
   context 'setting maxSessionTimeout' do
     let(:params) {{
-      :max_session_timeout => 50000
+      :max_session_timeout => 50000,
+      :id => nil, # for puppet 2.7
     }}
 
     it { should contain_file(
@@ -322,6 +334,7 @@ describe 'zookeeper::config', :type => :class do
   context 'make sure port is not included in server IP/hostname' do
     let(:params) {{
       :servers => ['192.168.1.1:2888', '192.168.1.2:2333'],
+      :id => nil, # for puppet 2.7
     }}
 
     it { should contain_file(
