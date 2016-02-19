@@ -95,15 +95,15 @@ class zookeeper(
   }
 
   if ($id) {
+    # should be an integer
+    # requires stdlib 4.6.x
+    validate_integer($id)
     $_id = $id
   } else {
     # automatically generate ID
     $_id = zookeeper_genid($client_ip, $id_generator)
     warning("genrated ID: ${_id}")
   }
-  # should be an integer
-  # requires stdlib 4.6.x
-  validate_integer($_id)
 
   anchor { 'zookeeper::start': }->
   class { 'zookeeper::install':

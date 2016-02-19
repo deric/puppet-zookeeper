@@ -36,7 +36,7 @@ This function generates ZooKeeper ID (1-255) for given IP address
       # make sure we stay in range 1-255, e.g.: '192.168.1.149' -> 0 + 1
       return (ipaddress.to_i % 255) + 1
     when 'md5'
-      return Digest::MD5.hexdigest('192.168.1.1').to_s.hex % 255 +1
+      return Digest::MD5.hexdigest('192.168.1.1').to_s.hex % 255 + 1
     else
       raise(Puppet::ParseError, "zookeeper_genid() unknown strategy " + strategy)
     end

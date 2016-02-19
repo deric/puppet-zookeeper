@@ -18,9 +18,9 @@ describe 'zookeeper', :type => :class do
 
 
   context 'allow installing multiple packages' do
-    let(:params) { {
+    let(:params) {{
       :packages => [ 'zookeeper', 'zookeeper-bin' ],
-    } }
+    }}
 
     it { should contain_package('zookeeper').with({:ensure => 'present'}) }
     it { should contain_package('zookeeper-bin').with({:ensure => 'present'}) }
@@ -165,15 +165,21 @@ describe 'zookeeper', :type => :class do
       :id_generator => 'mod'
     }}
 
+    #Puppet::Util::Log.level = :debug
+    #Puppet::Util::Log.newdestination(:console)
+
+    let(:params) {{
+      :client_ip => '192.168.1.3',
+    }}
+
     it { should contain_class('zookeeper::config') }
 
     # mod strategy: '192.168.1.1' -> 108
-   # TODO: right now it's always set to 193
-   # it { should contain_file('/etc/zookeeper/conf/myid').with({
-   #   'ensure'  => 'file',
-   #   'owner'   => user,
-   #   'group'   => group,
-   # }).with_content(110) }
+    it { should contain_file('/etc/zookeeper/conf/myid').with({
+      'ensure'  => 'file',
+      'owner'   => user,
+      'group'   => group,
+    }).with_content(/^110/) }
 
   end
 
