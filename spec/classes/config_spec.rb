@@ -38,10 +38,11 @@ describe 'zookeeper::config', :type => :class do
     context 'extra parameters' do
       snap_cnt = 15000
       # set custom params
-      let(:params) { {
-        :log4j_prop    => 'ERROR',
-        :snap_count    => snap_cnt,
-      } }
+      let(:params) {{
+        :log4j_prop => 'ERROR',
+        :snap_count => snap_cnt,
+        :id         => 1,
+      }}
 
       it {
         should contain_file('/etc/zookeeper/conf/environment').with_content(/ERROR/)
