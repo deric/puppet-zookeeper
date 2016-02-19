@@ -23,7 +23,12 @@ describe 'zookeeper_genid' do
     end
 
     it 'should raise an error if gets invalid ip address' do
-      subject.should run.with_params('10.0.0.256').and_raise_error(IPAddr::InvalidAddressError)
+      # version < 2.0.0
+      if RUBY_VERSION.split('.')[0] == '1'
+        subject.should run.with_params('10.0.0.256').and_raise_error(ArgumentError)
+      else
+        subject.should run.with_params('10.0.0.256').and_raise_error(IPAddr::InvalidAddressError)
+      end
     end
   end
 
