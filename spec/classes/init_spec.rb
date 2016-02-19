@@ -140,6 +140,26 @@ describe 'zookeeper', :type => :class do
     it { should contain_class('zookeeper::service') }
   end
 
+  context 'allow passing specific version' do
+    let(:facts) {{
+      :ipaddress => '192.168.1.1',
+      :osfamily => 'Debian',
+      :operatingsystem => 'Ubuntu',
+      :majdistrelease => '14.04',
+    }}
+
+    let(:version) {'3.4.5+dfsg-1'}
+
+    let(:params) {{
+      :ensure => version,
+    }}
+
+    it { should contain_package('zookeeper').with({:ensure => version}) }
+    it { should contain_package('zookeeperd').with({:ensure => version}) }
+
+    it { should contain_user('zookeeper').with({:ensure => 'present'}) }
+  end
+
   context 'upstart is used on Ubuntu' do
     let(:facts) {{
       :ipaddress => '192.168.1.1',
