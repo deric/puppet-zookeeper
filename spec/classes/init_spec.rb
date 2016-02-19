@@ -179,7 +179,7 @@ describe 'zookeeper', :type => :class do
       'ensure'  => 'file',
       'owner'   => user,
       'group'   => group,
-    }).with_content(/^110/) }
+    }).with_content(110) }
 
   end
 

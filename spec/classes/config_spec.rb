@@ -167,7 +167,7 @@ describe 'zookeeper::config', :type => :class do
     let(:cfg_dir) { '/etc/zookeeper/conf' }
     let(:log_dir) { '/var/lib/zookeeper' }
     let(:id_file) { '/etc/zookeeper/conf/myid' }
-    let(:myid)    { /1/ }
+    let(:myid)    { 1 }
 
     let(:params) {{
       :id => 1
