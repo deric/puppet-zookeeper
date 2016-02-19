@@ -237,4 +237,42 @@ describe 'zookeeper::install', :type => :class do
     it_behaves_like 'redhat-install', 'Fedora', '20', Puppet.version
   end
 
+
+  context 'user account' do
+    let(:facts) {{
+      :operatingsystem => 'Ubuntu',
+      :osfamily => 'Debian',
+      :lsbdistcodename => 'trusty',
+    }}
+    let(:user) { 'zookeeper' }
+    let(:group) { 'zookeeper' }
+
+    let(:params) {{
+      :ensure_account => 'present',
+    }}
+
+    it { should contain_user('zookeeper').with({
+      :ensure => 'present'
+    }) }
+
+    context 'remove user accounts' do
+
+      let(:params) {{
+        :ensure_account => 'absent',
+      }}
+
+      it { should contain_user('zookeeper').with({
+        :ensure => 'absent'
+      }) }
+    end
+
+    context 'do not manage user accounts' do
+      let(:params) {{
+        :ensure_account => false,
+      }}
+
+      it { should_not contain_user('zookeeper') }
+    end
+  end
+
 end

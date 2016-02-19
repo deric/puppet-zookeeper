@@ -7,6 +7,7 @@
 #
 class zookeeper::post_install(
   $ensure,
+  $ensure_account,
   $ensure_cron,
   $user,
   $group,
@@ -18,33 +19,34 @@ class zookeeper::post_install(
 
   # make sure user and group exists for ZooKeeper #49, if the OS package
   # doesn't handle its creation
-  ensure_resource('group',
-    [$group],
-    {'ensure' => $ensure}
-  )
+  if ($ensure_account){
+    ensure_resource('group',
+      [$group],
+      {'ensure' => $ensure_account}
+    )
 
-  case $::osfamily {
-    'Redhat': {
-      $shell = '/sbin/nologin'
+    case $::osfamily {
+      'Redhat': {
+        $shell = '/sbin/nologin'
+      }
+      default: {
+        # sane default for most OS
+        $shell = '/bin/false'
+      }
     }
-    default: {
-      # sane default for most OS
-      $shell = '/bin/false'
-    }
+
+    ensure_resource('user',
+      [$user],
+      {
+        'ensure'  => $ensure_account,
+        'home'    => $datastore,
+        'comment' => 'Zookeeper',
+        'gid'     => $group,
+        'shell'   => $shell,
+        'require' => Group[$group]
+      }
+    )
   }
-
-  ensure_resource('user',
-    [$user],
-    {
-      'ensure'  => $ensure,
-      'home'    => $datastore,
-      'comment' => 'Zookeeper',
-      'gid'     => $group,
-      'shell'   => $shell,
-      'require' => Group[$group]
-    }
-  )
-
   if ($manual_clean) {
     # user defined value
     $clean = $manual_clean

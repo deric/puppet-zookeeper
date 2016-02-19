@@ -16,6 +16,7 @@ class zookeeper::install(
   $datastore         = '/var/lib/zookeeper',
   $user              = 'zookeeper',
   $group             = 'zookeeper',
+  $ensure_account    = present,
   $service_provider  = 'init.d',
   $ensure_cron       = true,
   $service_package   = 'zookeeperd',
@@ -70,6 +71,7 @@ class zookeeper::install(
 
   class { 'zookeeper::post_install':
     ensure            => $ensure,
+    ensure_account    => $ensure_account,
     ensure_cron       => $ensure_cron,
     user              => $user,
     group             => $group,
