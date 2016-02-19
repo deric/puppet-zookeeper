@@ -102,6 +102,7 @@ class zookeeper(
     warning("genrated ID: ${_id}")
   }
   # should be an integer
+  # requires stdlib 4.6.x
   validate_integer($_id)
 
   anchor { 'zookeeper::start': }->
