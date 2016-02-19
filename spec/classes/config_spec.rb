@@ -9,6 +9,10 @@ describe 'zookeeper::config', :type => :class do
     :ipaddress => '192.168.1.1',
   }}
 
+  let(:params) {{
+    :id => nil,
+  }}
+
   shared_examples 'common' do |os, codename|
     let(:facts) {{
       :operatingsystem => os,
