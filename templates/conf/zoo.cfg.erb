@@ -22,7 +22,8 @@ dataLogDir=<%= @datalogstore %>
 # the port at which the clients will connect
 clientPort=<%= @client_port %>
 # interface to bind
-<% if @client_ip -%>
+<%# advertised IP (@client_ip) doesn't have to be same as bind IP %>
+<% if (@override_bind_ip and @client_ip) -%>
 clientPortAddress=<%= @client_ip %>
 <% else -%>
 #clientPortAddress=

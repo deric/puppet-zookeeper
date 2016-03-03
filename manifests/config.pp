@@ -26,6 +26,7 @@ class zookeeper::config(
   $initialize_datastore    = false,
   # use either IP address, or a fact, e.g.: $::ipaddress
   $client_ip               = undef,
+  $override_bind_ip        = false,
   $client_port             = 2181,
   $election_port           = 2888,
   $leader_port             = 3888,

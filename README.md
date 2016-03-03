@@ -14,25 +14,15 @@ A puppet receipt for [Apache Zookeeper](http://zookeeper.apache.org/). ZooKeeper
 ## Basic Usage:
 
 ```puppet
-class { 'zookeeper': }
+class { 'zookeeper':
+  servers => ['192.168.1.1', '192.168.1.2', '192.168.1.3']
+}
 ```
 
 ## Cluster setup
 
-When running ZooKeeper in the distributed mode each node must have unique ID (`1-255`). The easiest way how to setup multiple ZooKeepers, is by using Hiera.
+Each ZooKeeper must be assigned an integer ID (1-255), which is unique in the cluster. By default such ID is generated from the IP address and `client_port`. In case of ID collision, try changing `id_generator` strategy ('md5', 'last_digit') or simply override ZooKeeper's IDs (see below).
 
-`hiera/host/zk1.example.com.yaml`:
-```yaml
-zookeeper::id: '1'
-```
-`hiera/host/zk2.example.com.yaml`:
-```yaml
-zookeeper::id: '2'
-```
-`hiera/host/zk3.example.com.yaml`:
-```yaml
-zookeeper::id: '3'
-```
 A ZooKeeper quorum should consist of odd number of nodes (usually `3` or `5`).
 For defining a quorum it is enough to list all IP addresses of all its members.
 
@@ -41,11 +31,11 @@ class { 'zookeeper':
   servers => ['192.168.1.1', '192.168.1.2', '192.168.1.3']
 }
 ```
-Currently, first ZooKeeper in the array above, will be assigned `ID = 1`. This would produce following configuration:
+Currently, first ZooKeeper in the array above, will be assigned `ID = 249`. This would produce following configuration:
 ```
-server.1=192.168.1.1:2888:3888
-server.2=192.168.1.2:2888:3888
-server.3=192.168.1.3:2888:3888
+server.249=192.168.1.1:2888:3888
+server.250=192.168.1.2:2888:3888
+server.251=192.168.1.3:2888:3888
 ```
 where first port is `election_port` and second one `leader_port`. Both ports could be customized for each ZooKeeper instance.
 
@@ -69,10 +59,17 @@ class { 'zookeeper':
 ```
 **Note**: Currently observer server needs to be listed between standard servers (this behavior might change in feature).
 
-### Set binding interface
+### Advertised IP
 
-By default ZooKeeper should bind to all interfaces. When you specify `client_ip` only single interface
-will be used. If `$::ipaddress` is not your public IP (e.g. you are using Docker) make sure to setup correct IP:
+`client_ip` is an IP address (or a fact, e.g. `$::ipaddress`) to which connects other ZooKeeper nodes. By default ZooKeeper binds to all interfaces (`0.0.0.0`). For overriding this behavior set:
+
+```puppet
+class { 'zookeeper':
+  client_ip        => $::ipaddress_eth0,
+  override_bind_ip => true,
+}
+```
+When you specify `client_ip` only single interface will be used. If `$::ipaddress` is not your public IP (e.g. you are using Docker) make sure to setup correct IP:
 
 ```puppet
 class { 'zookeeper':
@@ -224,6 +221,23 @@ class { 'zookeeper':
   install_java => true,
   java_package => 'openjdk-7-jre-headless'
 }
+```
+
+## Override ZooKeeper ID
+
+Each node must have unique ID (`1-255`). If you want to override generated IDs, you can use Hiera to accomplish that:
+
+`hiera/host/zk1.example.com.yaml`:
+```yaml
+zookeeper::id: '1'
+```
+`hiera/host/zk2.example.com.yaml`:
+```yaml
+zookeeper::id: '2'
+```
+`hiera/host/zk3.example.com.yaml`:
+```yaml
+zookeeper::id: '3'
 ```
 
 ## Install

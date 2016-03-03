@@ -19,7 +19,8 @@ class zookeeper(
   $datalogstore            = undef,
   $initialize_datastore    = false,
   # fact from which we get public ip address
-  $client_ip               = undef, # use e.g. $::ipaddress if you want to bind to single interface
+  $client_ip               = undef, # use e.g. $::ipaddress (advertised IP to other ZooKeepers)
+  $override_bind_ip        = false, # false -> will bind to 0.0.0.0
   $client_port             = 2181,
   $election_port           = 2888,
   $leader_port             = 3888,
@@ -128,6 +129,7 @@ class zookeeper(
     datalogstore            => $datalogstore,
     initialize_datastore    => $initialize_datastore,
     client_ip               => $client_ip,
+    override_bind_ip        => $override_bind_ip,
     client_port             => $client_port,
     election_port           => $election_port,
     leader_port             => $leader_port,

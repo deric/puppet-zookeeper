@@ -87,6 +87,7 @@ describe 'zookeeper::config', :type => :class do
       ipaddress = '192.168.1.1'
       let(:params){{
         :client_ip => ipaddress,
+        :override_bind_ip => true,
         :id => 1,
       }}
 
@@ -180,7 +181,7 @@ describe 'zookeeper::config', :type => :class do
     let(:myid)    { 1 }
 
     let(:params) {{
-      :id => 1
+      :id => 1,
     }}
 
     it_behaves_like 'common', 'Debian', 'wheezy'
