@@ -1,5 +1,7 @@
-# http://hadoop.apache.org/zookeeper/docs/current/zookeeperAdmin.html
-
+# DO NOT EDIT: Managed by Puppet
+# -----
+#
+# see http://zookeeper.apache.org/doc/current/zookeeperAdmin.html
 # The number of milliseconds of each tick
 tickTime=<%= @tick_time %>
 # The number of ticks that the initial
@@ -32,17 +34,28 @@ clientPortAddress=<%= @client_ip %>
 #server.1=zookeeper1:2888:3888
 #server.2=zookeeper2:2888:3888
 #server.3=zookeeper3:2888:3888
+<% if @id_generator -%>
+<% @servers.each do |h| -%>
+  <% if h.index(':') -%><%# make sure port is not included in hostname -%>
+    <% h = h[0...(h.index(':'))] -%>
+  <% end -%>
+  <% if @observers.include? h -%>
+    <% observer_text=':observer' -%>
+  <% end -%><%# TODO: we need array with "hostname:port" -%>
+<%= "server.#{zookeeper_genid(h, @client_ip, @id_generator)}=#{h}:%s:%s%s" % [ @election_port, @leader_port, observer_text ] -%>
+<% end %>
+<% else %><%# assign ID by index in the array -%>
 <% i = 1 -%>
 <% @servers.each_with_index do |h, i| -%>
-<%# make sure port is not included in hostname %>
-  <% if h.index(':') -%>
+  <% if h.index(':') -%><%# make sure port is not included in hostname -%>
     <% h = h[0...(h.index(':'))] -%>
   <% end -%>
   <% if @observers.include? h -%>
     <% observer_text=':observer' -%>
   <% end -%>
-<%= "server.#{i+1}=#{h}:%s:%s%s" % [ @election_port, @leader_port, observer_text ] %>
-<% end -%>
+<%= "server.#{i+1}=#{h}:%s:%s%s" % [ @election_port, @leader_port, observer_text ] -%>
+<% end %>
+<% end %>
 
 # To avoid seeks ZooKeeper allocates space in the transaction log file in
 # blocks of preAllocSize kilobytes. The default block size is 64M. One reason
