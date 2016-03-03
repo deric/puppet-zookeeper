@@ -101,7 +101,7 @@ class zookeeper(
     $_id = $id
   } else {
     # automatically generate ID
-    $_id = zookeeper_genid($client_ip, $id_generator)
+    $_id = zookeeper_genid($client_ip, $client_port, $id_generator)
     warning("genrated ID: ${_id}")
   }
 

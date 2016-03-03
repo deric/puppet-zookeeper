@@ -174,12 +174,12 @@ describe 'zookeeper', :type => :class do
 
     it { should contain_class('zookeeper::config') }
 
-    # mod strategy: '192.168.1.1' -> 108
+    # mod strategy: '192.168.1.3' -> 251
     it { should contain_file('/etc/zookeeper/conf/myid').with({
       'ensure'  => 'file',
       'owner'   => user,
       'group'   => group,
-    }).with_content(110) }
+    }).with_content(251) }
 
   end
 
