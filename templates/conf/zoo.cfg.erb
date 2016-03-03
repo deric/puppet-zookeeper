@@ -42,7 +42,7 @@ clientPortAddress=<%= @client_ip %>
   <% if @observers.include? h -%>
     <% observer_text=':observer' -%>
   <% end -%><%# TODO: we need array with "hostname:port" -%>
-<%= "server.#{zookeeper_genid(h, @client_ip, @id_generator)}=#{h}:%s:%s%s" % [ @election_port, @leader_port, observer_text ] -%>
+<%= "server.%s=#{h}:%s:%s%s" % [ zookeeper_genid(h, @client_ip, @id_generator), @election_port, @leader_port, observer_text ] -%>
 <% end %>
 <% else %><%# assign ID by index in the array -%>
 <% i = 1 -%>
