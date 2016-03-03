@@ -41,14 +41,14 @@ clientPortAddress=<%= @client_ip %>
 <% if h.index(':'); h = h[0...(h.index(':'))]; end -%><%# make sure port is not included in hostname -%>
 <% if @observers.include? h; observer_text=':observer'; end -%>
 <%# TODO: we need array with "hostname:port" -%>
-<%="server.%s=#{h}:%s:%s%s" % [ scope.function_zookeeper_genid([h, @client_ip, @id_generator]), @election_port, @leader_port, observer_text ] %>
+<%= "server.%s=#{h}:%s:%s%s" % [ scope.function_zookeeper_genid([h, @client_ip, @id_generator]), @election_port, @leader_port, observer_text ] %>
 <% end -%>
 <% else %><%# old strategy: assign ID by index in the array -%>
 <% i = 1 -%>
 <% @servers.each_with_index do |h, i| -%>
 <% if h.index(':'); h = h[0...(h.index(':'))]; end -%><%# make sure port is not included in hostname -%>
 <% if @observers.include? h; observer_text=':observer'; end -%>
-<%= "server.#{i+1}=#{h}:%s:%s%s" % [ @election_port, @leader_port, observer_text ] -%>
+<%= "server.#{i+1}=#{h}:%s:%s%s" % [ @election_port, @leader_port, observer_text ] %>
 <% end -%>
 <% end -%>
 

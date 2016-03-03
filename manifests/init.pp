@@ -68,7 +68,7 @@ class zookeeper(
   # donate the matching directives in the [Unit] section
   $systemd_unit_want       = undef,
   $systemd_unit_after      = 'network.target',
-  $id_generator            = 'mod',
+  $id_generator            = false,
 ) inherits ::zookeeper::params {
 
   validate_array($packages)
