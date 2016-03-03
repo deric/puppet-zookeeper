@@ -34,28 +34,22 @@ clientPortAddress=<%= @client_ip %>
 #server.1=zookeeper1:2888:3888
 #server.2=zookeeper2:2888:3888
 #server.3=zookeeper3:2888:3888
+<%# TODO: not really human readable, but otherwise spaces are generated %>
 <% if @id_generator -%>
 <% @servers.each do |h| -%>
-  <% if h.index(':') -%><%# make sure port is not included in hostname -%>
-    <% h = h[0...(h.index(':'))] -%>
-  <% end -%>
-  <% if @observers.include? h -%>
-    <% observer_text=':observer' -%>
-  <% end -%><%# TODO: we need array with "hostname:port" -%>
-<%= "server.%s=#{h}:%s:%s%s" % [ scope.function_zookeeper_genid(h, @client_ip, @id_generator), @election_port, @leader_port, observer_text ] -%>
-<% end %>
-<% else %><%# assign ID by index in the array -%>
+<% if h.index(':'); h = h[0...(h.index(':'))]; end -%><%# make sure port is not included in hostname -%>
+<% if @observers.include? h; observer_text=':observer'; end -%>
+<%# TODO: we need array with "hostname:port" -%>
+<%="server.%s=#{h}:%s:%s%s" % [ scope.function_zookeeper_genid([h, @client_ip, @id_generator]), @election_port, @leader_port, observer_text ] %>
+<% end -%>
+<% else %><%# old strategy: assign ID by index in the array -%>
 <% i = 1 -%>
 <% @servers.each_with_index do |h, i| -%>
-  <% if h.index(':') -%><%# make sure port is not included in hostname -%>
-    <% h = h[0...(h.index(':'))] -%>
-  <% end -%>
-  <% if @observers.include? h -%>
-    <% observer_text=':observer' -%>
-  <% end -%>
+<% if h.index(':'); h = h[0...(h.index(':'))]; end -%><%# make sure port is not included in hostname -%>
+<% if @observers.include? h; observer_text=':observer'; end -%>
 <%= "server.#{i+1}=#{h}:%s:%s%s" % [ @election_port, @leader_port, observer_text ] -%>
-<% end %>
-<% end %>
+<% end -%>
+<% end -%>
 
 # To avoid seeks ZooKeeper allocates space in the transaction log file in
 # blocks of preAllocSize kilobytes. The default block size is 64M. One reason
