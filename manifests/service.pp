@@ -28,7 +28,7 @@ class zookeeper::service(
       path        => $::path,
       notify      => Service[$service_name]
     }
-  } elsif ($service_provider == 'init') {
+  } elsif ($service_provider == 'init' and $manage_service_file == true) {
     file {"/etc/init.d/${service_name}":
       ensure  => present,
       content => template('zookeeper/zookeeper.init.erb'),
