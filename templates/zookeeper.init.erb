@@ -41,7 +41,7 @@ fi
 
 ZOOBINDIR="/usr/lib/zookeeper/bin"
 ZOOCFGDIR=<%= @cfg_dir %>
-ZOOCFG="/etc/zookeeper/zoo.cfg"
+ZOOCFG="$ZOOCFGDIR/zoo.cfg"
 ZOO_LOG_DIR=<%= @log_dir %>
 
 [ -e "$ZOOCFGDIR/java.env" ] && . "$ZOOCFGDIR/java.env"
