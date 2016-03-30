@@ -13,6 +13,7 @@ After=<%=@systemd_unit_after %>
 [Service]
 ExecStart=/bin/sh -c 'set -x; . <%= @cfg_dir %>/environment; CLASSPATH="<%= @zoo_dir %>/zookeeper.jar:<%= @zoo_dir %>/lib/*:$CLASSPATH"; CLASSPATH="$(. <%= @zoo_dir %>/bin/zkEnv.sh ; echo $CLASSPATH)"; mkdir -p <%= @log_dir %>; $JAVA "-Dzookeeper.log.dir=<%= @log_dir %>" "-Dzookeeper.root.logger=$ZOO_LOG4J_PROP" -cp "$CLASSPATH" $JAVA_OPTS "$ZOOMAIN" "$ZOOCFG"'
 Restart=always
+RemainAfterExit=no
 SyslogIdentifier=zookeeper
 User=<%= @user %>
 Group=<%= @group %>
