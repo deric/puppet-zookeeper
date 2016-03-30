@@ -6,13 +6,14 @@ describe 'zookeeper', :type => :class do
     :operatingsystem => 'Debian',
     :osfamily        => 'Debian',
     :lsbdistcodename => 'wheezy',
+    :majdistrelease  => '7',
     :ipaddress       => '192.168.1.1',
   }}
 
-  it { should contain_class('zookeeper::config') }
-  it { should contain_class('zookeeper::install') }
-  it { should contain_class('zookeeper::service') }
-  it { should compile.with_all_deps }
+  it { is_expected.to contain_class('zookeeper::config') }
+  it { is_expected.to contain_class('zookeeper::install') }
+  it { is_expected.to contain_class('zookeeper::service') }
+  it { is_expected.to compile.with_all_deps }
 
 
   context 'allow installing multiple packages' do
