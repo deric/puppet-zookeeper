@@ -1,9 +1,13 @@
-require 'bundler'
-Bundler.require(:rake)
+require 'rubygems'
+require 'bundler/setup'
 
 require 'puppetlabs_spec_helper/rake_tasks'
+require 'puppet/version'
+require 'puppet/vendor/semantic/lib/semantic' unless Puppet.version.to_f < 3.6
 require 'puppet-lint/tasks/puppet-lint'
-require 'rspec-system/rake_task'
+require 'puppet-syntax/tasks/puppet-syntax'
+require 'metadata-json-lint/rake_task'
+
 # blacksmith does not support ruby 1.8.7 anymore
 require 'puppet_blacksmith/rake_tasks' if ENV['RAKE_ENV'] != 'ci' && RUBY_VERSION.split('.')[0,3].join.to_i > 187
 
