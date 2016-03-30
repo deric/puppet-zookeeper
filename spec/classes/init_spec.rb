@@ -116,11 +116,12 @@ describe 'zookeeper', :type => :class do
     let(:user) { 'zookeeper' }
     let(:group) { 'zookeeper' }
 
+    # provider is detected based on facts
     context 'do not set provider by default' do
-      it { should contain_package('zookeeper').with({:ensure => 'present'}) }
-      it { should contain_service('zookeeper').with({
+      it { is_expected.to contain_package('zookeeper').with({:ensure => 'present'}) }
+      it { is_expected.to contain_service('zookeeper').with({
         :ensure => 'running',
-        :provider => nil,
+        :provider => 'init',
       })}
     end
 
