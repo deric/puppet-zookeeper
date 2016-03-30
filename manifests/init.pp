@@ -32,7 +32,7 @@ class zookeeper(
   $java_bin                = '/usr/bin/java',
   $java_opts               = '',
   $pid_dir                 = '/var/run',
-  $pid_file                = "${pid_dir}/zookeeper.pid",
+  $pid_file                = undef,
   $zoo_main                = 'org.apache.zookeeper.server.quorum.QuorumPeerMain',
   $log4j_prop              = 'INFO,ROLLINGFILE',
   $cleanup_sh              = '/usr/share/zookeeper/bin/zkCleanup.sh',
