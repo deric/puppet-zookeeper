@@ -25,7 +25,7 @@ desc="Zookeeper Service"
 [ -e /etc/sysconfig/$prog ] && . /etc/sysconfig/$prog
 
 lockfile="/var/lock/subsys/$prog"
-pidfile=<%= @pid_file %>
+pidfile=<%= @pid_path %>
 
 [ "x$JMXLOCALONLY" = "x" ] && JMXLOCALONLY=false
 

@@ -37,7 +37,7 @@ class zookeeper::config(
   $java_bin                = '/usr/bin/java',
   $java_opts               = '',
   $pid_dir                 = '/var/run',
-  $pid_file                = "${pid_dir}zookeeper.pid",
+  $pid_file                = undef,
   $zoo_main                = 'org.apache.zookeeper.server.quorum.QuorumPeerMain',
   $log4j_prop              = 'INFO,ROLLINGFILE',
   $servers                 = [''],
@@ -58,12 +58,18 @@ class zookeeper::config(
   $leader                  = true,
   $min_session_timeout     = undef,
   $max_session_timeout     = undef,
-  # systemd_unit_want and _after can be overridden to 
+  # systemd_unit_want and _after can be overridden to
   # donate the matching directives in the [Unit] section
   $systemd_unit_want       = undef,
   $systemd_unit_after      = 'network.target',
 ) {
   require zookeeper::install
+
+  if $pid_file {
+    $pid_path = $pid_file
+  } else {
+    $pid_path = "${pid_dir}/zookeeper.pid"
+  }
 
   file { $cfg_dir:
     ensure  => directory,
