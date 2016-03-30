@@ -89,6 +89,7 @@ describe 'zookeeper', :type => :class do
       :osfamily => 'RedHat',
       :operatingsystemmajrelease => '7',
       :hardwaremodel => 'x86_64',
+      :puppetversion => Puppet.version,
     }}
 
     let(:params) {{
@@ -148,6 +149,7 @@ describe 'zookeeper', :type => :class do
       :osfamily => 'Debian',
       :operatingsystem => 'Ubuntu',
       :majdistrelease => '14.04',
+      :lsbdistcodename => 'trusty',
     }}
 
     let(:version) {'3.4.5+dfsg-1'}
@@ -168,6 +170,7 @@ describe 'zookeeper', :type => :class do
       :osfamily => 'Debian',
       :operatingsystem => 'Ubuntu',
       :majdistrelease => '14.04',
+      :lsbdistcodename => 'trusty',
     }}
 
     let(:params) {{
