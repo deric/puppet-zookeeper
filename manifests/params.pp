@@ -32,7 +32,7 @@ class zookeeper::params {
     }
     'Redhat': {
       case $::operatingsystemmajrelease {
-        '6': { $initstyle = 'upstart' }
+        '6': { $initstyle = 'redhat' }
         '7': { $initstyle = 'systemd' }
         default: { $initstyle = undef }
       }
