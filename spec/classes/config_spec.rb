@@ -88,28 +88,6 @@ describe 'zookeeper::config', :type => :class do
       ).with_content(/clientPortAddress=#{ipaddress}/) }
     end
 
-
-    context 'quorum file' do
-      ipaddress = '192.168.1.1'
-      let(:facts) {{
-        :operatingsystem => os,
-        :osfamily => 'Debian',
-        :lsbdistcodename => codename,
-        :ipaddress => ipaddress
-      }}
-
-      it { should create_datacat_fragment('192.168.1.1').with_data(
-        {"id"=>myid, "client_ip"=>"192.168.1.1", "election_port"=>"2888", "leader_port"=>"3888"}
-      )}
-    end
-
-    #  it { should contain_file(
-    #    '/etc/zookeeper/conf/quorum.yml'
-    #  )}
-    #it { should contain_datacat__fragment("#{ipaddress}") }
-
-    #  it { should contain_concat__fragment("zookeeper_#{ipaddress}") }
-
     context 'setting tick time' do
       tick_time = 3000
       let(:params) { {
