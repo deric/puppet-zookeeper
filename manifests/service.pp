@@ -18,23 +18,25 @@ class zookeeper::service(
 ){
   require zookeeper::install
 
-  if ($service_provider == 'systemd' and $manage_service_file == true) {
-    file { '/usr/lib/systemd/system/zookeeper.service':
-      ensure  => 'present',
-      content => template('zookeeper/zookeeper.service.erb'),
-    } ~>
-    exec { 'systemctl daemon-reload # for zookeeper':
-      refreshonly => true,
-      path        => $::path,
-      notify      => Service[$service_name]
-    }
-  } elsif ($service_provider == 'init' and $manage_service_file == true) {
-    file {"/etc/init.d/${service_name}":
-      ensure  => present,
-      content => template('zookeeper/zookeeper.init.erb'),
-      mode    => '0755',
-      notify  => Service[$service_name]
-    }
+  if $manage_service_file == true {
+    if $service_provider == 'systemd'  {
+      file { '/usr/lib/systemd/system/zookeeper.service':
+        ensure  => 'present',
+        content => template('zookeeper/zookeeper.service.erb'),
+        } ~>
+        exec { 'systemctl daemon-reload # for zookeeper':
+          refreshonly => true,
+          path        => $::path,
+          notify      => Service[$service_name]
+        }
+      } elsif ( $service_provider == 'init' or $service_provider == 'redhat')  {
+        file {"/etc/init.d/${service_name}":
+          ensure  => present,
+          content => template('zookeeper/zookeeper.init.erb'),
+          mode    => '0755',
+          notify  => Service[$service_name]
+        }
+      }
   }
 
   service { $service_name:
