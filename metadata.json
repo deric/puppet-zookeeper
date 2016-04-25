@@ -1,6 +1,6 @@
 {
   "name": "deric-zookeeper",
-  "version": "0.5.4",
+  "version": "0.5.5",
   "author": "Tomas Barton",
   "summary": "Module for managing Apache Zookeeper",
   "license": "Apache-2.0",
