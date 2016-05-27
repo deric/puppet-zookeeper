@@ -46,7 +46,7 @@ class zookeeper::service(
     provider   => $service_provider,
     enable     => true,
     require    => [
-      Class['zookeeper::install'],
+      Class['::zookeeper::install'],
       File["${cfg_dir}/zoo.cfg"]
     ]
   }

@@ -153,7 +153,7 @@ class zookeeper(
       service_name        => $service_name,
       service_provider    => $_service_provider,
       manage_service_file => $_manage_service_file,
-      require             => Class['zookeeper::config'],
+      require             => Class['::zookeeper::config'],
       before              => Anchor['zookeeper::end'],
       user                => $user,
       group               => $group,
