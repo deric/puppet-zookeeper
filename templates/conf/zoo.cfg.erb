@@ -35,13 +35,13 @@ clientPortAddress=<%= @client_ip %>
 <% i = 1 -%>
 <% @servers.each_with_index do |h, i| -%>
 <%# make sure port is not included in hostname %>
-  <% if h.index(':') -%>
-    <% h = h[0...(h.index(':'))] -%>
-  <% end -%>
-  <% if @observers.include? h -%>
-    <% observer_text=':observer' -%>
-  <% end -%>
-<%= "server.#{i+1}=#{h}:%s:%s%s" % [ @election_port, @leader_port, observer_text ] %>
+<% if h.index(':') -%>
+<% h = h[0...(h.index(':'))] -%>
+<% end -%>
+<% if @observers.include? h -%>
+<% observer_text=':observer' -%>
+<% end -%>
+<%= "server.#{i+1}=#{h}:%s:%s%s" % [ @election_port, @leader_port, observer_text ] -%>
 <% end -%>
 
 # To avoid seeks ZooKeeper allocates space in the transaction log file in
