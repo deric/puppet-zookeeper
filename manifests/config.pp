@@ -58,6 +58,7 @@ class zookeeper::config(
   $leader                  = true,
   $min_session_timeout     = undef,
   $max_session_timeout     = undef,
+  $use_sasl_auth           = false,
   # systemd_unit_want and _after can be overridden to
   # donate the matching directives in the [Unit] section
   $systemd_unit_want       = undef,
