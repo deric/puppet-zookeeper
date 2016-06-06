@@ -23,7 +23,7 @@ class zookeeper::sasl(
 
   file{"${cfg_dir}/jaas.conf":
     ensure  => present,
-    user    => $user,
+    owner   => $user,
     group   => $group,
     content => template('zookeeper/conf/jaas.conf.erb'),
     before  => Class['zookeeper::service'],
@@ -31,7 +31,7 @@ class zookeeper::sasl(
   
   file{"${cfg_dir}/java.env":
     ensure  => present,
-    user    => $user,
+    owner   => $user,
     group   => $group,
     content => template('zookeeper/conf/java.env.erb'),
     before  => Class['zookeeper::service'],
