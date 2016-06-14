@@ -41,9 +41,9 @@ class zookeeper(
   $ensure                  = present,
   $snap_count              = 10000,
   # since zookeeper 3.4, for earlier version cron task might be used
-  $snap_retain_count       = 3,
+  $snap_retain_count,
   # interval in hours, purging enabled when >= 1
-  $purge_interval          = 0,
+  $purge_interval,
   # log4j properties
   $rollingfile_threshold   = 'ERROR',
   $tracefile_threshold     = 'TRACE',
