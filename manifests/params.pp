@@ -30,7 +30,7 @@ class zookeeper::params {
         'service_provider' => $initstyle,
       }
     }
-    'Redhat': {
+    'RedHat': {
       case $::operatingsystemmajrelease {
         '6': { $initstyle = 'redhat' }
         '7': { $initstyle = 'systemd' }
