@@ -222,7 +222,7 @@ describe 'zookeeper::config', :type => :class do
     let(:params) {{
         :election_port => 3000,
         :leader_port   => 4000,
-        :servers       => {12 => '192.168.1.1', 23 => '192.168.1.2'}
+        :servers       => {'12' => '192.168.1.1', '23' => '192.168.1.2'}
     }}
 
     it { should contain_file(
@@ -250,7 +250,7 @@ describe 'zookeeper::config', :type => :class do
 
   context 'setting quorum of servers with default ports with servers as hash' do
     let(:params) {{
-        :servers => {12 => '192.168.1.1', 23 => '192.168.1.2'}
+        :servers => {'12' => '192.168.1.1', '23' => '192.168.1.2'}
     }}
 
     it { should contain_file(
@@ -303,7 +303,11 @@ describe 'zookeeper::config', :type => :class do
 
   context 'setting quorum of servers with default ports with observer with servers as hash' do
     let(:params) {{
-        :servers => {12 => '192.168.1.1', 23 => '192.168.1.2', 34 => '192.168.1.3', 45 => '192.168.1.4', 56 => '192.168.1.5'},
+        :servers => {'12' => '192.168.1.1',
+                     '23' => '192.168.1.2',
+                     '34' => '192.168.1.3',
+                     '45' => '192.168.1.4',
+                     '56' => '192.168.1.5'},
         :observers => ['192.168.1.4', '192.168.1.5']
     }}
 
