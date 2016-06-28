@@ -15,7 +15,7 @@ class zookeeper::sasl(
   $realm            = $::domain,
   $principal        = "zookeeper/${::fqdn}",
   $service_name     = $::zookeeper::params::service_name,
-) {
+) inherits ::zookeeper::params {
 
   file{"${cfg_dir}/jaas.conf":
     ensure  => present,
