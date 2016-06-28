@@ -1,14 +1,14 @@
 #puppet-zookeeper
 
 [![Puppet
-Forge](http://img.shields.io/puppetforge/v/deric/zookeeper.svg)](https://forge.puppetlabs.com/deric/zookeeper) [![Build Status](https://travis-ci.org/deric/puppet-zookeeper.png?branch=master)](https://travis-ci.org/deric/puppet-zookeeper)[![Puppet Forge
+Forge](http://img.shields.io/puppetforge/v/deric/zookeeper.svg)](https://forge.puppetlabs.com/deric/zookeeper) [![Build Status](https://travis-ci.org/deric/puppet-zookeeper.png?branch=master)](https://travis-ci.org/deric/puppet-zookeeper) [![Puppet Forge
 Downloads](http://img.shields.io/puppetforge/dt/deric/zookeeper.svg)](https://forge.puppetlabs.com/deric/zookeeper/scores)
 
 A puppet receipt for [Apache Zookeeper](http://zookeeper.apache.org/). ZooKeeper is a high-performance coordination service for maintaining configuration information, naming, providing distributed synchronization, and providing group services.
 
 ## Requirements
 
-  * Puppet >= 2.7, Puppet 3.x, Puppet 4.x
+  * Puppet 3.x, Puppet 4.x
   * Ruby 1.9.3, 2.0.0, 2.1.x
   * binary package of ZooKeeper
 
@@ -261,7 +261,6 @@ If you are versioning your puppet conf with git just add it as submodule, from y
 ## Dependencies
 
   * stdlib `> 2.3.3` - function `ensure_resources` is required
-  * datacat - experimental (might be removed in future releases)
 
 ## Supported platforms
 
