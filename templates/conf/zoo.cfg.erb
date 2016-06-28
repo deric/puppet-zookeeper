@@ -113,3 +113,9 @@ maxSessionTimeout=<%= @max_session_timeout %>
 <% else -%>
 #maxSessionTimeout=20
 <% end -%>
+
+<% if @use_sasl_auth -%>
+# Enable SASL authentication and use the default provider/renew provided by cloudera
+authProvider.1=org.apache.zookeeper.server.auth.SASLAuthenticationProvider
+jaasLoginRenew=3600000
+<% end -%>

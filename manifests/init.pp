@@ -62,6 +62,7 @@ class zookeeper(
   $java_package            = undef,
   $min_session_timeout     = undef,
   $max_session_timeout     = undef,
+  $use_sasl_auth           = false,
   $manage_systemd          = undef,
   $repo                    = undef,
   # systemd_unit_want and _after can be overridden to
@@ -142,8 +143,17 @@ class zookeeper(
     peer_type               => $peer_type,
     min_session_timeout     => $min_session_timeout,
     max_session_timeout     => $max_session_timeout,
+    use_sasl_auth           => $use_sasl_auth,
     systemd_unit_want       => $systemd_unit_want,
     systemd_unit_after      => $systemd_unit_after,
+  }
+
+  if ($use_sasl_auth) {
+    class { 'zookeeper::sasl':
+      cfg_dir => $cfg_dir,
+      require => Class['::zookeeper::config'],
+      before  => Class['::zookeeper::service'],
+    }
   }
 
   if ($manage_service) {
