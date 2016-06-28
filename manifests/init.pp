@@ -88,7 +88,7 @@ class zookeeper(
   }
 
   if ($manage_systemd) {
-    warning('Parameter `manage_systemd` is deprecated, use `manage_service_file` instead. `manage_systemd` will be removed in next major release.')
+    warning('Parameter `manage_systemd` is deprecated, use `manage_service_file` instead, it will be removed in next major release.')
     $_manage_service_file = $manage_systemd
   } else {
     $_manage_service_file = $manage_service_file
