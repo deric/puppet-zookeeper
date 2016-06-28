@@ -53,4 +53,6 @@ class zookeeper::params {
   $packages = $_params['packages']
   $service_provider = $_params['service_provider']
   $service_name = $_params['service_name']
+  $user = 'zookeeper'
+  $group = 'zookeeper'
 }
