@@ -14,6 +14,7 @@ class zookeeper::sasl(
   $use_ticket_cache = false,
   $realm            = $::domain,
   $principal        = "zookeeper/${::fqdn}",
+  $service_name     = $::zookeeper::params::service_name,
 ) {
 
   file{"${cfg_dir}/jaas.conf":
@@ -21,7 +22,7 @@ class zookeeper::sasl(
     owner   => $user,
     group   => $group,
     content => template('zookeeper/conf/jaas.conf.erb'),
-    before  => Class['zookeeper::service'],
+    before  => Service[$service_name],
   }
 
   file{"${cfg_dir}/java.env":
@@ -29,7 +30,7 @@ class zookeeper::sasl(
     owner   => $user,
     group   => $group,
     content => template('zookeeper/conf/java.env.erb'),
-    before  => Class['zookeeper::service'],
+    before  => Service[$service_name],
   }
 }
 
