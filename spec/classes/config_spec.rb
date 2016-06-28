@@ -218,6 +218,22 @@ describe 'zookeeper::config', :type => :class do
     ).with_content(/server.2=192.168.1.2:3000:4000/) }
   end
 
+  context 'setting quorum of servers with custom ports with servers as hash' do
+    let(:params) {{
+        :election_port => 3000,
+        :leader_port   => 4000,
+        :servers       => {'12' => '192.168.1.1', '23' => '192.168.1.2'}
+    }}
+
+    it { should contain_file(
+      '/etc/zookeeper/conf/zoo.cfg'
+    ).with_content(/server.12=192.168.1.1:3000:4000/) }
+
+    it { should contain_file(
+      '/etc/zookeeper/conf/zoo.cfg'
+    ).with_content(/server.23=192.168.1.2:3000:4000/) }
+  end
+
   context 'setting quorum of servers with default ports' do
     let(:params) {{
       :servers => ['192.168.1.1', '192.168.1.2']
@@ -230,6 +246,20 @@ describe 'zookeeper::config', :type => :class do
     it { should contain_file(
       '/etc/zookeeper/conf/zoo.cfg'
     ).with_content(/server.2=192.168.1.2:2888:3888/) }
+  end
+
+  context 'setting quorum of servers with default ports with servers as hash' do
+    let(:params) {{
+        :servers => {'12' => '192.168.1.1', '23' => '192.168.1.2'}
+    }}
+
+    it { should contain_file(
+      '/etc/zookeeper/conf/zoo.cfg'
+    ).with_content(/server.12=192.168.1.1:2888:3888/) }
+
+    it { should contain_file(
+      '/etc/zookeeper/conf/zoo.cfg'
+    ).with_content(/server.23=192.168.1.2:2888:3888/) }
   end
 
   context 'setting quorum of servers with default ports with observer' do
@@ -269,6 +299,49 @@ describe 'zookeeper::config', :type => :class do
     it { should contain_file(
       '/etc/zookeeper/conf/zoo.cfg'
     ).with_content(/server.5=192.168.1.5:2888:3888:observer/) }
+  end
+
+  context 'setting quorum of servers with default ports with observer with servers as hash' do
+    let(:params) {{
+        :servers => {'12' => '192.168.1.1',
+                     '23' => '192.168.1.2',
+                     '34' => '192.168.1.3',
+                     '45' => '192.168.1.4',
+                     '56' => '192.168.1.5'},
+        :observers => ['192.168.1.4', '192.168.1.5']
+    }}
+
+    it { should contain_file(
+      '/etc/zookeeper/conf/zoo.cfg'
+    ).with_content(/server.12=192.168.1.1:2888:3888/) }
+
+    it { should_not contain_file(
+      '/etc/zookeeper/conf/zoo.cfg'
+    ).with_content(/server.12=192.168.1.1:2888:3888:observer/) }
+
+    it { should contain_file(
+      '/etc/zookeeper/conf/zoo.cfg'
+    ).with_content(/server.23=192.168.1.2:2888:3888/) }
+
+    it { should_not contain_file(
+      '/etc/zookeeper/conf/zoo.cfg'
+    ).with_content(/server.23=192.168.1.2:2888:3888:observer/) }
+
+    it { should contain_file(
+      '/etc/zookeeper/conf/zoo.cfg'
+    ).with_content(/server.34=192.168.1.3:2888:3888/) }
+
+    it { should_not contain_file(
+      '/etc/zookeeper/conf/zoo.cfg'
+    ).with_content(/server.34=192.168.1.3:2888:3888:observer/) }
+
+    it { should contain_file(
+      '/etc/zookeeper/conf/zoo.cfg'
+    ).with_content(/server.45=192.168.1.4:2888:3888:observer/) }
+
+    it { should contain_file(
+      '/etc/zookeeper/conf/zoo.cfg'
+    ).with_content(/server.56=192.168.1.5:2888:3888:observer/) }
   end
 
   context 'setting minSessionTimeout' do
