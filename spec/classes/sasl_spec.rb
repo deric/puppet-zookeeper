@@ -4,6 +4,7 @@ describe 'zookeeper::sasl', :type => :class do
   let(:facts) {{
     :operatingsystem => 'Debian',
     :osfamily => 'Debian',
+    :majdistrelease  => '8',
     :lsbdistcodename => 'jessie',
   }}
 
