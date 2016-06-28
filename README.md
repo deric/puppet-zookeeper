@@ -39,10 +39,14 @@ For defining a quorum it is enough to list all IP addresses of all its members.
 
 ```puppet
 class { 'zookeeper':
-  servers => ['192.168.1.1', '192.168.1.2', '192.168.1.3']
+  servers => {
+    1 => '192.168.1.1',
+    2 => '192.168.1.2',
+    3 => '192.168.1.3',
+  },
 }
 ```
-Currently, first ZooKeeper in the array above, will be assigned `ID = 1`. This would produce following configuration:
+In case that an array is passed as `servers`, first ZooKeeper will be assigned `ID = 1`. This would produce following configuration:
 ```
 server.1=192.168.1.1:2888:3888
 server.2=192.168.1.2:2888:3888
@@ -54,7 +58,11 @@ where first port is `election_port` and second one `leader_port`. Both ports cou
 class { 'zookeeper':
   election_port => 2889,
   leader_port   => 3889,
-  servers       => ['192.168.1.1', '192.168.1.2', '192.168.1.3']
+  servers       => {
+    1 => '192.168.1.1',
+    2 => '192.168.1.2',
+    3 => '192.168.1.3',
+  }
 }
 ```
 
