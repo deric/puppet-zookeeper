@@ -12,11 +12,11 @@ gem 'rspec-puppet-facts'
 gem 'rspec', '>= 3.0.0'
 gem 'rspec-puppet', '>= 2.3.0'
 gem 'metadata-json-lint', require: false
-gem 'rubocop'
 # try to be compatible with ruby 1.9.3
 gem 'json_pure', '< 2.0.0'
 
 group :development do
+  gem 'rubocop'
   gem 'puppet-blacksmith'
   gem 'beaker'
   gem 'beaker-rspec', require: false
