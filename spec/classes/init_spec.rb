@@ -184,4 +184,36 @@ describe 'zookeeper', :type => :class do
       :provider => 'upstart',
     })}
   end
+
+  context 'set pid file for init provider' do
+    let(:user) { 'zookeeper' }
+    let(:group) { 'zookeeper' }
+
+    let(:facts) {{
+      :ipaddress => '192.168.1.1',
+      :osfamily => 'RedHat',
+      :operatingsystemmajrelease => '6',
+    }}
+
+    let(:params){{
+      :zoo_dir             => '/usr/lib/zookeeper',
+      :log_dir             => '/var/log/zookeeper',
+      :manage_service      => true,
+      :manage_service_file => true,
+      :service_provider    => 'init',
+    }}
+
+    context 'set service provider' do
+      it { is_expected.to contain_package('zookeeper').with({:ensure => 'present'}) }
+      it { is_expected.to contain_service('zookeeper-server').with({
+        :ensure => 'running',
+        :provider => 'init',
+      })}
+    end
+
+    it { is_expected.to contain_file(
+      '/etc/init.d/zookeeper-server'
+    ).with_content(/pidfile=\/var\/run\/zookeeper.pid/) }
+
+  end
 end
