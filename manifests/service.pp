@@ -5,7 +5,7 @@
 class zookeeper::service(
   $zoo_dir             = $zookeeper::cfg_dir,
   $log_dir             = $zookeeper::log_dir,
-  $pid_file            = undef,
+  $pid_path            = undef,
   $service_provider    = undef,    # init mechanism
   $cfg_dir             = '/etc/zookeeper/conf',
   $service_name        = 'zookeeper',

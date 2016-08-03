@@ -95,6 +95,12 @@ class zookeeper(
     $_manage_service_file = $manage_service_file
   }
 
+  if $pid_file {
+    $pid_path = $pid_file
+  } else {
+    $pid_path = "${pid_dir}/zookeeper.pid"
+  }
+
   anchor { 'zookeeper::start': }->
   class { 'zookeeper::install':
     ensure            => $ensure,
@@ -129,7 +135,7 @@ class zookeeper(
     java_bin                => $java_bin,
     java_opts               => $java_opts,
     pid_dir                 => $pid_dir,
-    pid_file                => $pid_file,
+    pid_path                => $pid_path,
     zoo_main                => $zoo_main,
     log4j_prop              => $log4j_prop,
     servers                 => $servers,
@@ -167,7 +173,7 @@ class zookeeper(
       before              => Anchor['zookeeper::end'],
       user                => $user,
       group               => $group,
-      pid_file            => $pid_file,
+      pid_path            => $pid_path,
       zoo_main            => $zoo_main,
       log_dir             => $log_dir,
       log4j_prop          => $log4j_prop
