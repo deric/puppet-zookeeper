@@ -16,5 +16,6 @@ gem 'metadata-json-lint', :require => false
 group :development do
   gem 'puppet-blacksmith'
   gem 'beaker'
+  gem 'rubocop'
   gem 'beaker-rspec', :require => false
 end
