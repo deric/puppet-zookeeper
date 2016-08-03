@@ -1,9 +1,7 @@
 require 'spec_helper_acceptance'
 
 describe 'zookeeper defintion', :unless => UNSUPPORTED_PLATFORMS.include?(fact('osfamily')) do
-
   context 'basic setup' do
-
     it 'install zookeeper' do
       pp = <<-EOS
         class{'zookeeper': }
@@ -14,8 +12,7 @@ describe 'zookeeper defintion', :unless => UNSUPPORTED_PLATFORMS.include?(fact('
    end
 
    describe file('/etc/zookeeper') do
-     it { should be_directory }
+     it { is_expected.to be_directory }
    end
  end
-
 end

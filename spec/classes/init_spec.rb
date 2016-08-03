@@ -1,14 +1,15 @@
 require 'spec_helper'
 
 describe 'zookeeper', :type => :class do
-
-  let(:facts) {{
+  let(:facts) do
+    {
     :operatingsystem => 'Debian',
     :osfamily        => 'Debian',
     :lsbdistcodename => 'wheezy',
     :majdistrelease  => '7',
     :ipaddress       => '192.168.1.1',
-  }}
+  }
+  end
 
   it { is_expected.to contain_class('zookeeper::config') }
   it { is_expected.to contain_class('zookeeper::install') }
@@ -20,9 +21,11 @@ describe 'zookeeper', :type => :class do
     let(:user) { 'zookeeper' }
     let(:group) { 'zookeeper' }
 
-    let(:params) { {
-      :packages => [ 'zookeeper', 'zookeeper-bin' ],
-    } }
+    let(:params) do
+      {
+        :packages => [ 'zookeeper', 'zookeeper-bin' ],
+      }
+    end
 
     it { should contain_package('zookeeper').with({:ensure => 'present'}) }
     it { should contain_package('zookeeper-bin').with({:ensure => 'present'}) }
@@ -38,45 +41,57 @@ describe 'zookeeper', :type => :class do
     let(:user) { 'zookeeper' }
     let(:group) { 'zookeeper' }
 
-    let(:params) { {
+    let(:params) do
+      {
       :packages             => ['zookeeper','zookeeper-server'],
       :service_name         => 'zookeeper-server',
       :initialize_datastore => true
-    } }
+    }
+    end
 
     it { should contain_package('zookeeper').with({:ensure => 'present'}) }
     it { should contain_package('zookeeper-server').with({:ensure => 'present'}) }
-    it { should contain_service('zookeeper-server').with({:ensure => 'running'})  }
+    it { should contain_service('zookeeper-server').with({:ensure => 'running'}) }
     it { should contain_exec('initialize_datastore') }
   end
 
   context 'setting minSessionTimeout' do
-    let(:params) {{
+    let(:params) do
+      {
       :min_session_timeout => 3000
-    }}
+    }
+    end
 
-    it { should contain_file(
-      '/etc/zookeeper/conf/zoo.cfg'
-    ).with_content(/minSessionTimeout=3000/) }
+    it do
+      should contain_file(
+        '/etc/zookeeper/conf/zoo.cfg'
+      ).with_content(/minSessionTimeout=3000/)
+    end
   end
 
   context 'setting maxSessionTimeout' do
-    let(:params) {{
+    let(:params) do
+      {
       :max_session_timeout => 60000
-    }}
+    }
+    end
 
-    it { should contain_file(
-      '/etc/zookeeper/conf/zoo.cfg'
-    ).with_content(/maxSessionTimeout=60000/) }
+    it do
+      should contain_file(
+        '/etc/zookeeper/conf/zoo.cfg'
+      ).with_content(/maxSessionTimeout=60000/)
+    end
   end
 
   context 'disable service management' do
     let(:user) { 'zookeeper' }
     let(:group) { 'zookeeper' }
 
-    let(:params) { {
+    let(:params) do
+      {
       :manage_service => false,
-    } }
+    }
+    end
 
     it { should contain_package('zookeeper').with({:ensure => 'present'}) }
     it { should_not contain_service('zookeeper').with({:ensure => 'running'}) }
@@ -84,31 +99,37 @@ describe 'zookeeper', :type => :class do
   end
 
   context 'use Cloudera RPM repo' do
-    let(:facts) {{
+    let(:facts) do
+      {
       :ipaddress => '192.168.1.1',
       :osfamily => 'RedHat',
       :operatingsystemmajrelease => '7',
       :hardwaremodel => 'x86_64',
       :puppetversion => Puppet.version,
-    }}
+    }
+    end
 
-    let(:params) {{
+    let(:params) do
+      {
       :repo => 'cloudera',
       :cdhver => '5',
-    }}
+    }
+    end
 
     it { should contain_class('zookeeper::repo') }
     it { should contain_yumrepo('cloudera-cdh5') }
 
     context 'custom RPM repo' do
-      let(:params) {{
+      let(:params) do
+        {
         :repo => {
           'name'  => 'myrepo',
           'url'   => 'http://repo.url',
           'descr' => 'custom repo',
         },
         :cdhver => '5',
-      }}
+      }
+      end
       it { should contain_yumrepo('myrepo').with({:baseurl => 'http://repo.url'}) }
     end
   end
@@ -120,43 +141,53 @@ describe 'zookeeper', :type => :class do
     # provider is detected based on facts
     context 'do not set provider by default' do
       it { is_expected.to contain_package('zookeeper').with({:ensure => 'present'}) }
-      it { is_expected.to contain_service('zookeeper').with({
+      it do
+        is_expected.to contain_service('zookeeper').with({
         :ensure => 'running',
         :provider => 'init',
-      })}
+      })
+      end
     end
 
     context 'autodetect provider on RedHat 7' do
-      let(:facts) {{
+      let(:facts) do
+        {
         :ipaddress => '192.168.1.1',
         :osfamily => 'RedHat',
         :operatingsystemmajrelease => '7',
-      }}
+      }
+      end
       it { should contain_package('zookeeper').with({:ensure => 'present'}) }
       it { should contain_package('zookeeper-server').with({:ensure => 'present'}) }
-      it { should contain_service('zookeeper-server').with({
+      it do
+        should contain_service('zookeeper-server').with({
         :ensure => 'running',
         :provider => 'systemd',
-      })}
+      })
+      end
     end
 
     it { should contain_class('zookeeper::service') }
   end
 
   context 'allow passing specific version' do
-    let(:facts) {{
+    let(:facts) do
+      {
       :ipaddress => '192.168.1.1',
       :osfamily => 'Debian',
       :operatingsystem => 'Ubuntu',
       :majdistrelease => '14.04',
       :lsbdistcodename => 'trusty',
-    }}
+    }
+    end
 
     let(:version) {'3.4.5+dfsg-1'}
 
-    let(:params) {{
+    let(:params) do
+      {
       :ensure => version,
-    }}
+    }
+    end
 
     it { should contain_package('zookeeper').with({:ensure => version}) }
     it { should contain_package('zookeeperd').with({:ensure => version}) }
@@ -165,55 +196,67 @@ describe 'zookeeper', :type => :class do
   end
 
   context 'upstart is used on Ubuntu' do
-    let(:facts) {{
+    let(:facts) do
+      {
       :ipaddress => '192.168.1.1',
       :osfamily => 'Debian',
       :operatingsystem => 'Ubuntu',
       :majdistrelease => '14.04',
       :lsbdistcodename => 'trusty',
-    }}
+    }
+    end
 
-    let(:params) {{
-
-    }}
+    let(:params) do
+      {
+    }
+    end
 
     it { should contain_package('zookeeper').with({:ensure => 'present'}) }
     it { should contain_package('zookeeperd').with({:ensure => 'present'}) }
-    it { should contain_service('zookeeper').with({
+    it do
+      should contain_service('zookeeper').with({
       :ensure => 'running',
       :provider => 'upstart',
-    })}
+    })
+    end
   end
 
   context 'set pid file for init provider' do
     let(:user) { 'zookeeper' }
     let(:group) { 'zookeeper' }
 
-    let(:facts) {{
+    let(:facts) do
+      {
       :ipaddress => '192.168.1.1',
       :osfamily => 'RedHat',
       :operatingsystemmajrelease => '6',
-    }}
+    }
+    end
 
-    let(:params){{
+    let(:params) do
+      {
       :zoo_dir             => '/usr/lib/zookeeper',
       :log_dir             => '/var/log/zookeeper',
       :manage_service      => true,
       :manage_service_file => true,
       :service_provider    => 'init',
-    }}
+    }
+    end
 
     context 'set service provider' do
       it { is_expected.to contain_package('zookeeper').with({:ensure => 'present'}) }
-      it { is_expected.to contain_service('zookeeper-server').with({
+      it do
+        is_expected.to contain_service('zookeeper-server').with({
         :ensure => 'running',
         :provider => 'init',
-      })}
+      })
+      end
     end
 
-    it { is_expected.to contain_file(
-      '/etc/init.d/zookeeper-server'
-    ).with_content(/pidfile=\/var\/run\/zookeeper.pid/) }
-
+    it do
+      is_expected.to contain_file(
+        '/etc/init.d/zookeeper-server'
+      ).with_content(/pidfile=\/var\/run\/zookeeper.pid/)
+    end
   end
 end

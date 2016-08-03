@@ -10,7 +10,7 @@ require 'metadata-json-lint/rake_task'
 require 'rubocop/rake_task'
 
 # blacksmith does not support ruby 1.8.7 anymore
-require 'puppet_blacksmith/rake_tasks' if ENV['RAKE_ENV'] != 'ci' && RUBY_VERSION.split('.')[0,3].join.to_i > 187
+require 'puppet_blacksmith/rake_tasks' if ENV['RAKE_ENV'] != 'ci' && RUBY_VERSION.split('.')[0, 3].join.to_i > 187
 
 desc 'Lint metadata.json file'
 task :meta do
@@ -20,10 +20,10 @@ end
 RuboCop::RakeTask.new
 
 exclude_paths = [
-  "bundle/**/*",
-  "pkg/**/*",
-  "vendor/**/*",
-  "spec/**/*",
+  'bundle/**/*',
+  'pkg/**/*',
+  'vendor/**/*',
+  'spec/**/*'
 ]
 
 # Coverage from puppetlabs-spec-helper requires rcov which
@@ -37,14 +37,13 @@ PuppetLint::RakeTask.new :lint do |config|
   config.log_format = '%{path}:%{linenumber}:%{KIND}: %{message}'
 end
 
-desc "Populate CONTRIBUTORS file"
+desc 'Populate CONTRIBUTORS file'
 task :contributors do
   system("git log --format='%aN' | sort -u > CONTRIBUTORS")
 end
 
-
 task :librarian_spec_prep do
   sh 'librarian-puppet install --path=spec/fixtures/modules/'
 end
-task :spec_prep => :librarian_spec_prep
-task :default => [:spec, :lint]
+task spec_prep: :librarian_spec_prep
+task default: [:spec, :lint]
