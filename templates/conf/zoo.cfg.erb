@@ -34,7 +34,7 @@ clientPortAddress=<%= @client_ip %>
 #server.3=zookeeper3:2888:3888
 <% unless @servers.respond_to?(:each_pair) -%>
 <%# make sure @servers is a hash %>
-    <% @servers = Hash[@servers.map.with_index(1) {|e, i|  [i, e] }] %>
+  <% @servers = Hash[@servers.map.each_with_index {|e, i|  [i + 1, e] }] -%>
 <% end -%>
 <% @servers.each_pair do |id, host| -%>
 <%# make sure port is not included in hostname %>
