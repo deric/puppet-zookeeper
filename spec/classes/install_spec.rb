@@ -317,4 +317,61 @@ describe 'zookeeper::install', :type => :class do
       it { should_not contain_user('zookeeper') }
     end
   end
+
+  context 'installing from tar archive' do
+    let(:user) { 'zookeeper' }
+    let(:group) { 'zookeeper' }
+    let(:package_dir) { '/tmp/zookeeper' }
+    let(:zoo_dir) { '/opt/zookeeper' }
+    let(:vers) { '3.4.5' }
+    let(:mirror_url) { 'http://mirror.cogentco.com/pub/apache' }
+    let(:basefilename) { "zookeeper-#{vers}.tar.gz" }
+    let(:package_url) { "#{mirror_url}/zookeeper/zookeeper-#{vers}/zookeeper-#{vers}.tar.gz" }
+    let(:extract_path) { "#{zoo_dir}-#{vers}" }
+
+    let(:facts) {{
+      :operatingsystem => 'Ubuntu',
+      :osfamily => 'Debian',
+      :lsbdistcodename => 'trusty',
+    }}
+
+    let(:params) { {
+      :install_method => 'archive',
+      :package_dir    => package_dir,
+      :zoo_dir        => zoo_dir,
+      :ensure         => vers,
+      :mirror_url     => mirror_url,
+    } }
+
+    it do
+      should contain_file(package_dir).with({
+        :ensure => 'directory',
+        :owner  => user,
+        :group  => group,
+      })
+    end
+    it do
+      should contain_file(extract_path).with({
+        :ensure => 'directory',
+        :owner  => user,
+        :group  => group,
+      })
+    end
+    it do
+      should contain_file(zoo_dir).with({
+        :ensure => 'link',
+        :target => extract_path,
+      })
+    end
+    it do
+      should contain_archive("#{package_dir}/#{basefilename}").with({
+        :extract_path => extract_path,
+        :source       => package_url,
+        :creates      => "#{extract_path}/lib",
+        :user         => user,
+        :group        => group,
+      })
+    end
+	end
+
 end

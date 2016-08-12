@@ -51,6 +51,9 @@ class zookeeper(
   $peer_type               = 'UNSET',
   $start_with              = undef,
   $ensure_cron             = true,
+  $install_method          = 'package',
+  $mirror_url              = 'http://mirror.cogentco.com/pub/apache',
+  $archive_checksum        = {},
   $service_package         = undef,
   $service_name            = $::zookeeper::params::service_name,
   $service_provider        = $::zookeeper::params::service_provider,
@@ -104,6 +107,10 @@ class zookeeper(
   anchor { 'zookeeper::start': }->
   class { 'zookeeper::install':
     ensure            => $ensure,
+    install_method    => $install_method,
+    mirror_url        => $mirror_url,
+    archive_checksum  => $archive_checksum,
+    zoo_dir           => $zoo_dir,
     snap_retain_count => $snap_retain_count,
     datastore         => $datastore,
     user              => $user,
