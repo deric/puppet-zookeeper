@@ -1,0 +1,6 @@
+---
+
+#Autopurge parameters
+zookeeper::snap_retain_count: 340
+zookeeper::purge_interval: 1440
+

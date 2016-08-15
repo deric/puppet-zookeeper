@@ -11,7 +11,7 @@
 #
 class zookeeper::install(
   $ensure            = present,
-  $snap_retain_count = 3,
+  $snap_retain_count,
   $cleanup_sh        = '/usr/lib/zookeeper/bin/zkCleanup.sh',
   $datastore         = '/var/lib/zookeeper',
   $user              = 'zookeeper',
