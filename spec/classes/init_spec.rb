@@ -3,11 +3,11 @@ require 'spec_helper'
 describe 'zookeeper', :type => :class do
   let(:facts) do
     {
-    :operatingsystem => 'Debian',
-    :osfamily        => 'Debian',
-    :lsbdistcodename => 'wheezy',
-    :majdistrelease  => '7',
-    :ipaddress       => '192.168.1.1',
+    :operatingsystem           => 'Debian',
+    :osfamily                  => 'Debian',
+    :lsbdistcodename           => 'wheezy',
+    :operatingsystemmajrelease => '7',
+    :ipaddress                 => '192.168.1.1',
   }
   end
 
@@ -116,7 +116,7 @@ describe 'zookeeper', :type => :class do
     }
     end
 
-    it { should contain_class('zookeeper::repo') }
+    it { should contain_class('zookeeper::install::repo') }
     it { should contain_yumrepo('cloudera-cdh5') }
 
     context 'custom RPM repo' do
@@ -176,7 +176,7 @@ describe 'zookeeper', :type => :class do
       :ipaddress => '192.168.1.1',
       :osfamily => 'Debian',
       :operatingsystem => 'Ubuntu',
-      :majdistrelease => '14.04',
+      :operatingsystemmajrelease => '14.04',
       :lsbdistcodename => 'trusty',
     }
     end
@@ -201,7 +201,7 @@ describe 'zookeeper', :type => :class do
       :ipaddress => '192.168.1.1',
       :osfamily => 'Debian',
       :operatingsystem => 'Ubuntu',
-      :majdistrelease => '14.04',
+      :operatingsystemmajrelease => '14.04',
       :lsbdistcodename => 'trusty',
     }
     end

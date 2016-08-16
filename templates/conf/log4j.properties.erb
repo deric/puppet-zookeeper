@@ -19,13 +19,13 @@
 # Define some default values that can be overridden by system properties
 # Format is "<default threshold> (, <appender>)+
 # zookeeper.root.logger=INFO, CONSOLE
-zookeeper.root.logger=<%= @log4j_prop %>
+zookeeper.root.logger=<%= scope.lookupvar("zookeeper::log4j_prop") %>
 
 zookeeper.console.threshold=INFO
 
 zookeeper.log.dir=.
 zookeeper.log.file=zookeeper.log
-zookeeper.log.threshold=<%= @rollingfile_threshold %>
+zookeeper.log.threshold=<%= scope.lookupvar("zookeeper::rollingfile_threshold") %>
 zookeeper.log.maxfilesize=256MB
 zookeeper.log.maxbackupindex=20
 
@@ -59,7 +59,7 @@ log4j.appender.ROLLINGFILE.layout.ConversionPattern=%d{ISO8601} [myid:%X{myid}] 
 #    Log ${TRACEFILE.Threshold} level and above messages to a log file
 #
 log4j.appender.TRACEFILE=org.apache.log4j.FileAppender
-log4j.appender.TRACEFILE.Threshold=<%= @tracefile_threshold %>
+log4j.appender.TRACEFILE.Threshold=<%= scope.lookupvar("zookeeper::tracefile_threshold") %>
 log4j.appender.TRACEFILE.File=${zookeeper.tracelog.dir}/${zookeeper.tracelog.file}
 
 log4j.appender.TRACEFILE.layout=org.apache.log4j.PatternLayout

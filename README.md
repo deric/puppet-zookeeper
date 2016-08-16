@@ -10,7 +10,7 @@ A puppet receipt for [Apache Zookeeper](http://zookeeper.apache.org/). ZooKeeper
 
   * Puppet 3.x, Puppet 4.x
   * Ruby 1.9.3, 2.0.0, 2.1.x
-  * binary package of ZooKeeper
+  * Binary or source package of ZooKeeper
 
 ## Basic Usage:
 
@@ -160,8 +160,13 @@ After=network-online.target
    - `manage_service` (default: `true`) whether Puppet should ensure running service
    - `manage_service_file` when enabled on RHEL 7.0 a systemd config will be managed
    - `ensure_account` controls whether `zookeeper` user and group will be ensured (set to `false` to disable this feature)
+   - `install_method` controls whether ZooKeeper ist installed from binary (`package`) or source (`archive`) packages
+   - `archive_version` allows to specify an arbitrary version of ZooKeeper when using source packages
+   - `archive_install_dir` controls the installation directory when using source packages (defaults to `/opt`)
+   - `archive_symlink` controls the name of a version-independent symlink when using source packages
+   - `archive_dl_url` allows to change the download URL for source packages (defaults to apache.org)
 
-and many others, see the `init.pp` file for more details.
+and many others, see the `params.pp` file for more details.
 
 If your distribution has multiple packages for ZooKeeper, you can provide all package names
 as an array.
@@ -223,6 +228,17 @@ class { 'zookeeper':
 }
 ```
 
+## Source package
+
+Source packages provide the ability to install arbitrary versions of ZooKeeper on any platform. Note that you'll likely have to use the `manage_service_file` in order to be able to control the ZooKeeper service (because source packages do not install service files).
+
+```puppet
+class { 'zookeeper':
+  install_method  => 'archive',
+  archive_version => '3.4.8',
+}
+```
+
 ## Java installation
 
 Default: `false`
@@ -261,6 +277,7 @@ If you are versioning your puppet conf with git just add it as submodule, from y
 ## Dependencies
 
   * stdlib `> 2.3.3` - function `ensure_resources` is required
+  * puppet-archive `> 0.4.4` - provides capabilities to use archives instead of binary packages
 
 ## Supported platforms
 
