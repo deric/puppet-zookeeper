@@ -62,6 +62,7 @@ class zookeeper::params {
   $user = 'zookeeper'
 
   # installation options
+  $archive_checksum = {}
   $archive_dl_site = 'http://apache.org/dist/zookeeper'
   $archive_dl_timeout = 600
   $archive_dl_url = undef

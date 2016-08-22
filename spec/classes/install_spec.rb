@@ -323,4 +323,46 @@ describe 'zookeeper::install' do
       it { should_not contain_user('zookeeper') }
     end
   end
+
+  context 'installing from tar archive' do
+    let(:install_dir) { '/opt' }
+    let(:zoo_dir) { '/opt/zookeeper' }
+    let(:vers) { '3.4.8' }
+    let(:mirror_url) { 'http://apache.org/dist' }
+    let(:basefilename) { "zookeeper-#{vers}.tar.gz" }
+    let(:package_url) { "#{mirror_url}/zookeeper/zookeeper-#{vers}/zookeeper-#{vers}.tar.gz" }
+    let(:extract_path) { "#{zoo_dir}-#{vers}" }
+
+    let(:facts) {{
+      :operatingsystem => 'Ubuntu',
+      :osfamily => 'Debian',
+      :lsbdistcodename => 'trusty',
+      :operatingsystemmajrelease => '14.04',
+    }}
+
+    let :pre_condition do
+      'class {"zookeeper":
+         install_method => "archive",
+         archive_version => "3.4.8",
+         archive_install_dir => "/opt",
+         zoo_dir => "/opt/zookeeper",
+       }'
+    end
+
+    it do
+      should contain_file(zoo_dir).with({
+        :ensure => 'link',
+        :target => extract_path,
+      })
+    end
+    it do
+      should contain_archive("#{install_dir}/#{basefilename}").with({
+        :extract_path => install_dir,
+        :source       => package_url,
+        :creates      => extract_path,
+        :user         => 'root',
+        :group        => 'root',
+      })
+    end
+  end
 end

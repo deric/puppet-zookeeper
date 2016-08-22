@@ -16,7 +16,6 @@ describe 'zookeeper', :type => :class do
   it { is_expected.to contain_class('zookeeper::service') }
   it { is_expected.to compile.with_all_deps }
 
-
   context 'allow installing multiple packages' do
     let(:user) { 'zookeeper' }
     let(:group) { 'zookeeper' }

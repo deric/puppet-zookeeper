@@ -27,8 +27,9 @@ class zookeeper::service {
       } elsif ( $::zookeeper::service_provider == 'init' or $::zookeeper::service_provider == 'redhat')  {
         file {"/etc/init.d/${::zookeeper::service_name}":
           ensure  => present,
-          content => template("${module_name}/zookeeper.init.erb"),
+          content => template("${module_name}/zookeeper.${::osfamily}.init.erb"),
           mode    => '0755',
+          before  => Service[$::zookeeper::service_name],
           notify  => Service[$::zookeeper::service_name]
         }
       }

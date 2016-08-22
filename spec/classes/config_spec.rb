@@ -480,7 +480,6 @@ describe 'zookeeper::config' do
     end
   end
 
-
   context 'make sure port is not included in server IP/hostname' do
     let :pre_condition do
       'class {"zookeeper":

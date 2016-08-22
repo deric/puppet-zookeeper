@@ -15,6 +15,8 @@ class zookeeper::install::archive {
     user          => 'root',
     group         => 'root',
     source        => $download_url,
+    checksum      => $::zookeeper::archive_checksum['hash'],
+    checksum_type => $::zookeeper::archive_checksum['type'],
     extract_path  => $::zookeeper::archive_install_dir,
     # Extract files as the user doing the extracting, which is the user
     # that runs Puppet, usually root

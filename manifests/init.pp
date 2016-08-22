@@ -11,6 +11,7 @@ class zookeeper(
   $shell                   = $::zookeeper::params::shell,
   $user                    = $::zookeeper::params::user,
   # installation options
+  $archive_checksum        = $::zookeeper::params::archive_checksum,
   $archive_dl_site         = $::zookeeper::params::archive_dl_site,
   $archive_dl_timeout      = $::zookeeper::params::archive_dl_timeout,
   $archive_dl_url          = $::zookeeper::params::archive_dl_url,
@@ -84,6 +85,7 @@ class zookeeper(
   validate_bool($initialize_datastore)
   validate_bool($manage_service)
   validate_bool($use_sasl_auth)
+  validate_hash($archive_checksum)
   validate_integer($id)
   validate_integer($init_limit)
   validate_integer($leader_port)
