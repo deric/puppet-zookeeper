@@ -1,21 +1,22 @@
 require 'spec_helper'
 
-describe 'zookeeper::os::debian', :type => :class do
-  context 'with java installation' do
+describe 'zookeeper' do
+  context 'on debian with java installation' do
     let(:facts) do
       {
       :operatingsystem => 'Ubuntu',
       :osfamily => 'Debian',
       :lsbdistcodename => 'trusty',
+      :operatingsystemmajrelease => '14.04',
       :puppetversion => Puppet.version,
     }
     end
 
-    let(:params) do
-      {
-      :install_java => true,
-      :java_package => 'openjdk-7-jre-headless',
-    }
+    let :pre_condition do
+      'class {"zookeeper":
+         install_java => true,
+         java_package => "openjdk-7-jre-headless",
+       }'
     end
 
     it do
@@ -30,19 +31,20 @@ describe 'zookeeper::os::debian', :type => :class do
     end
   end
 
-  context 'fail when no packge provided' do
+  context 'on debian fail when no packge provided' do
     let(:facts) do
       {
       :operatingsystem => 'Ubuntu',
       :osfamily => 'Debian',
       :lsbdistcodename => 'trusty',
+      :operatingsystemmajrelease => '14.04',
     }
     end
 
-    let(:params) do
-      {
-      :install_java => true,
-    }
+    let :pre_condition do
+      'class {"zookeeper":
+         install_java => true,
+       }'
     end
 
     it do

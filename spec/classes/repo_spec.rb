@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe 'zookeeper::repo', :type => :class do
+describe 'zookeeper::repo' do
   shared_examples 'redhat-install' do |os, codename, puppet, cdhver|
     let(:hardwaremodel){ 'x86_64' }
 
@@ -16,6 +16,11 @@ describe 'zookeeper::repo', :type => :class do
     }
     end
 
+    # load class, handle custom params
+    let :pre_condition do
+      precond
+    end
+
     it { is_expected.to contain_yumrepo('cloudera-cdh5').with({
         baseurl: "http://archive.cloudera.com/cdh#{cdhver}/redhat/#{codename}/#{hardwaremodel}/cdh/#{cdhver}/"
       }) }
@@ -25,12 +30,10 @@ describe 'zookeeper::repo', :type => :class do
     let(:user) { 'zookeeper' }
     let(:group) { 'zookeeper' }
 
-    let(:params) do
-      {
-      :source => 'cloudera',
-      :cdhver => '5'
-    }
-    end
+    precond = 'class {"zookeeper":
+      repo   => "cloudera",
+      cdhver => "5",
+    }'
     # ENV variable might contain characters which are not supported
     # by versioncmp function (like '~>')
 
@@ -46,11 +49,11 @@ describe 'zookeeper::repo', :type => :class do
     }
     end
 
-    let(:params) do
-      {
-      :source => 'cloudera',
-      :cdhver => '5',
-    }
+    let :pre_condition do
+      'class {"zookeeper":
+        repo   => "cloudera",
+        cdhver => "5",
+       }'
     end
 
     it do
@@ -69,11 +72,11 @@ describe 'zookeeper::repo', :type => :class do
     }
     end
 
-    let(:params) do
-      {
-      :source => 'cloudera',
-      :cdhver => '5',
-    }
+    let :pre_condition do
+      'class {"zookeeper":
+        repo   => "cloudera",
+        cdhver => "5",
+       }'
     end
 
     it do
@@ -92,11 +95,11 @@ describe 'zookeeper::repo', :type => :class do
     }
     end
 
-    let(:params) do
-      {
-      :source => 'cloudera',
-      :cdhver => '6',
-    }
+    let :pre_condition do
+      'class {"zookeeper":
+        repo   => "cloudera",
+        cdhver => "6",
+       }'
     end
 
     it do
@@ -115,10 +118,10 @@ describe 'zookeeper::repo', :type => :class do
     }
     end
 
-    let(:params) do
-      {
-      :source => 'another-repo',
-    }
+    let :pre_condition do
+      'class {"zookeeper":
+        repo => "another-repo",
+       }'
     end
 
     it do

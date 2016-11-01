@@ -1,27 +1,27 @@
 # http://hadoop.apache.org/zookeeper/docs/current/zookeeperAdmin.html
 
 # The number of milliseconds of each tick
-tickTime=<%= @tick_time %>
+tickTime=<%= scope.lookupvar("zookeeper::tick_time") %>
 # The number of ticks that the initial
 # synchronization phase can take
-initLimit=<%= @init_limit %>
+initLimit=<%= scope.lookupvar("zookeeper::init_limit") %>
 # The number of ticks that can pass between
 # sending a request and getting an acknowledgement
-syncLimit=<%= @sync_limit %>
+syncLimit=<%= scope.lookupvar("zookeeper::sync_limit") %>
 # the directory where the snapshot is stored.
-dataDir=<%= @datastore %>
+dataDir=<%= scope.lookupvar("zookeeper::datastore") %>
 # Place the dataLogDir to a separate physical disc for better performance
-<% if @datalogstore -%>
-dataLogDir=<%= @datalogstore %>
+<% if ! [nil, :undefined, :undef].include?(scope.lookupvar("zookeeper::datalogstore")) -%>
+dataLogDir=<%= scope.lookupvar("zookeeper::datalogstore") %>
 <% else -%>
 # dataLogDir=/disk2/zookeeper
 <% end -%>
 
 # the port at which the clients will connect
-clientPort=<%= @client_port %>
+clientPort=<%= scope.lookupvar("zookeeper::client_port") %>
 # interface to bind
-<% if @client_ip -%>
-clientPortAddress=<%= @client_ip %>
+<% if ! [nil, :undefined, :undef].include?(scope.lookupvar("zookeeper::client_ip")) -%>
+clientPortAddress=<%= scope.lookupvar("zookeeper::client_ip") %>
 <% else -%>
 #clientPortAddress=
 <% end -%>
@@ -32,20 +32,22 @@ clientPortAddress=<%= @client_ip %>
 #server.1=zookeeper1:2888:3888
 #server.2=zookeeper2:2888:3888
 #server.3=zookeeper3:2888:3888
-<% unless @servers.respond_to?(:each_pair) -%>
-<%# make sure @servers is a hash %>
-  <% @servers = Hash[@servers.map.each_with_index {|e, i|  [i + 1, e] }] -%>
-<% end -%>
-<% @servers.each_pair do |id, host| -%>
-<%# make sure port is not included in hostname %>
-    <% if host.index(':') -%>
-        <% host = host[0...(host.index(':'))] -%>
-    <% end -%>
-    <% if @observers.include? host -%>
-        <% observer_text=':observer' -%>
-    <% end -%>
-    <%= "server.#{id}=#{host}:%s:%s%s" % [@election_port, @leader_port, observer_text ] -%>
-<% end -%>
+<%- if scope.lookupvar("zookeeper::servers").is_a?(Hash) -%>
+  <%- _servers = scope.lookupvar("zookeeper::servers") -%>
+<% else -%>
+<%# make sure @servers is a hash -%>
+  <%- _servers = Hash[scope.lookupvar("zookeeper::servers").map.each_with_index {|e, i|  [i + 1, e] }] -%>
+<%- end -%>
+<%- _servers.each_pair do |id, host| -%>
+<%# make sure port is not included in hostname -%>
+  <%- if host.index(':') -%>
+      <%- host = host[0...(host.index(':'))] -%>
+  <%- end -%>
+  <%- if scope.lookupvar("zookeeper::observers").include? host -%>
+      <%- observer_text=':observer' -%>
+  <%- end -%>
+<%= "server.#{id}=#{host}:%s:%s%s" % [scope.lookupvar("zookeeper::election_port"), scope.lookupvar("zookeeper::leader_port"), observer_text ] %>
+<%- end -%>
 
 # To avoid seeks ZooKeeper allocates space in the transaction log file in
 # blocks of preAllocSize kilobytes. The default block size is 64M. One reason
@@ -61,7 +63,7 @@ clientPortAddress=<%= @client_ip %>
 # transaction log. After snapCount transactions are written to a log file a
 # snapshot is started and a new transaction log file is started. The default
 # snapCount is 10,000.
-snapCount=<%= @snap_count %>
+snapCount=<%= scope.lookupvar("zookeeper::snap_count") %>
 
 # If this option is defined, requests will be will logged to a trace file named
 # traceFile.year.month.day.
@@ -71,7 +73,7 @@ snapCount=<%= @snap_count %>
 # coordinates updates. For higher update throughput at thes slight expense of
 # read throughput the leader can be configured to not accept clients and focus
 # on coordination.
-<% if @leader -%>
+<% if scope.lookupvar("zookeeper::leader") -%>
 leaderServes=yes
 <% else -%>
 leaderServes=no
@@ -81,40 +83,40 @@ leaderServes=no
 # snapRetainCount most recent snapshots and the corresponding transaction logs
 # in the dataDir and dataLogDir respectively and deletes the rest.
 # Defaults to 3. Minimum value is 3.
-autopurge.snapRetainCount=<%= @snap_retain_count %>
+autopurge.snapRetainCount=<%= scope.lookupvar("zookeeper::snap_retain_count") %>
 
 # Since 3.4.0: The time interval in hours for which the purge task has to be
 # triggered. Set to a positive integer (1 and above) to enable the auto purging.
 # Defaults to 0.
-autopurge.purgeInterval=<%= @purge_interval %>
+autopurge.purgeInterval=<%= scope.lookupvar("zookeeper::purge_interval") %>
 
 # Maximum allowed connections
-<% if @max_allowed_connections -%>
-maxClientCnxns=<%= @max_allowed_connections %>
+<% if ! [nil, :undefined, :undef].include?(scope.lookupvar("zookeeper::max_allowed_connections")) -%>
+maxClientCnxns=<%= scope.lookupvar("zookeeper::max_allowed_connections") %>
 <% else -%>
 #maxClientCnxns=60
 <% end -%>
 
-<% if @peer_type != 'UNSET' -%>
+<% if scope.lookupvar("zookeeper::peer_type") != 'UNSET' -%>
 # Zookeeper peer type
-peerType=<%= @peer_type %>
+peerType=<%= scope.lookupvar("zookeeper::peer_type") %>
 <% end -%>
 
 # The minimum session timeout in milliseconds that the server will allow the # client to negotiate. Defaults to 2 times the tickTime.
-<% if @min_session_timeout -%>
-minSessionTimeout=<%= @min_session_timeout %>
+<% if ! [nil, :undefined, :undef].include?(scope.lookupvar("zookeeper::min_session_timeout")) -%>
+minSessionTimeout=<%= scope.lookupvar("zookeeper::min_session_timeout") %>
 <% else -%>
 #minSessionTimeout=2
 <% end -%>
 
 # The maximum session timeout in milliseconds that the server will allow the # client to negotiate. Defaults to 20 times the tickTime.
-<% if @max_session_timeout -%>
-maxSessionTimeout=<%= @max_session_timeout %>
+<% if ! [nil, :undefined, :undef].include?(scope.lookupvar("zookeeper::max_session_timeout")) -%>
+maxSessionTimeout=<%= scope.lookupvar("zookeeper::max_session_timeout") %>
 <% else -%>
 #maxSessionTimeout=20
 <% end -%>
 
-<% if @use_sasl_auth -%>
+<% if scope.lookupvar("zookeeper::use_sasl_auth") -%>
 # Enable SASL authentication and use the default provider/renew provided by cloudera
 authProvider.1=org.apache.zookeeper.server.auth.SASLAuthenticationProvider
 jaasLoginRenew=3600000

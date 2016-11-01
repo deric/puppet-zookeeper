@@ -1,6 +1,6 @@
 {
   "name": "deric-zookeeper",
-  "version": "0.6.2",
+  "version": "0.7.0",
   "author": "Tomas Barton",
   "summary": "Module for managing Apache Zookeeper",
   "license": "Apache-2.0",
@@ -10,8 +10,12 @@
   "description": "ZooKeeper is a centralized service for maintaining configuration information, naming, providing distributed synchronization, and providing group services.",
   "dependencies": [
     {
-      "name": "puppetlabs-stdlib",
+      "name": "puppetlabs/stdlib",
       "version_requirement": ">= 2.3.3 < 5.0.0"
+    },
+    {
+      "name": "puppet/archive",
+      "version_requirement": ">= 0.4.4 < 2.0.0"
     }
   ],
   "operatingsystem_support": [
