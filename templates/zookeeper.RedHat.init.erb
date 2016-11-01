@@ -39,12 +39,13 @@ else
     ZOOMAIN=<%= @zoo_main %>
 fi
 
-ZOOBINDIR="/usr/lib/zookeeper/bin"
+ZOOBINDIR="<%= @zoo_dir %>/bin"
 ZOOCFGDIR=<%= @cfg_dir %>
 ZOOCFG="$ZOOCFGDIR/zoo.cfg"
 ZOO_LOG_DIR=<%= @log_dir %>
 
 [ -e "$ZOOCFGDIR/java.env" ] && . "$ZOOCFGDIR/java.env"
+[ -e "$ZOOCFGDIR/environment" ] && . "$ZOOCFGDIR/environment"
 
 [ "x$ZOO_LOG4J_PROP" = "x" ] && ZOO_LOG4J_PROP="<%= @log4j_prop %>"
 
@@ -62,7 +63,7 @@ done
 #add the zoocfg dir to classpath
 CLASSPATH=$ZOOCFGDIR:$CLASSPATH
 
-cmd="java  \"-Dzookeeper.log.dir=${ZOO_LOG_DIR}\" \"-Dzookeeper.root.logger=${ZOO_LOG4J_PROP}\" -cp ${CLASSPATH} ${JVMFLAGS} ${ZOOMAIN} ${ZOOCFG} & echo \$! > ${pidfile}"
+cmd="java  \"-Dzookeeper.log.dir=${ZOO_LOG_DIR}\" \"-Dzookeeper.root.logger=${ZOO_LOG4J_PROP}\" -cp ${CLASSPATH} ${JAVA_OPTS} ${JVMFLAGS} ${ZOOMAIN} ${ZOOCFG} & echo \$! > ${pidfile}"
 
 
 start() {

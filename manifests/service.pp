@@ -23,20 +23,22 @@ class zookeeper::service(
       file { '/usr/lib/systemd/system/zookeeper.service':
         ensure  => 'present',
         content => template('zookeeper/zookeeper.service.erb'),
-        } ~>
-        exec { 'systemctl daemon-reload # for zookeeper':
-          refreshonly => true,
-          path        => $::path,
-          notify      => Service[$service_name]
-        }
-      } elsif ( $service_provider == 'init' or $service_provider == 'redhat')  {
+        before  => Service[$service_name],
+      } ~>
+      exec { 'systemctl daemon-reload # for zookeeper':
+        refreshonly => true,
+        path        => $::path,
+        notify      => Service[$service_name],
+      }
+    } elsif ( $service_provider == 'init' or $service_provider == 'redhat')  {
         file {"/etc/init.d/${service_name}":
           ensure  => present,
-          content => template('zookeeper/zookeeper.init.erb'),
+          content => template("zookeeper/zookeeper.${::osfamily}.init.erb"),
           mode    => '0755',
-          notify  => Service[$service_name]
+          before  => Service[$service_name],
+          notify  => Service[$service_name],
         }
-      }
+    }
   }
 
   service { $service_name:

@@ -131,6 +131,12 @@ class zookeeper::config(
     content => template('zookeeper/conf/environment.erb'),
   }
 
+  file { "${cfg_dir}/zookeeper-env.sh":
+    ensure  => 'link',
+    target  => "${cfg_dir}/environment",
+    require => File["${cfg_dir}/environment"]
+  }
+
   file { "${cfg_dir}/log4j.properties":
     owner   => $user,
     group   => $group,

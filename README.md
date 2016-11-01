@@ -160,6 +160,9 @@ After=network-online.target
    - `manage_service` (default: `true`) whether Puppet should ensure running service
    - `manage_service_file` when enabled on RHEL 7.0 a systemd config will be managed
    - `ensure_account` controls whether `zookeeper` user and group will be ensured (set to `false` to disable this feature)
+   - `install_method` (default: `package`) - installation method (either `package` or `archive`). `package` will use the available package manager. `archive` will install from an archive file.
+   - `mirror_url` - Base URL of Apache mirror to use if `install_method` is `archive`
+   - `archive_checksum` - optional hash to use when verifying installation archive. ex: `{ type => 'sha1', hash => 'abcdef123456' }`
 
 and many others, see the `init.pp` file for more details.
 

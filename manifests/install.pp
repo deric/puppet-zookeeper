@@ -11,6 +11,11 @@
 #
 class zookeeper::install(
   $ensure            = present,
+  $install_method    = 'package',
+  $mirror_url        = 'http://mirror.cogentco.com/pub/apache',
+  $archive_checksum  = {},
+  $zoo_dir           = '/usr/lib/zookeeper',
+  $package_dir       = '/var/tmp/zookeeper',
   $snap_retain_count = 3,
   $cleanup_sh        = '/usr/lib/zookeeper/bin/zkCleanup.sh',
   $datastore         = '/var/lib/zookeeper',
@@ -28,46 +33,27 @@ class zookeeper::install(
   $manual_clean      = undef,
 ) {
   anchor { 'zookeeper::install::begin': }
+
+  if ($install_method == 'package') {
+    include '::zookeeper::install::package'
+    $_manual_clean = $manual_clean
+  } elsif ($install_method == 'archive') {
+    include '::zookeeper::install::archive'
+
+    $clean_cmp = versioncmp($ensure, '3.4') ? {
+      '-1'    => true,
+      default => false,
+    }
+
+    $_manual_clean = $manual_clean ? {
+      undef   => $clean_cmp,
+      default => $manual_clean,
+    }
+  } else {
+    fail("specify a valid install method for zookeeper")
+  }
+
   anchor { 'zookeeper::install::end': }
-
-  $repo_source = is_hash($repo) ? {
-      true  => 'custom',
-      false => $repo
-  }
-
-  case $::osfamily {
-    'Debian': {
-      class { 'zookeeper::os::debian':
-        ensure           => $ensure,
-        service_provider => $service_provider,
-        service_package  => $service_package,
-        packages         => $packages,
-        before           => Anchor['zookeeper::install::end'],
-        require          => Anchor['zookeeper::install::begin'],
-        install_java     => $install_java,
-        java_package     => $java_package
-      }
-    }
-    'RedHat': {
-      class { 'zookeeper::repo':
-        source => $repo_source,
-        cdhver => $cdhver,
-        config => $repo
-      }
-
-      class { 'zookeeper::os::redhat':
-        ensure       => $ensure,
-        packages     => $packages,
-        require      => Anchor['zookeeper::install::begin'],
-        before       => Anchor['zookeeper::install::end'],
-        install_java => $install_java,
-        java_package => $java_package
-      }
-    }
-    default: {
-      fail("Module '${module_name}' is not supported on OS: '${::operatingsystem}', family: '${::osfamily}'")
-    }
-  }
 
   class { 'zookeeper::post_install':
     ensure            => $ensure,
@@ -78,8 +64,9 @@ class zookeeper::install(
     datastore         => $datastore,
     snap_retain_count => $snap_retain_count,
     cleanup_sh        => $cleanup_sh,
-    manual_clean      => $manual_clean,
+    manual_clean      => $_manual_clean,
     require           => Anchor['zookeeper::install::end'],
   }
 
 }
+
