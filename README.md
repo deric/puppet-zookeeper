@@ -176,6 +176,18 @@ class { 'zookeeper':
   packages => ['zookeeper', 'zookeeper-java']
 }
 ```
+## Logging
+
+ZooKeeper uses log4j, following variables can be configured:
+
+```puppet
+class { 'zookeeper':
+  console_threshold     => 'INFO',
+  rollingfile_threshold => 'INFO',
+  tracefile_threshold   => 'TRACE',
+}
+```
+supported values are: `ALL`, `DEBUG`, `ERROR`, `FATAL`, `INFO`, `OFF`, `TRACE` and `WARN`.
 
 ## Hiera Support
 
