@@ -1,7 +1,7 @@
 require 'spec_helper'
 
-describe 'zookeeper::repo' do
-  shared_examples 'redhat-install' do |os, codename, puppet, cdhver|
+describe 'zookeeper::install::repo' do
+  shared_examples 'redhat-install' do |os, codename, puppet, cdhver, precond|
     let(:hardwaremodel){ 'x86_64' }
 
     let(:facts) do
@@ -37,7 +37,7 @@ describe 'zookeeper::repo' do
     # ENV variable might contain characters which are not supported
     # by versioncmp function (like '~>')
 
-    it_behaves_like 'redhat-install', 'RedHat', '7', Puppet.version, '5'
+    it_behaves_like 'redhat-install', 'RedHat', '7', Puppet.version, '5', precond
   end
 
   context 'fail when architecture not supported' do
