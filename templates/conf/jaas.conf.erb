@@ -1,8 +1,8 @@
 Server {
   com.sun.security.auth.module.Krb5LoginModule required
-  useKeyTab=<%= @use_keytab.to_s %>
-  keyTab="<%= @keytab_path %>"
-  storeKey=<%= @store_key.to_s %>
-  useTicketCache=<%= @use_ticket_cache %>
-  principal="<%= @principal %>@<%= @realm.upcase %>";
+  useKeyTab=<%= scope.lookupvar("zookeeper::use_keytab").to_s %>
+  keyTab="<%= scope.lookupvar("zookeeper::keytab_path") %>"
+  storeKey=<%= scope.lookupvar("zookeeper::store_key").to_s %>
+  useTicketCache=<%= scope.lookupvar("zookeeper::use_ticket_cache") %>
+  principal="<%= scope.lookupvar("zookeeper::principal") %>@<%= scope.lookupvar("zookeeper::realm").upcase %>";
 };

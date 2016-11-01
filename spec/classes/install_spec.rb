@@ -1,14 +1,20 @@
 require 'spec_helper'
 
-describe 'zookeeper::install', :type => :class do
-  shared_examples 'debian-install' do |os, codename, puppet|
+describe 'zookeeper::install' do
+  shared_examples 'debian-install' do |os, codename, majrelease, puppet, precond|
     let(:facts) do
       {
       :operatingsystem => os,
       :osfamily => 'Debian',
       :lsbdistcodename => codename,
+      :operatingsystemmajrelease => majrelease,
       :puppetversion => puppet,
     }
+    end
+
+    # load class, handle custom params
+    let :pre_condition do
+      precond
     end
 
     it { should contain_package('zookeeper') }
@@ -20,7 +26,7 @@ describe 'zookeeper::install', :type => :class do
     it 'installs cron script' do
       should contain_cron('zookeeper-cleanup').with({
         'ensure'    => 'present',
-        'command'   => '/usr/lib/zookeeper/bin/zkCleanup.sh /var/lib/zookeeper 1',
+        'command'   => '/usr/share/zookeeper/bin/zkCleanup.sh /var/lib/zookeeper 1',
         'user'      => 'zookeeper',
         'hour'      => '2',
         'minute' => '42',
@@ -31,10 +37,10 @@ describe 'zookeeper::install', :type => :class do
       let(:user) { 'zookeeper' }
       let(:group) { 'zookeeper' }
 
-      let(:params) do
-        {
-        :snap_retain_count => 0,
-      }
+      let :pre_condition do
+        'class {"zookeeper":
+           snap_retain_count => 0,
+         }'
       end
 
       it { should contain_package('zookeeper') }
@@ -42,14 +48,14 @@ describe 'zookeeper::install', :type => :class do
       it { should_not contain_package('cron') }
     end
 
-    context 'allow changing service package name' do
+    context 'allow changing package names' do
       let(:user) { 'zookeeper' }
       let(:group) { 'zookeeper' }
 
-      let(:params) do
-        {
-        :service_package => 'zookeeper-server',
-      }
+      let :pre_condition do
+        'class {"zookeeper":
+           packages => [ "zookeeper", "zookeeper-server" ],
+         }'
       end
 
       it { should contain_package('zookeeper') }
@@ -57,28 +63,14 @@ describe 'zookeeper::install', :type => :class do
       it { should_not contain_package('zookeeperd') }
     end
 
-    context 'allow installing multiple packages' do
-      let(:user) { 'zookeeper' }
-      let(:group) { 'zookeeper' }
-
-      let(:params) do
-        {
-        :packages => [ 'zookeeper', 'zookeeper-bin' ],
-      }
-      end
-
-      it { should contain_package('zookeeper') }
-      it { should contain_package('zookeeper-bin') }
-    end
-
     context 'removing package' do
       let(:user) { 'zookeeper' }
       let(:group) { 'zookeeper' }
 
-      let(:params) do
-        {
-        :ensure => 'absent',
-      }
+      let :pre_condition do
+        'class {"zookeeper":
+           ensure => absent,
+         }'
       end
 
       it do
@@ -99,18 +91,17 @@ describe 'zookeeper::install', :type => :class do
     let(:user) { 'zookeeper' }
     let(:group) { 'zookeeper' }
 
-    let(:params) do
-      {
-      :snap_retain_count => 1,
-    }
-    end
+    precond = 'class {"zookeeper":
+      snap_retain_count => 1,
+    }'
+
     # ENV variable might contain characters which are not supported
     # by versioncmp function (like '~>')
     puppet = `puppet --version`
 
-    it_behaves_like 'debian-install', 'Debian', 'squeeze', puppet
-    it_behaves_like 'debian-install', 'Debian', 'wheezy', puppet
-    it_behaves_like 'debian-install', 'Ubuntu', 'precise', puppet
+    it_behaves_like 'debian-install', 'Debian', 'squeeze', '6', puppet, precond
+    it_behaves_like 'debian-install', 'Debian', 'wheezy', '7', puppet, precond
+    it_behaves_like 'debian-install', 'Ubuntu', 'precise', '12.04', puppet, precond
   end
 
   context 'does not install cron script on trusty' do
@@ -119,7 +110,12 @@ describe 'zookeeper::install', :type => :class do
       :operatingsystem => 'Ubuntu',
       :osfamily => 'Debian',
       :lsbdistcodename => 'trusty',
+      :operatingsystemmajrelease => '14.04',
     }
+    end
+
+    let :pre_condition do
+      'class {"zookeeper": }'
     end
 
     it { should_not contain_package('cron') }
@@ -127,7 +123,7 @@ describe 'zookeeper::install', :type => :class do
     it 'installs cron script' do
       should_not contain_cron('zookeeper-cleanup').with({
         'ensure'    => 'present',
-        'command'   => '/usr/lib/zookeeper/bin/zkCleanup.sh /var/lib/zookeeper 1',
+        'command'   => '/usr/share/zookeeper/bin/zkCleanup.sh /var/lib/zookeeper 1',
         'user'      => 'zookeeper',
         'hour'      => '2',
         'minute'    => '42',
@@ -142,7 +138,12 @@ describe 'zookeeper::install', :type => :class do
       :operatingsystem => 'Ubuntu',
       :osfamily => 'Debian',
       :lsbdistcodename => 'trusty',
+      :operatingsystemmajrelease => '14.04',
     }
+    end
+
+    let :pre_condition do
+      'class {"zookeeper": }'
     end
 
     it do
@@ -153,14 +154,20 @@ describe 'zookeeper::install', :type => :class do
     end
   end
 
-  shared_examples 'redhat-install' do |os, codename, puppet|
+  shared_examples 'redhat-install' do |os, codename, puppet, precond|
     let(:facts) do
       {
       :operatingsystem => os,
       :osfamily => 'RedHat',
       :lsbdistcodename => codename,
+      :operatingsystemmajrelease => codename,
       :puppetversion => puppet,
     }
+    end
+
+    # load class, handle custom params
+    let :pre_condition do
+      precond
     end
 
     it { should contain_package('zookeeper') }
@@ -170,11 +177,11 @@ describe 'zookeeper::install', :type => :class do
       let(:user) { 'zookeeper' }
       let(:group) { 'zookeeper' }
 
-      let(:params) do
-        {
-        :snap_retain_count => 5,
-        :manual_clean      => true,
-      }
+      let :pre_condition do
+        'class {"zookeeper":
+           snap_retain_count => 5,
+           manual_clean      => true,
+         }'
       end
 
       it { should contain_package('zookeeper') }
@@ -183,7 +190,7 @@ describe 'zookeeper::install', :type => :class do
       it 'installs cron script' do
         should contain_cron('zookeeper-cleanup').with({
           'ensure'    => 'present',
-          'command'   => '/usr/lib/zookeeper/bin/zkCleanup.sh /var/lib/zookeeper 5',
+          'command'   => '/usr/share/zookeeper/bin/zkCleanup.sh /var/lib/zookeeper 5',
           'user'      => 'zookeeper',
           'hour'      => '2',
           'minute' => '42',
@@ -195,10 +202,10 @@ describe 'zookeeper::install', :type => :class do
       let(:user) { 'zookeeper' }
       let(:group) { 'zookeeper' }
 
-      let(:params) do
-        {
-        :packages => [ 'zookeeper', 'zookeeper-devel' ],
-      }
+      let :pre_condition do
+        'class {"zookeeper":
+           packages => [ "zookeeper", "zookeeper-devel" ],
+         }'
       end
 
       it { should contain_package('zookeeper') }
@@ -209,10 +216,10 @@ describe 'zookeeper::install', :type => :class do
       let(:user) { 'zookeeper' }
       let(:group) { 'zookeeper' }
 
-      let(:params) do
-        {
-        :ensure => 'absent',
-      }
+      let :pre_condition do
+        'class {"zookeeper":
+           ensure => "absent",
+         }'
       end
 
       it do
@@ -232,11 +239,11 @@ describe 'zookeeper::install', :type => :class do
       let(:user) { 'zookeeper' }
       let(:group) { 'zookeeper' }
 
-      let(:params) do
-        {
-        :install_java => true,
-        :java_package => 'java-1.7.0-openjdk',
-      }
+      let :pre_condition do
+        'class {"zookeeper":
+           install_java => true,
+           java_package => "java-1.7.0-openjdk",
+         }'
       end
 
       it do
@@ -258,15 +265,13 @@ describe 'zookeeper::install', :type => :class do
     # ENV variable might contain characters which are not supported
     # by versioncmp function (like '~>')
 
-    let(:params) do
-      {
-      :snap_retain_count => 1,
-    }
-    end
+    precond = 'class {"zookeeper":
+      snap_retain_count => "1",
+    }'
 
-    it_behaves_like 'redhat-install', 'RedHat', '6', Puppet.version
-    it_behaves_like 'redhat-install', 'CentOS', '5', Puppet.version
-    it_behaves_like 'redhat-install', 'Fedora', '20', Puppet.version
+    it_behaves_like 'redhat-install', 'RedHat', '6', Puppet.version, precond
+    it_behaves_like 'redhat-install', 'CentOS', '5', Puppet.version, precond
+    it_behaves_like 'redhat-install', 'Fedora', '20', Puppet.version, precond
   end
 
 
@@ -276,15 +281,16 @@ describe 'zookeeper::install', :type => :class do
       :operatingsystem => 'Ubuntu',
       :osfamily => 'Debian',
       :lsbdistcodename => 'trusty',
+      :operatingsystemmajrelease => '14.04',
     }
     end
     let(:user) { 'zookeeper' }
     let(:group) { 'zookeeper' }
 
-    let(:params) do
-      {
-      :ensure_account => 'present',
-    }
+    let :pre_condition do
+      'class {"zookeeper":
+         ensure_account => "present",
+       }'
     end
 
     it do
@@ -294,10 +300,10 @@ describe 'zookeeper::install', :type => :class do
     end
 
     context 'remove user accounts' do
-      let(:params) do
-        {
-        :ensure_account => 'absent',
-      }
+      let :pre_condition do
+        'class {"zookeeper":
+          ensure_account => "absent",
+        }'
       end
 
       it do
@@ -308,13 +314,55 @@ describe 'zookeeper::install', :type => :class do
     end
 
     context 'do not manage user accounts' do
-      let(:params) do
-        {
-        :ensure_account => false,
-      }
+      let :pre_condition do
+        'class {"zookeeper":
+          ensure_account => false,
+        }'
       end
 
       it { should_not contain_user('zookeeper') }
+    end
+  end
+
+  context 'installing from tar archive' do
+    let(:install_dir) { '/opt' }
+    let(:zoo_dir) { '/opt/zookeeper' }
+    let(:vers) { '3.4.8' }
+    let(:mirror_url) { 'http://apache.org/dist' }
+    let(:basefilename) { "zookeeper-#{vers}.tar.gz" }
+    let(:package_url) { "#{mirror_url}/zookeeper/zookeeper-#{vers}/zookeeper-#{vers}.tar.gz" }
+    let(:extract_path) { "#{zoo_dir}-#{vers}" }
+
+    let(:facts) {{
+      :operatingsystem => 'Ubuntu',
+      :osfamily => 'Debian',
+      :lsbdistcodename => 'trusty',
+      :operatingsystemmajrelease => '14.04',
+    }}
+
+    let :pre_condition do
+      'class {"zookeeper":
+         install_method => "archive",
+         archive_version => "3.4.8",
+         archive_install_dir => "/opt",
+         zoo_dir => "/opt/zookeeper",
+       }'
+    end
+
+    it do
+      should contain_file(zoo_dir).with({
+        :ensure => 'link',
+        :target => extract_path,
+      })
+    end
+    it do
+      should contain_archive("#{install_dir}/#{basefilename}").with({
+        :extract_path => install_dir,
+        :source       => package_url,
+        :creates      => extract_path,
+        :user         => 'root',
+        :group        => 'root',
+      })
     end
   end
 end

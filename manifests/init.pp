@@ -1,99 +1,98 @@
 # Class: zookeeper
 #
-# This module manages zookeeper
-#
-# Parameters:
-#   id
-#   user
-#   group
-#   log_dir
-#
-# Sample Usage:
-#
-#   class { 'zookeeper': }
-#
+# This module manages ZooKeeper
 class zookeeper(
-  $id                      = '1',
-  $datastore               = '/var/lib/zookeeper',
-  # datalogstore used to put transaction logs in separate location than snapshots
-  $datalogstore            = undef,
-  $initialize_datastore    = false,
-  # fact from which we get public ip address
-  $client_ip               = undef, # use e.g. $::ipaddress if you want to bind to single interface
-  $client_port             = 2181,
-  $election_port           = 2888,
-  $leader_port             = 3888,
-  $log_dir                 = '/var/log/zookeeper',
-  $cfg_dir                 = '/etc/zookeeper/conf',
-  $zoo_dir                 = '/usr/lib/zookeeper',
-  $user                    = $::zookeeper::params::user,
+  # meta options
+  $ensure                  = $::zookeeper::params::ensure,
+  $ensure_account          = $::zookeeper::params::ensure_account,
+  $ensure_cron             = $::zookeeper::params::ensure_cron,
   $group                   = $::zookeeper::params::group,
-  $ensure_account          = present,
-  $java_bin                = '/usr/bin/java',
-  $java_opts               = '',
-  $pid_dir                 = '/var/run',
-  $pid_file                = undef,
-  $zoo_main                = 'org.apache.zookeeper.server.quorum.QuorumPeerMain',
-  $log4j_prop              = 'INFO,ROLLINGFILE',
-  $cleanup_sh              = '/usr/share/zookeeper/bin/zkCleanup.sh',
-  $servers                 = [],
-  $observers               = [],
-  $ensure                  = present,
-  $snap_count              = 10000,
-  # since zookeeper 3.4, for earlier version cron task might be used
-  $snap_retain_count       = 3,
-  # interval in hours, purging enabled when >= 1
-  $purge_interval          = 0,
-  # log4j properties
-  $rollingfile_threshold   = 'ERROR',
-  $tracefile_threshold     = 'TRACE',
-  $max_allowed_connections = undef,
-  $peer_type               = 'UNSET',
-  $start_with              = undef,
-  $ensure_cron             = true,
-  $service_package         = undef,
+  $packages                = $::zookeeper::params::packages,
+  $shell                   = $::zookeeper::params::shell,
+  $user                    = $::zookeeper::params::user,
+  # installation options
+  $archive_checksum        = $::zookeeper::params::archive_checksum,
+  $archive_dl_site         = $::zookeeper::params::archive_dl_site,
+  $archive_dl_timeout      = $::zookeeper::params::archive_dl_timeout,
+  $archive_dl_url          = $::zookeeper::params::archive_dl_url,
+  $archive_install_dir     = $::zookeeper::params::archive_install_dir,
+  $archive_symlink         = $::zookeeper::params::archive_symlink,
+  $archive_symlink_name    = $::zookeeper::params::archive_symlink_name,
+  $archive_version         = $::zookeeper::params::archive_version,
+  $cdhver                  = $::zookeeper::params::cdhver,
+  $install_java            = $::zookeeper::params::install_java,
+  $install_method          = $::zookeeper::params::install_method,
+  $java_bin                = $::zookeeper::params::java_bin,
+  $java_opts               = $::zookeeper::params::java_opts,
+  $java_package            = $::zookeeper::params::java_package,
+  $repo                    = $::zookeeper::params::repo,
+  # service options
+  $manage_service          = $::zookeeper::params::manage_service,
+  $manage_service_file     = $::zookeeper::params::manage_service_file,
+  $pid_dir                 = $::zookeeper::params::pid_dir,
+  $pid_file                = $::zookeeper::params::pid_file,
+  $service_ensure          = $::zookeeper::params::service_ensure,
   $service_name            = $::zookeeper::params::service_name,
   $service_provider        = $::zookeeper::params::service_provider,
-  $manage_service          = true,
-  $manage_service_file     = false,
-  $packages                = $::zookeeper::params::packages,
-  $cdhver                  = undef,
-  $install_java            = false,
-  $java_package            = undef,
-  $min_session_timeout     = undef,
-  $max_session_timeout     = undef,
-  $use_sasl_auth           = false,
-  $manage_systemd          = undef,
-  $repo                    = undef,
-  # systemd_unit_want and _after can be overridden to
-  # donate the matching directives in the [Unit] section
-  $systemd_unit_want       = undef,
-  $systemd_unit_after      = 'network.target',
+  $systemd_unit_want       = $::zookeeper::params::systemd_unit_want,
+  $systemd_unit_after      = $::zookeeper::params::systemd_unit_after,
+  # zookeeper config
+  $cfg_dir                 = $::zookeeper::params::cfg_dir,
+  $cleanup_sh              = $::zookeeper::params::cleanup_sh,
+  $client_ip               = $::zookeeper::params::client_ip,
+  $client_port             = $::zookeeper::params::client_port,
+  $datastore               = $::zookeeper::params::datastore,
+  $datalogstore            = $::zookeeper::params::datalogstore,
+  $election_port           = $::zookeeper::params::election_port,
+  $export_tag              = $::zookeeper::params::export_tag,
+  $id                      = $::zookeeper::params::id,
+  $init_limit              = $::zookeeper::params::init_limit,
+  $initialize_datastore    = $::zookeeper::params::initialize_datastore,
+  $leader                  = $::zookeeper::params::leader,
+  $leader_port             = $::zookeeper::params::leader_port,
+  $log_dir                 = $::zookeeper::params::log_dir,
+  $manual_clean            = $::zookeeper::params::manual_clean,
+  $max_session_timeout     = $::zookeeper::params::max_session_timeout,
+  $min_session_timeout     = $::zookeeper::params::min_session_timeout,
+  $observers               = $::zookeeper::params::observers,
+  $purge_interval          = $::zookeeper::params::purge_interval,
+  $servers                 = $::zookeeper::params::servers,
+  $snap_count              = $::zookeeper::params::snap_count,
+  $snap_retain_count       = $::zookeeper::params::snap_retain_count,
+  $sync_limit              = $::zookeeper::params::sync_limit,
+  $tick_time               = $::zookeeper::params::tick_time,
+  $use_sasl_auth           = $::zookeeper::params::use_sasl_auth,
+  $zoo_dir                 = $::zookeeper::params::zoo_dir,
+  $zoo_main                = $::zookeeper::params::zoo_main,
+  # log4j properties
+  $log4j_prop              = $::zookeeper::params::log4j_prop,
+  $max_allowed_connections = $::zookeeper::params::max_allowed_connections,
+  $peer_type               = $::zookeeper::params::peer_type,
+  $rollingfile_threshold   = $::zookeeper::params::rollingfile_threshold,
+  $tracefile_threshold     = $::zookeeper::params::tracefile_threshold,
+  # sasl options
+  $keytab_path             = $::zookeeper::params::keytab_path,
+  $principal               = $::zookeeper::params::principal,
+  $realm                   = $::zookeeper::params::realm,
+  $store_key               = $::zookeeper::params::store_key,
+  $use_keytab              = $::zookeeper::params::use_keytab,
+  $use_ticket_cache        = $::zookeeper::params::use_ticket_cache
 ) inherits ::zookeeper::params {
 
   validate_array($packages)
   validate_bool($ensure_cron)
-  validate_bool($manage_service)
   validate_bool($install_java)
   validate_bool($initialize_datastore)
-
-  if($service_package) {
-    warning('Parameter `service_package` is deprecated, use `packages` array instead.')
-  }
-
-  if ($start_with) {
-    warning('Parameter `start_with` is deprecated, use `service_provider` instead. `start_with` will be removed in next major release.')
-    $_service_provider = $start_with
-  } else {
-    $_service_provider = $service_provider
-  }
-
-  if ($manage_systemd) {
-    warning('Parameter `manage_systemd` is deprecated, use `manage_service_file` instead, it will be removed in next major release.')
-    $_manage_service_file = $manage_systemd
-  } else {
-    $_manage_service_file = $manage_service_file
-  }
+  validate_bool($manage_service)
+  validate_bool($use_sasl_auth)
+  validate_hash($archive_checksum)
+  validate_integer($id)
+  validate_integer($init_limit)
+  validate_integer($leader_port)
+  validate_integer($snap_count)
+  validate_integer($snap_retain_count)
+  validate_integer($sync_limit)
+  validate_integer($tick_time)
 
   if $pid_file {
     $pid_path = $pid_file
@@ -101,62 +100,17 @@ class zookeeper(
     $pid_path = "${pid_dir}/zookeeper.pid"
   }
 
-  anchor { 'zookeeper::start': }->
-  class { 'zookeeper::install':
-    ensure            => $ensure,
-    snap_retain_count => $snap_retain_count,
-    datastore         => $datastore,
-    user              => $user,
-    group             => $group,
-    ensure_account    => $ensure_account,
-    cleanup_sh        => $cleanup_sh,
-    service_provider  => $_service_provider,
-    ensure_cron       => $ensure_cron,
-    service_package   => $service_package,
-    packages          => $packages,
-    repo              => $repo,
-    cdhver            => $cdhver,
-    install_java      => $install_java,
-    java_package      => $java_package,
-  }->
-  class { 'zookeeper::config':
-    id                      => $id,
-    datastore               => $datastore,
-    datalogstore            => $datalogstore,
-    initialize_datastore    => $initialize_datastore,
-    client_ip               => $client_ip,
-    client_port             => $client_port,
-    election_port           => $election_port,
-    leader_port             => $leader_port,
-    log_dir                 => $log_dir,
-    cfg_dir                 => $cfg_dir,
-    user                    => $user,
-    group                   => $group,
-    java_bin                => $java_bin,
-    java_opts               => $java_opts,
-    pid_dir                 => $pid_dir,
-    pid_path                => $pid_path,
-    zoo_main                => $zoo_main,
-    log4j_prop              => $log4j_prop,
-    servers                 => $servers,
-    observers               => $observers,
-    snap_count              => $snap_count,
-    snap_retain_count       => $snap_retain_count,
-    purge_interval          => $purge_interval,
-    rollingfile_threshold   => $rollingfile_threshold,
-    tracefile_threshold     => $tracefile_threshold,
-    max_allowed_connections => $max_allowed_connections,
-    peer_type               => $peer_type,
-    min_session_timeout     => $min_session_timeout,
-    max_session_timeout     => $max_session_timeout,
-    use_sasl_auth           => $use_sasl_auth,
-    systemd_unit_want       => $systemd_unit_want,
-    systemd_unit_after      => $systemd_unit_after,
+  $repo_source = is_hash($repo) ? {
+    true  => 'custom',
+    false => $repo
   }
+
+  anchor { 'zookeeper::start': }->
+  class { 'zookeeper::install': }->
+  class { 'zookeeper::config': }
 
   if ($use_sasl_auth) {
     class { 'zookeeper::sasl':
-      cfg_dir => $cfg_dir,
       require => Class['::zookeeper::config'],
       before  => Class['::zookeeper::service'],
     }
@@ -164,19 +118,8 @@ class zookeeper(
 
   if ($manage_service) {
     class { 'zookeeper::service':
-      cfg_dir             => $cfg_dir,
-      zoo_dir             => $zoo_dir,
-      service_name        => $service_name,
-      service_provider    => $_service_provider,
-      manage_service_file => $_manage_service_file,
-      require             => Class['::zookeeper::config'],
-      before              => Anchor['zookeeper::end'],
-      user                => $user,
-      group               => $group,
-      pid_path            => $pid_path,
-      zoo_main            => $zoo_main,
-      log_dir             => $log_dir,
-      log4j_prop          => $log4j_prop
+      require => Class['::zookeeper::config'],
+      before  => Anchor['zookeeper::end'],
     }
   }
   anchor { 'zookeeper::end': }

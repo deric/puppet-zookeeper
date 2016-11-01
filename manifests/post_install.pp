@@ -3,76 +3,55 @@
 # In order to maintain compatibility with older releases, there are
 # some post-install task to ensure same behaviour on all platforms.
 #
-# Should not be called directly
-#
-class zookeeper::post_install(
-  $ensure,
-  $ensure_account,
-  $ensure_cron,
-  $user,
-  $group,
-  $datastore,
-  $snap_retain_count,
-  $cleanup_sh,
-  $manual_clean = undef,
-){
+# PRIVATE CLASS - do not use directly (use main `zookeeper` class).
+class zookeeper::post_install {
 
-  # make sure user and group exists for ZooKeeper #49, if the OS package
-  # doesn't handle its creation
-  if ($ensure_account){
+  # Make sure user and group exists for ZooKeeper #49, if the OS package
+  # doesn't handle its creation.
+  if ($::zookeeper::ensure_account){
     ensure_resource('group',
-      [$group],
-      {'ensure' => $ensure_account}
+      [$::zookeeper::group],
+      {'ensure' => $::zookeeper::ensure_account}
     )
 
-    case $::osfamily {
-      'Redhat': {
-        $shell = '/sbin/nologin'
-      }
-      default: {
-        # sane default for most OS
-        $shell = '/bin/false'
-      }
-    }
-
     ensure_resource('user',
-      [$user],
+      [$::zookeeper::user],
       {
-        'ensure'  => $ensure_account,
-        'home'    => $datastore,
+        'ensure'  => $::zookeeper::ensure_account,
+        'home'    => $::zookeeper::datastore,
         'comment' => 'Zookeeper',
-        'gid'     => $group,
-        'shell'   => $shell,
-        'require' => Group[$group]
+        'gid'     => $::zookeeper::group,
+        'shell'   => $::zookeeper::shell,
+        'require' => Group[$::zookeeper::group]
       }
     )
   }
-  if ($manual_clean) {
-    # user defined value
-    $clean = $manual_clean
+  if ($::zookeeper::manual_clean) {
+    # User defined value
+    $_clean = $::zookeeper::manual_clean
   } else {
-    # autodetect
-    # since ZooKeeper 3.4 there's no need for purging snapshots with cron
+    # Autodetect:
+    # Since ZooKeeper 3.4 there's no need for purging snapshots with cron
     case $::osfamily {
       'Debian': {
           case $::operatingsystem {
             'Debian': {
               case $::lsbdistcodename {
                 'wheezy', 'squeeze': { # 3.3.5
-                  $clean = true
+                  $_clean = true
                 }
                 default: { # future releases
-                  $clean = false
+                  $_clean = false
                 }
               }
             }
             'Ubuntu': {
               case $::lsbdistcodename {
                 'precise': { # 3.3.5
-                  $clean = true
+                  $_clean = true
                 }
                 default: {
-                  $clean = false
+                  $_clean = false
                 }
               }
             }
@@ -82,7 +61,7 @@ class zookeeper::post_install(
           }
       }
       'Redhat': {
-        $clean = false
+        $_clean = false
       }
       default: {
         fail ("Family: '${::osfamily}' OS: '${::operatingsystem}' is not supported yet")
@@ -90,40 +69,38 @@ class zookeeper::post_install(
     }
   }
 
+  # If !$cleanup_count, then ensure this cron is absent.
+  if ($_clean and $::zookeeper::snap_retain_count > 0 and $::zookeeper::ensure != 'absent') {
 
-
-  # if !$cleanup_count, then ensure this cron is absent.
-  if ($clean and $snap_retain_count > 0 and $ensure != 'absent') {
-
-    if ($ensure_cron){
+    if ($::zookeeper::ensure_cron){
       ensure_resource('package', 'cron', {
         ensure => 'installed',
       })
 
       cron { 'zookeeper-cleanup':
           ensure  => present,
-          command => "${cleanup_sh} ${datastore} ${snap_retain_count}",
+          command => "${::zookeeper::cleanup_sh} ${::zookeeper::datastore} ${::zookeeper::snap_retain_count}",
           hour    => 2,
           minute  => 42,
-          user    => $user,
+          user    => $::zookeeper::user,
       }
     }else {
       file { '/etc/cron.daily/zkcleanup':
         ensure  => present,
-        content =>  "${cleanup_sh} ${datastore} ${snap_retain_count}",
+        content =>  "${::zookeeper::cleanup_sh} ${::zookeeper::datastore} ${::zookeeper::snap_retain_count}",
       }
     }
   }
 
-  # package removal
-  if($clean and $ensure == 'absent'){
-    if ($ensure_cron){
+  # Package removal
+  if($_clean and $::zookeeper::ensure == 'absent'){
+    if ($::zookeeper::ensure_cron){
       cron { 'zookeeper-cleanup':
-        ensure  => $ensure,
+        ensure  => $::zookeeper::ensure,
       }
     }else{
       file { '/etc/cron.daily/zkcleanup':
-        ensure  => $ensure,
+        ensure  => $::zookeeper::ensure,
       }
     }
   }
