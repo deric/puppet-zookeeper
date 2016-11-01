@@ -11,6 +11,9 @@ class zookeeper::service {
     'package': {
       $_zoo_dir = $::zookeeper::zoo_dir
     }
+    default: {
+      fail("Install method '${::zookeeper::install_method}' is not supported.")
+    }
   }
 
   if $::zookeeper::manage_service_file == true {

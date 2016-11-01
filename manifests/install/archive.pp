@@ -4,13 +4,13 @@
 #
 # PRIVATE CLASS - do not use directly (use main `zookeeper` class).
 class zookeeper::install::archive {
-
+  $filename = "${module_name}-${::zookeeper::archive_version}"
   $download_url = $::zookeeper::archive_dl_url ? {
-    undef   => "${::zookeeper::archive_dl_site}/${module_name}-${::zookeeper::archive_version}/${module_name}-${::zookeeper::archive_version}.tar.gz",
+    undef   => "${::zookeeper::archive_dl_site}/${module_name}-${::zookeeper::archive_version}/${filename}.tar.gz",
     default => $::zookeeper::archive_dl_url,
   }
 
-  archive { "${::zookeeper::archive_install_dir}/${module_name}-${::zookeeper::archive_version}.tar.gz":
+  archive { "${::zookeeper::archive_install_dir}/${filename}.tar.gz":
     ensure        => present,
     user          => 'root',
     group         => 'root',
@@ -21,16 +21,16 @@ class zookeeper::install::archive {
     # Extract files as the user doing the extracting, which is the user
     # that runs Puppet, usually root
     extract_flags => '-x --no-same-owner -f',
-    creates       => "${::zookeeper::archive_install_dir}/${module_name}-${::zookeeper::archive_version}",
+    creates       => "${::zookeeper::archive_install_dir}/${filename}",
     extract       => true,
     cleanup       => true,
     notify        => Exec['chown_zookeeper_directory'],
   }
 
-  $symlink_require = Archive["${::zookeeper::archive_install_dir}/${module_name}-${::zookeeper::archive_version}.tar.gz"]
+  $symlink_require = Archive["${::zookeeper::archive_install_dir}/${filename}.tar.gz"]
 
   exec { 'chown_zookeeper_directory':
-    command     => "chown -R ${::zookeeper::user}:${::zookeeper::group} ${::zookeeper::archive_install_dir}/${module_name}-${::zookeeper::archive_version}",
+    command     => "chown -R ${::zookeeper::user}:${::zookeeper::group} ${::zookeeper::archive_install_dir}/${filename}",
     path        => ['/bin','/sbin'],
     refreshonly => true,
     require     => $symlink_require,
@@ -41,7 +41,7 @@ class zookeeper::install::archive {
     file { $::zookeeper::archive_symlink_name:
       ensure  => link,
       require => $symlink_require,
-      target  => "${::zookeeper::archive_install_dir}/${module_name}-${::zookeeper::archive_version}",
+      target  => "${::zookeeper::archive_install_dir}/${filename}",
       owner   => $::zookeeper::user,
       group   => $::zookeeper::group,
     }
