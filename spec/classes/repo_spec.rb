@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe 'zookeeper::repo', :type => :class do
-  shared_examples 'redhat-install' do |os, codename, puppet|
+  shared_examples 'redhat-install' do |os, codename, puppet, cdhver|
     let(:hardwaremodel){ 'x86_64' }
 
     let(:facts) do
@@ -15,6 +15,10 @@ describe 'zookeeper::repo', :type => :class do
       :puppetversion => puppet,
     }
     end
+
+    it { is_expected.to contain_yumrepo('cloudera-cdh5').with({
+        baseurl: "http://archive.cloudera.com/cdh#{cdhver}/redhat/#{codename}/#{hardwaremodel}/cdh/#{cdhver}/"
+      }) }
   end
 
   context 'on RedHat-like system' do
@@ -30,7 +34,7 @@ describe 'zookeeper::repo', :type => :class do
     # ENV variable might contain characters which are not supported
     # by versioncmp function (like '~>')
 
-    it_behaves_like 'redhat-install', 'RedHat', '7', Puppet.version
+    it_behaves_like 'redhat-install', 'RedHat', '7', Puppet.version, '5'
   end
 
   context 'fail when architecture not supported' do
