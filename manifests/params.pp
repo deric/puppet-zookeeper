@@ -127,7 +127,8 @@ class zookeeper::params {
   # log4j properties
   $log4j_prop = 'INFO,ROLLINGFILE'
   $peer_type = 'UNSET'
-  $rollingfile_threshold = 'ERROR'
+  $rollingfile_threshold = 'INFO'
+  $console_threshold = 'INFO'
   $tracefile_threshold = 'TRACE'
 
   # sasl options

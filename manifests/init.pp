@@ -70,6 +70,7 @@ class zookeeper(
   $peer_type               = $::zookeeper::params::peer_type,
   $rollingfile_threshold   = $::zookeeper::params::rollingfile_threshold,
   $tracefile_threshold     = $::zookeeper::params::tracefile_threshold,
+  $console_threshold       = $::zookeeper::params::console_threshold,
   # sasl options
   $keytab_path             = $::zookeeper::params::keytab_path,
   $principal               = $::zookeeper::params::principal,

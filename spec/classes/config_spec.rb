@@ -499,4 +499,67 @@ describe 'zookeeper::config' do
       ).with_content(/server.2=192.168.1.2:2888:3888/)
     end
   end
+
+  context 'configure logging' do
+    context 'by default set to INFO' do
+      let :pre_condition do
+        'class {"zookeeper": }'
+      end
+
+      it do
+        is_expected.to contain_file(
+          '/etc/zookeeper/conf/log4j.properties'
+        ).with_content(/zookeeper.log.threshold=INFO/)
+      end
+
+      it do
+        is_expected.to contain_file(
+          '/etc/zookeeper/conf/log4j.properties'
+        ).with_content(/zookeeper.console.threshold=INFO/)
+      end
+    end
+
+    context 'allow changing rollingfile loglevel' do
+      let :pre_condition do
+        'class {"zookeeper":
+           rollingfile_threshold => "TRACE",
+         }'
+      end
+
+      it do
+        is_expected.to contain_file(
+          '/etc/zookeeper/conf/log4j.properties'
+        ).with_content(/zookeeper.log.threshold=TRACE/)
+      end
+    end
+
+    context 'allow changing console loglevel' do
+      let :pre_condition do
+        'class {"zookeeper":
+           console_threshold => "TRACE",
+         }'
+      end
+
+      it do
+        is_expected.to contain_file(
+          '/etc/zookeeper/conf/log4j.properties'
+        ).with_content(/zookeeper.console.threshold=TRACE/)
+      end
+    end
+
+    context 'allow changing tracefile loglevel' do
+      let :pre_condition do
+        'class {"zookeeper":
+           tracefile_threshold => "DEBUG",
+         }'
+      end
+
+      it do
+        is_expected.to contain_file(
+          '/etc/zookeeper/conf/log4j.properties'
+        ).with_content(/log4j.appender.TRACEFILE.Threshold=DEBUG/)
+      end
+    end
+  end
+
 end

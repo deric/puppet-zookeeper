@@ -21,7 +21,7 @@
 # zookeeper.root.logger=INFO, CONSOLE
 zookeeper.root.logger=<%= scope.lookupvar("zookeeper::log4j_prop") %>
 
-zookeeper.console.threshold=INFO
+zookeeper.console.threshold=<%= scope.lookupvar("zookeeper::console_threshold") %>
 
 zookeeper.log.dir=.
 zookeeper.log.file=zookeeper.log
