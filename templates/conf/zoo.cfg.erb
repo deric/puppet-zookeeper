@@ -36,7 +36,8 @@ clientPortAddress=<%= scope.lookupvar("zookeeper::client_ip") %>
   <%- _servers = scope.lookupvar("zookeeper::servers") -%>
 <% else -%>
 <%# make sure @servers is a hash -%>
-  <%- _servers = Hash[scope.lookupvar("zookeeper::servers").map.each_with_index {|e, i|  [i + 1, e] }] -%>
+  <%- _servers = Hash.new -%>
+  <%- scope.lookupvar("zookeeper::servers").map.each_with_index {|e, i|  _servers[i + 1] = e } -%>
 <%- end -%>
 <%- _servers.each_pair do |id, host| -%>
 <%# make sure port is not included in hostname -%>
