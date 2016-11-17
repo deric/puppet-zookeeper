@@ -100,8 +100,12 @@ class zookeeper::params {
   $datalogstore = undef
   $election_port = 2888
   $export_tag = 'zookeeper'
-  $id = regsubst($facts['networking']['hostname'], '[^0-9]+', '')
-  if $id == undef { $id = '1' }
+  if $facts['networking']['hostname'] != undef {
+    $id = regsubst($facts['networking']['hostname'], '[^0-9]+', '')
+  } 
+  else {
+    $id = '1' 
+  }
   $init_limit = 10
   $initialize_datastore = false
   $leader = true
