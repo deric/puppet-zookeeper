@@ -84,6 +84,21 @@ describe 'zookeeper::config' do
       end
     end
 
+    context 'extra environment_file parameter' do
+       # set custom params
+       let :pre_condition do
+         'class {"zookeeper":
+            log4j_prop => "ERROR",
+            environment_file => "java.env",
+          }'
+       end
+ 
+       it do
+         should contain_file('/etc/zookeeper/conf/java.env').with_content(/ERROR/)
+         should_not contain_file('/etc/zookeeper/environment')
+       end
+    end
+
     context 'max allowed connections' do
       let :pre_condition do
         'class {"zookeeper":

@@ -64,7 +64,7 @@ class zookeeper::config {
     content => template("${module_name}/conf/zoo.cfg.erb"),
   }
 
-  file { "${::zookeeper::cfg_dir}/environment":
+  file { "${::zookeeper::cfg_dir}/${::zookeeper::environment_file}":
     owner   => $::zookeeper::user,
     group   => $::zookeeper::group,
     mode    => '0644',

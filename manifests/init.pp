@@ -65,6 +65,7 @@ class zookeeper(
   $zoo_dir                 = $::zookeeper::params::zoo_dir,
   $zoo_main                = $::zookeeper::params::zoo_main,
   # log4j properties
+  $environment_file        = $::zookeeper::params::environment_file,
   $log4j_prop              = $::zookeeper::params::log4j_prop,
   $max_allowed_connections = $::zookeeper::params::max_allowed_connections,
   $peer_type               = $::zookeeper::params::peer_type,

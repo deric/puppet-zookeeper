@@ -50,7 +50,7 @@ class zookeeper::service {
     ],
     subscribe  => [
       File["${::zookeeper::cfg_dir}/myid"], File["${::zookeeper::cfg_dir}/zoo.cfg"],
-      File["${::zookeeper::cfg_dir}/environment"], File["${::zookeeper::cfg_dir}/log4j.properties"],
+      File["${::zookeeper::cfg_dir}/${::zookeeper::environment_file}"], File["${::zookeeper::cfg_dir}/log4j.properties"],
     ]
   }
 }

@@ -125,6 +125,7 @@ class zookeeper::params {
   $zoo_main = 'org.apache.zookeeper.server.quorum.QuorumPeerMain'
 
   # log4j properties
+  $environment_file = 'environment'
   $log4j_prop = 'INFO,ROLLINGFILE'
   $peer_type = 'UNSET'
   $rollingfile_threshold = 'INFO'
