@@ -31,6 +31,9 @@ class zookeeper::params {
         'service_provider' => $initstyle,
         'shell'            => '/bin/false',
       }
+      # 'environment' file probably read just by Debian
+      # see #16, #81
+      $environment_file = 'environment'
     }
     'RedHat': {
       case $::operatingsystemmajrelease {
@@ -44,6 +47,7 @@ class zookeeper::params {
         'service_provider' => $initstyle,
         'shell'            => '/sbin/nologin',
       }
+      $environment_file = 'java.env'
     }
 
     default: {
@@ -125,7 +129,6 @@ class zookeeper::params {
   $zoo_main = 'org.apache.zookeeper.server.quorum.QuorumPeerMain'
 
   # log4j properties
-  $environment_file = 'environment'
   $log4j_prop = 'INFO,ROLLINGFILE'
   $peer_type = 'UNSET'
   $rollingfile_threshold = 'INFO'

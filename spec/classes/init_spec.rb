@@ -258,4 +258,44 @@ describe 'zookeeper', :type => :class do
       ).with_content(/pidfile=\/var\/run\/zookeeper.pid/)
     end
   end
+
+  context 'create env file' do
+    let(:user) { 'zookeeper' }
+    let(:group) { 'zookeeper' }
+
+    context 'on RedHat' do
+      let(:facts) do
+        {
+        :ipaddress => '192.168.1.1',
+        :osfamily => 'RedHat',
+        :operatingsystemmajrelease => '6',
+      }
+      end
+
+      it do
+        is_expected.to contain_file(
+          '/etc/zookeeper/conf/java.env'
+        )
+      end
+    end
+
+    context 'on Debian' do
+      let(:facts) do
+        {
+        :ipaddress => '192.168.1.1',
+        :osfamily => 'Debian',
+        :operatingsystem => 'Debian',
+        :lsbdistcodename => 'jessie',
+        :operatingsystemmajrelease => '8',
+      }
+      end
+
+      it do
+        is_expected.to contain_file(
+          '/etc/zookeeper/conf/environment'
+        )
+      end
+    end
+
+  end
 end
