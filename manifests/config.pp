@@ -40,28 +40,29 @@ class zookeeper::config {
     }
   }
 
-  # we should notify Class['::zookeeper::service'] however it's not configured
-  # at this point (first run), so we have to subscribe from service declaration
-  file { "${::zookeeper::cfg_dir}/myid":
-    ensure  => file,
-    content => template("${module_name}/conf/myid.erb"),
-    owner   => $::zookeeper::user,
-    group   => $::zookeeper::group,
-    mode    => '0644',
-    require => File[$::zookeeper::cfg_dir],
+  if $::zookeeper::service_provider != 'exhibitor' {
+    file { "${::zookeeper::cfg_dir}/zoo.cfg":
+      owner   => $::zookeeper::user,
+      group   => $::zookeeper::group,
+      mode    => '0644',
+      content => template("${module_name}/conf/zoo.cfg.erb"),
+    }
+
+    # we should notify Class['::zookeeper::service'] however it's not configured
+    # at this point (first run), so we have to subscribe from service declaration
+    file { "${::zookeeper::cfg_dir}/myid":
+      ensure  => file,
+      content => template("${module_name}/conf/myid.erb"),
+      owner   => $::zookeeper::user,
+      group   => $::zookeeper::group,
+      mode    => '0644',
+      require => File[$::zookeeper::cfg_dir],
+    }
   }
 
   file { "${::zookeeper::datastore}/myid":
     ensure  => 'link',
     target  => "${::zookeeper::cfg_dir}/myid",
-    require => File["${::zookeeper::cfg_dir}/myid"]
-  }
-
-  file { "${::zookeeper::cfg_dir}/zoo.cfg":
-    owner   => $::zookeeper::user,
-    group   => $::zookeeper::group,
-    mode    => '0644',
-    content => template("${module_name}/conf/zoo.cfg.erb"),
   }
 
   file { "${::zookeeper::cfg_dir}/${::zookeeper::environment_file}":

@@ -118,7 +118,7 @@ class zookeeper(
     }
   }
 
-  if ($manage_service) {
+  if ($manage_service) and ($service_provider != 'exhibitor') {
     class { 'zookeeper::service':
       require => Class['::zookeeper::config'],
       before  => Anchor['zookeeper::end'],

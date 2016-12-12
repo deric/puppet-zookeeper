@@ -298,4 +298,19 @@ describe 'zookeeper', :type => :class do
     end
 
   end
+
+  context 'managed by exhibitor' do
+    let(:params) do
+      {
+        :service_provider => 'exhibitor',
+        :service_name => 'zookeeper',
+        :cfg_dir => '/opt/zookeeper/conf',
+      }
+    end
+
+    it { is_expected.not_to contain_class('zookeeper::service') }
+    it { is_expected.not_to contain_service('zookeeper') }
+    it { is_expected.not_to contain_file('/opt/zookeeper/conf/zoo.cfg') }
+    it { is_expected.not_to contain_file('/opt/zookeeper/conf/myid') }
+  end
 end
