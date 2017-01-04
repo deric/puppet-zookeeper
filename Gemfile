@@ -2,9 +2,9 @@ source 'https://rubygems.org'
 
 puppetversion = ENV.key?('PUPPET_VERSION') ? "#{ENV['PUPPET_VERSION']}" : ['>= 2.7.0', '< 5.0']
 gem 'puppet', puppetversion
+gem 'rake'
 gem 'puppet-lint'
 gem 'puppetlabs_spec_helper'
-gem 'rake'
 gem 'librarian-puppet', '>= 2.0'
 gem 'highline'
 gem 'simplecov'
@@ -19,6 +19,7 @@ if RUBY_VERSION < "2.0.0"
   gem 'fog-google', '< 0.1.1'
   gem 'google-api-client', '< 0.9'
   gem 'public_suffix', '< 1.5.0'
+  gem 'nokogiri', '< 1.7.0'
 end
 
 group :development do
