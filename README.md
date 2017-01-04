@@ -114,6 +114,7 @@ Some reasonable values are:
   * `upstart` - Ubuntu
   * `systemd` - RHEL 7, Debian 8
   * `runit`
+  * `exhibitor` - zookeeper process and config will be managed by exhibitor (https://github.com/soabase/exhibitor). Exhibitor is not managed by this module.
   * `none` - service won't be installed
 
 Parameter `manage_service_file` controls whether service definition should be managed by Puppet (default: `false`). Currently supported for `systemd` and `init`.
