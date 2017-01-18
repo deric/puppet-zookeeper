@@ -26,14 +26,15 @@ describe 'zookeeper', :type => :class do
       }
     end
 
-    it { should contain_package('zookeeper').with({:ensure => 'present'}) }
-    it { should contain_package('zookeeper-bin').with({:ensure => 'present'}) }
-    it { should contain_service('zookeeper').with({:ensure => 'running'}) }
+    it { is_expected.to compile.with_all_deps }
+    it { is_expected.to contain_package('zookeeper').with({:ensure => 'present'}) }
+    it { is_expected.to contain_package('zookeeper-bin').with({:ensure => 'present'}) }
+    it { is_expected.to contain_service('zookeeper').with({:ensure => 'running'}) }
     # datastore exec is not included by default
-    it { should_not contain_exec('initialize_datastore') }
+    it { is_expected.not_to contain_exec('initialize_datastore') }
 
-    it { should contain_user('zookeeper').with({:ensure => 'present'}) }
-    it { should contain_group('zookeeper').with({:ensure => 'present'}) }
+    it { is_expected.to contain_user('zookeeper').with({:ensure => 'present'}) }
+    it { is_expected.to contain_group('zookeeper').with({:ensure => 'present'}) }
   end
 
   context 'Cloudera packaging' do
@@ -312,5 +313,24 @@ describe 'zookeeper', :type => :class do
     it { is_expected.not_to contain_service('zookeeper') }
     it { is_expected.not_to contain_file('/opt/zookeeper/conf/zoo.cfg') }
     it { is_expected.not_to contain_file('/opt/zookeeper/conf/myid') }
+  end
+
+  context 'install from archive' do
+    let(:params) do
+      {
+        install_method: 'archive',
+        archive_version: '3.4.9',
+      }
+    end
+
+    it { is_expected.to compile.with_all_deps }
+    it { is_expected.to contain_class('Zookeeper::Install::Archive') }
+
+    it { is_expected.not_to contain_package('zookeeper').with({:ensure => 'present'}) }
+    it { is_expected.to contain_service('zookeeper').with({:ensure => 'running'}) }
+
+    it { is_expected.to contain_user('zookeeper').with({:ensure => 'present'}) }
+    it { is_expected.to contain_group('zookeeper').with({:ensure => 'present'}) }
+
   end
 end
