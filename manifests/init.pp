@@ -107,6 +107,22 @@ class zookeeper(
     false => $repo
   }
 
+  if $::zookeeper::ensure_account {
+    group { $group:
+      ensure => $ensure_account,
+    }
+
+    user { $user:
+      ensure  => $ensure_account,
+      home    => $datastore,
+      comment => 'Zookeeper',
+      gid     => $group,
+      shell   => $shell,
+      require => Group[$group]
+    }
+  }
+
+
   anchor { 'zookeeper::start': }->
   class { 'zookeeper::install': }->
   class { 'zookeeper::config': }

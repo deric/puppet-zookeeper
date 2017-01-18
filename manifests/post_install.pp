@@ -6,26 +6,6 @@
 # PRIVATE CLASS - do not use directly (use main `zookeeper` class).
 class zookeeper::post_install {
 
-  # Make sure user and group exists for ZooKeeper #49, if the OS package
-  # doesn't handle its creation.
-  if ($::zookeeper::ensure_account){
-    ensure_resource('group',
-      [$::zookeeper::group],
-      {'ensure' => $::zookeeper::ensure_account}
-    )
-
-    ensure_resource('user',
-      [$::zookeeper::user],
-      {
-        'ensure'  => $::zookeeper::ensure_account,
-        'home'    => $::zookeeper::datastore,
-        'comment' => 'Zookeeper',
-        'gid'     => $::zookeeper::group,
-        'shell'   => $::zookeeper::shell,
-        'require' => Group[$::zookeeper::group]
-      }
-    )
-  }
   if ($::zookeeper::manual_clean) {
     # User defined value
     $_clean = $::zookeeper::manual_clean
