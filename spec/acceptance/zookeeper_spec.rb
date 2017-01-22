@@ -39,7 +39,7 @@ describe 'zookeeper defintion', :unless => UNSUPPORTED_PLATFORMS.include?(fact('
     end
 
     describe port(2181) do
-      it { is_expected.to be_listening.with('tcp') }
+      it { is_expected.to be_listening.with('tcp6') }
     end
 
     describe command('cat /etc/zookeeper/conf/myid') do
