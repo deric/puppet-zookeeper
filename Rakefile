@@ -29,7 +29,6 @@ exclude_paths = [
 ]
 
 Rake::Task[:lint].clear
-
 PuppetLint::RakeTask.new :lint do |config|
   config.ignore_paths = exclude_paths
   config.log_format = '%{path}:%{linenumber}:%{KIND}: %{message}'
@@ -45,3 +44,9 @@ task :librarian_spec_prep do
 end
 task spec_prep: :librarian_spec_prep
 task default: [:spec, :lint]
+
+desc "Run acceptance tests"
+RSpec::Core::RakeTask.new(:acceptance) do |t|
+  # just `spec/acceptance` caused runnin all specs
+  t.pattern = 'spec/acceptance/*_spec.rb'
+end

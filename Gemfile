@@ -35,4 +35,6 @@ group :development do
     gem 'beaker', '< 3'
   end
   gem 'beaker-rspec', require: false
+  gem 'beaker-hostgenerator'
+  gem 'beaker-puppet_install_helper'
 end
