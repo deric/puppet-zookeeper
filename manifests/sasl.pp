@@ -10,11 +10,4 @@ class zookeeper::sasl {
     group   => $::zookeeper::group,
     content => template("${module_name}/conf/jaas.conf.erb"),
   }
-
-  file{"${::zookeeper::cfg_dir}/java.env":
-    ensure  => present,
-    owner   => $::zookeeper::user,
-    group   => $::zookeeper::group,
-    content => template("${module_name}/conf/java.env.erb"),
-  }
 }
