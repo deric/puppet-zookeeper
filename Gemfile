@@ -29,12 +29,18 @@ group :development do
     gem 'rubocop'
   end
   gem 'puppet-blacksmith'
+end
+
+group :system_tests do
+  # beaker-rspec will require beaker gem
   if RUBY_VERSION >= '2.2.5'
     gem 'beaker'
   else
     gem 'beaker', '< 3'
   end
-  gem 'beaker-rspec', require: false
+  gem 'beaker-rspec'
+  gem 'serverspec'
   gem 'beaker-hostgenerator'
   gem 'beaker-puppet_install_helper'
+  gem 'master_manipulator'
 end
