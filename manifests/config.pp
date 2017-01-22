@@ -61,8 +61,8 @@ class zookeeper::config {
   }
 
   file { "${::zookeeper::datastore}/myid":
-    ensure  => 'link',
-    target  => "${::zookeeper::cfg_dir}/myid",
+    ensure => 'link',
+    target => "${::zookeeper::cfg_dir}/myid",
   }
 
   file { "${::zookeeper::cfg_dir}/${::zookeeper::environment_file}":

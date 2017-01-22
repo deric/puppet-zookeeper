@@ -32,7 +32,6 @@ Rake::Task[:lint].clear
 
 PuppetLint::RakeTask.new :lint do |config|
   config.ignore_paths = exclude_paths
-  config.log_format = '%{path}:%{linenumber}:%{KIND}: %{message}'
 end
 
 desc 'Populate CONTRIBUTORS file'
