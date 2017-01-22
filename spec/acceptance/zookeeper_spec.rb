@@ -5,7 +5,9 @@ describe 'zookeeper defintion', :unless => UNSUPPORTED_PLATFORMS.include?(fact('
     it 'install zookeeper' do
       pp = <<-EOS
         class{'zookeeper':
-          service_provider => 'init', #systemd requires host with systemd
+          # provider 'init' doesn't seem to work with puppet 4.3 and newer
+          # 'debian' should work with older systems as well
+          service_provider => 'debian', #systemd requires host with systemd
         }
       EOS
 
@@ -31,9 +33,13 @@ describe 'zookeeper defintion', :unless => UNSUPPORTED_PLATFORMS.include?(fact('
       it { is_expected.to exist }
     end
 
-    describe service('zookeeper') do
-      it { is_expected.to be_enabled }
-      it { is_expected.to be_running }
+    describe command('/etc/init.d/zookeeper status') do
+      its(:exit_status) { is_expected.to eq 0 }
+      its(:stdout) { is_expected.to match /running/ }
+    end
+
+    describe port(2181) do
+      it { is_expected.to be_listening.with('tcp') }
     end
 
     describe command('cat /etc/zookeeper/conf/myid') do
