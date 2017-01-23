@@ -1,3 +1,10 @@
+## 0.7.1
+* New or changed features:
+  * [Exihibitor support](https://github.com/deric/puppet-zookeeper/pull/85)
+* Other changes and fixes:
+  * [Fixed duplicate java.env declaration when using SASL #89](https://github.com/deric/puppet-zookeeper/issues/89)
+  * [Dependency cycle with archive install method #87](https://github.com/deric/puppet-zookeeper/issues/87)
+
 ## 0.7.0
 * New or changed features:
     * Support installation from source package instead of binary package
