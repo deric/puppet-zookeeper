@@ -14,12 +14,4 @@ RSpec.configure do |c|
 
   c.include RSpecSystemPuppet::Helpers
 
-  # This is where we 'setup' the nodes before running our tests
-  c.before :suite do
-    # Install puppet
-    puppet_install
-
-    # Install modules and dependencies
-    puppet_module_install(:source => proj_root, :module_name => 'zookeeper')
-  end
 end
