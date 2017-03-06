@@ -54,7 +54,7 @@ describe 'zookeeper::service' do
 
     it do
       should contain_file(
-        '/usr/lib/systemd/system/zookeeper.service'
+        '/usr/lib/systemd/system/zookeeper-server.service'
       ).with({
         'ensure' => 'present',
       })
@@ -65,6 +65,31 @@ describe 'zookeeper::service' do
         :ensure => 'running',
         :enable => true
       )
+    end
+
+    context 'custom service name' do
+      let :pre_condition do
+        'class {"zookeeper":
+           manage_service_file => true,
+           service_provider    => "systemd",
+           service_name        => "my-zookeeper",
+         }'
+      end
+
+        it do
+          should contain_file(
+            '/usr/lib/systemd/system/my-zookeeper.service'
+          ).with({
+            'ensure' => 'present',
+          })
+        end
+
+        it do
+          should contain_service('my-zookeeper').with(
+            :ensure => 'running',
+            :enable => true
+          )
+        end
     end
 
     context 'do not manage systemd' do
