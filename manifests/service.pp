@@ -18,7 +18,7 @@ class zookeeper::service {
 
   if $::zookeeper::manage_service_file == true {
     if $::zookeeper::service_provider == 'systemd'  {
-      file { '/usr/lib/systemd/system/zookeeper.service':
+      file { "/usr/lib/systemd/system/${::zookeeper::service_name}.service":
         ensure  => 'present',
         content => template("${module_name}/zookeeper.service.erb"),
         } ~>
