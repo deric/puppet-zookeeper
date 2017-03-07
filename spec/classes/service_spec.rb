@@ -61,6 +61,12 @@ describe 'zookeeper::service' do
     end
 
     it do
+      should contain_file(
+        '/usr/lib/systemd/system/zookeeper-server.service'
+      ).with_content(/zookeeper\.jar/)
+    end
+
+    it do
       should contain_service('zookeeper-server').with(
         :ensure => 'running',
         :enable => true
@@ -90,6 +96,24 @@ describe 'zookeeper::service' do
             :enable => true
           )
         end
+    end
+
+    context 'install from archive' do
+      let :pre_condition do
+        'class {"zookeeper":
+           manage_service_file => true,
+           service_provider    => "systemd",
+           install_method      => "archive",
+           archive_version     => "3.4.9"
+         }'
+      end
+
+      it do
+        should contain_file(
+          '/usr/lib/systemd/system/zookeeper-server.service'
+        ).with_content(/zookeeper-3\.4\.9\.jar/)
+      end
+
     end
 
     context 'do not manage systemd' do
