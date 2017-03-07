@@ -62,6 +62,7 @@ describe 'zookeeper::config' do
 
       it do
         is_expected.to contain_file('/etc/zookeeper/conf/environment').with_content(/ERROR/)
+        is_expected.to contain_file('/etc/zookeeper/conf/environment').with_content(/CLASSPATH/)
       end
 
       it do
@@ -81,6 +82,18 @@ describe 'zookeeper::config' do
         is_expected.to contain_file(
           '/etc/zookeeper/conf/zoo.cfg'
         ).with_content(/^#clientPortAddress=/)
+      end
+    end
+
+    context 'install from archive' do
+      let :pre_condition do
+        'class {"zookeeper":
+           install_method: "archive",
+           archive_version: "3.4.9",
+        }'
+
+        it {is_expected.to contain_file('/etc/zookeeper/conf/environment').without_content(/CLASSPATH/)}
+
       end
     end
 

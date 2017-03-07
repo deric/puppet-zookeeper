@@ -1,10 +1,12 @@
 NAME=zookeeper
 ZOOCFGDIR=<%= scope.lookupvar("zookeeper::cfg_dir") %>
 
+<% if scope.lookupvar('zookeeper::install_method') != 'archive' -%>
 # TODO this is really ugly
 # How to find out, which jars are needed?
 # seems, that log4j requires the log4j.properties file to be in the classpath
 CLASSPATH="$ZOOCFGDIR:/usr/share/java/jline.jar:/usr/share/java/log4j-1.2.jar:/usr/share/java/xercesImpl.jar:/usr/share/java/xmlParserAPIs.jar:/usr/share/java/netty.jar:/usr/share/java/slf4j-api.jar:/usr/share/java/slf4j-log4j12.jar:/usr/share/java/zookeeper.jar"
+<% end -%>
 
 #ZOOCFG="zoo.cfg"
 # necessary on Debian
