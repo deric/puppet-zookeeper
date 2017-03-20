@@ -1,3 +1,11 @@
+## 0.7.2
+- New or changed features:
+  - [Basic acceptance tests](https://github.com/deric/puppet-zookeeper/issues/90)
+- Other changes and fixes:
+  - [Service filename should be equal to the service name](https://github.com/deric/puppet-zookeeper/pull/91)
+  - [Fix service settings when installing from archive](https://github.com/deric/puppet-zookeeper/pull/92)
+- [Full diff](https://github.com/deric/puppet-zookeeper/compare/v0.7.1...v0.7.2)
+
 ## 0.7.1
 * New or changed features:
   * [Exihibitor support](https://github.com/deric/puppet-zookeeper/pull/85)
