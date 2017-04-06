@@ -38,8 +38,9 @@ describe 'zookeeper defintion', :unless => UNSUPPORTED_PLATFORMS.include?(fact('
       its(:stdout) { is_expected.to match /running/ }
     end
 
-    describe port(2181) do
-      it { is_expected.to be_listening.with('tcp6') }
+    describe command('netstat -tulpn') do
+      its(:exit_status) { is_expected.to eq 0 }
+      its(:stdout) { is_expected.to match /2181/ }
     end
 
     describe command('cat /etc/zookeeper/conf/myid') do

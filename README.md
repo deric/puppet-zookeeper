@@ -1,4 +1,4 @@
-#puppet-zookeeper
+# puppet-zookeeper
 
 [![Puppet
 Forge](http://img.shields.io/puppetforge/v/deric/zookeeper.svg)](https://forge.puppetlabs.com/deric/zookeeper) [![Build Status](https://travis-ci.org/deric/puppet-zookeeper.png?branch=master)](https://travis-ci.org/deric/puppet-zookeeper) [![Puppet Forge
