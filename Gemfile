@@ -20,10 +20,10 @@ group :tests do
     gem 'fog-google', '< 0.1.1'
     gem 'google-api-client', '< 0.9'
     gem 'public_suffix', '< 1.5.0'
+    gem 'parallel_tests', '< 2.10'
   end
   if RUBY_VERSION < "2.1.0"
     gem 'nokogiri', '< 1.7.0'
-    gem 'parallel_tests', '< 2.14'
   end
 end
 
