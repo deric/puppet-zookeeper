@@ -8,6 +8,7 @@ describe 'zookeeper defintion', :unless => UNSUPPORTED_PLATFORMS.include?(fact('
           # provider 'init' doesn't seem to work with puppet 4.3 and newer
           # 'debian' should work with older systems as well
           service_provider => 'debian', #systemd requires host with systemd
+          client_port      => 2181,
         }
       EOS
 
@@ -38,7 +39,8 @@ describe 'zookeeper defintion', :unless => UNSUPPORTED_PLATFORMS.include?(fact('
       its(:stdout) { is_expected.to match /running/ }
     end
 
-    describe command('netstat -tulpn') do
+    # give zookeeper some time to boot
+    describe command('sleep 2 && netstat -tulpn') do
       its(:exit_status) { is_expected.to eq 0 }
       its(:stdout) { is_expected.to match /2181/ }
     end
