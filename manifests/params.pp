@@ -38,8 +38,7 @@ class zookeeper::params {
     'RedHat': {
       case $::operatingsystemmajrelease {
         '6': { $initstyle = 'redhat' }
-        '7': { $initstyle = 'systemd' }
-        default: { $initstyle = undef }
+        default: { $initstyle = 'systemd' }
       }
       $_os_overrides = {
         'packages'         => ['zookeeper', 'zookeeper-server'],
@@ -105,7 +104,12 @@ class zookeeper::params {
   $datalogstore = undef
   $election_port = 2888
   $export_tag = 'zookeeper'
-  $id = '1'
+  if $facts['networking']['hostname'] != undef {
+    $id = regsubst($facts['networking']['hostname'], '[^0-9]+', '')
+  } 
+  else {
+    $id = '1' 
+  }
   $init_limit = 10
   $initialize_datastore = false
   $leader = true

@@ -20,7 +20,7 @@ class { 'zookeeper': }
 
 ## Cluster setup
 
-When running ZooKeeper in the distributed mode each node must have unique ID (`1-255`). The easiest way how to setup multiple ZooKeepers, is by using Hiera.
+When running ZooKeeper in the distributed mode each node must have unique ID (`1-255`). The easiest way how to setup multiple ZooKeepers, is by using Hiera. If no ID is specified, the ID will attempt to be automatically set by regexing the last digits of the hostname. 
 
 `hiera/host/zk1.example.com.yaml`:
 ```yaml
