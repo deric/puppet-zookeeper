@@ -3,7 +3,7 @@
 # PRIVATE CLASS - do not use directly (use main `zookeeper` class).
 class zookeeper::params {
   $_defaults = {
-    'packages' => ['zookeeper']
+    'packages' => ['zookeeper'],
   }
 
   case $::osfamily {
@@ -61,9 +61,11 @@ class zookeeper::params {
   $ensure_account = present
   $ensure_cron = true
   $group = 'zookeeper'
+  $system_group = false
   $packages = $_params['packages']
   $shell = $_params['shell']
   $user = 'zookeeper'
+  $system_user = false
 
   # installation options
   $archive_checksum = {}
