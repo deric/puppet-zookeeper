@@ -7,9 +7,11 @@ class zookeeper(
   $ensure_account          = $::zookeeper::params::ensure_account,
   $ensure_cron             = $::zookeeper::params::ensure_cron,
   $group                   = $::zookeeper::params::group,
+  $system_group            = $::zookeeper::params::system_group,
   $packages                = $::zookeeper::params::packages,
   $shell                   = $::zookeeper::params::shell,
   $user                    = $::zookeeper::params::user,
+  $system_user             = $::zookeeper::params::system_user,
   # installation options
   $archive_checksum        = $::zookeeper::params::archive_checksum,
   $archive_dl_site         = $::zookeeper::params::archive_dl_site,
@@ -110,6 +112,7 @@ class zookeeper(
   if $::zookeeper::ensure_account {
     group { $group:
       ensure => $ensure_account,
+      system => $system_group,
     }
 
     user { $user:
@@ -118,7 +121,8 @@ class zookeeper(
       comment => 'Zookeeper',
       gid     => $group,
       shell   => $shell,
-      require => Group[$group]
+      system  => $system_user,
+      require => Group[$group],
     }
   }
 
