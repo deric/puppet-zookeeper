@@ -128,9 +128,9 @@ class zookeeper(
   }
 
 
-  anchor { 'zookeeper::start': }->
-  class { 'zookeeper::install': }->
-  class { 'zookeeper::config': }
+  anchor { 'zookeeper::start': }
+  -> class { 'zookeeper::install': }
+  -> class { 'zookeeper::config': }
 
   if ($use_sasl_auth) {
     class { 'zookeeper::sasl':

@@ -21,8 +21,8 @@ class zookeeper::service {
       file { "/usr/lib/systemd/system/${::zookeeper::service_name}.service":
         ensure  => 'present',
         content => template("${module_name}/zookeeper.service.erb"),
-        } ~>
-        exec { 'systemctl daemon-reload # for zookeeper':
+        }
+        ~> exec { 'systemctl daemon-reload # for zookeeper':
           refreshonly => true,
           path        => $::path,
           notify      => Service[$::zookeeper::service_name]

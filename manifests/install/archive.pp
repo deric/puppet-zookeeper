@@ -49,9 +49,9 @@ class zookeeper::install::archive {
   # directory is required for creating conf subdirectory
   if $::zookeeper::zk_dir {
     file { $::zookeeper::zk_dir:
-      ensure  => directory,
-      owner   => $::zookeeper::user,
-      group   => $::zookeeper::group,
+      ensure => directory,
+      owner  => $::zookeeper::user,
+      group  => $::zookeeper::group,
     }
   }
 }
