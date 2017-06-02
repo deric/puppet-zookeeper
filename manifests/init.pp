@@ -84,20 +84,23 @@ class zookeeper(
   $use_ticket_cache        = $::zookeeper::params::use_ticket_cache
 ) inherits ::zookeeper::params {
 
-  validate_array($packages)
-  validate_bool($ensure_cron)
-  validate_bool($install_java)
-  validate_bool($initialize_datastore)
-  validate_bool($manage_service)
-  validate_bool($use_sasl_auth)
-  validate_hash($archive_checksum)
-  validate_integer($id)
-  validate_integer($init_limit)
-  validate_integer($leader_port)
-  validate_integer($snap_count)
-  validate_integer($snap_retain_count)
-  validate_integer($sync_limit)
-  validate_integer($tick_time)
+  # validations are not necessary on Puppet 4
+  if versioncmp($::puppetversion, '4.0.0') < 0 {
+    validate_array($packages)
+    validate_bool($ensure_cron)
+    validate_bool($install_java)
+    validate_bool($initialize_datastore)
+    validate_bool($manage_service)
+    validate_bool($use_sasl_auth)
+    validate_hash($archive_checksum)
+    validate_integer($id)
+    validate_integer($init_limit)
+    validate_integer($leader_port)
+    validate_integer($snap_count)
+    validate_integer($snap_retain_count)
+    validate_integer($sync_limit)
+    validate_integer($tick_time)
+  }
 
   if $pid_file {
     $pid_path = $pid_file

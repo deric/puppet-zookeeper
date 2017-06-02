@@ -8,6 +8,7 @@ describe 'zookeeper::sasl' do
       :osfamily => 'Debian',
       :operatingsystemmajrelease => '8',
       :lsbdistcodename => 'jessie',
+      :puppetversion => Puppet.version,
     }
     end
 
@@ -40,6 +41,7 @@ describe 'zookeeper::sasl' do
       :osfamily => 'RedHat',
       :operatingsystemmajrelease => '7',
       :lsbdistcodename => '7',
+      :puppetversion => Puppet.version,
     }
     end
 

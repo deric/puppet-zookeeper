@@ -38,6 +38,7 @@ describe 'zookeeper' do
       :osfamily => 'Debian',
       :lsbdistcodename => 'trusty',
       :operatingsystemmajrelease => '14.04',
+      :puppetversion => Puppet.version,
     }
     end
 

@@ -2,12 +2,13 @@ require 'spec_helper'
 
 describe 'zookeeper', :type => :class do
   let(:facts) do
-    {
+  {
     :operatingsystem           => 'Debian',
     :osfamily                  => 'Debian',
     :lsbdistcodename           => 'wheezy',
     :operatingsystemmajrelease => '7',
     :ipaddress                 => '192.168.1.1',
+    :puppetversion             => Puppet.version,
   }
   end
 
@@ -155,6 +156,7 @@ describe 'zookeeper', :type => :class do
         :ipaddress => '192.168.1.1',
         :osfamily => 'RedHat',
         :operatingsystemmajrelease => '7',
+        :puppetversion => Puppet.version,
       }
       end
       it { should contain_package('zookeeper').with({:ensure => 'present'}) }
@@ -172,12 +174,13 @@ describe 'zookeeper', :type => :class do
 
   context 'allow passing specific version' do
     let(:facts) do
-      {
+    {
       :ipaddress => '192.168.1.1',
       :osfamily => 'Debian',
       :operatingsystem => 'Ubuntu',
       :operatingsystemmajrelease => '14.04',
       :lsbdistcodename => 'trusty',
+      :puppetversion => Puppet.version,
     }
     end
 
@@ -189,10 +192,10 @@ describe 'zookeeper', :type => :class do
     }
     end
 
-    it { should contain_package('zookeeper').with({:ensure => version}) }
-    it { should contain_package('zookeeperd').with({:ensure => version}) }
+    it { is_expected.to contain_package('zookeeper').with({:ensure => version}) }
+    it { is_expected.to contain_package('zookeeperd').with({:ensure => version}) }
 
-    it { should contain_user('zookeeper').with({:ensure => 'present'}) }
+    it { is_expected.to contain_user('zookeeper').with({:ensure => 'present'}) }
   end
 
   context 'upstart is used on Ubuntu' do
@@ -203,6 +206,7 @@ describe 'zookeeper', :type => :class do
       :operatingsystem => 'Ubuntu',
       :operatingsystemmajrelease => '14.04',
       :lsbdistcodename => 'trusty',
+      :puppetversion => Puppet.version,
     }
     end
 
@@ -230,6 +234,7 @@ describe 'zookeeper', :type => :class do
       :ipaddress => '192.168.1.1',
       :osfamily => 'RedHat',
       :operatingsystemmajrelease => '6',
+      :puppetversion => Puppet.version,
     }
     end
 
@@ -270,6 +275,7 @@ describe 'zookeeper', :type => :class do
         :ipaddress => '192.168.1.1',
         :osfamily => 'RedHat',
         :operatingsystemmajrelease => '6',
+        :puppetversion => Puppet.version,
       }
       end
 
@@ -288,6 +294,7 @@ describe 'zookeeper', :type => :class do
         :operatingsystem => 'Debian',
         :lsbdistcodename => 'jessie',
         :operatingsystemmajrelease => '8',
+        :puppetversion => Puppet.version,
       }
       end
 

@@ -46,6 +46,7 @@ describe 'zookeeper::install::repo' do
       :osfamily => 'RedHat',
       :operatingsystemmajrelease => '7',
       :hardwaremodel => 'arc',
+      :puppetversion => Puppet.version,
     }
     end
 
@@ -69,6 +70,7 @@ describe 'zookeeper::install::repo' do
       :operatingsystemmajrelease => '8',
       :hardwaremodel => 'x86_64',
       :osrel => '8',
+      :puppetversion => Puppet.version,
     }
     end
 
@@ -87,11 +89,12 @@ describe 'zookeeper::install::repo' do
 
   context 'fail when CDH version not supported' do
     let(:facts) do
-      {
+    {
       :osfamily => 'RedHat',
       :operatingsystemmajrelease => '7',
       :hardwaremodel => 'x86_64',
       :osrel => '7',
+      :puppetversion => Puppet.version,
     }
     end
 
@@ -110,11 +113,12 @@ describe 'zookeeper::install::repo' do
 
   context 'fail when repository source not supported' do
     let(:facts) do
-      {
+    {
       :osfamily => 'RedHat',
       :operatingsystemmajrelease => '7',
       :hardwaremodel => 'x86_64',
       :osrel => '7',
+      :puppetversion => Puppet.version,
     }
     end
 

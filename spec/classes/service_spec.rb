@@ -7,6 +7,7 @@ describe 'zookeeper::service' do
     :osfamily => 'Debian',
     :lsbdistcodename => 'wheezy',
     :operatingsystemmajrelease => '6',
+    :puppetversion => Puppet.version,
   }
   end
 
@@ -35,6 +36,7 @@ describe 'zookeeper::service' do
       :operatingsystemmajrelease => '7',
       :puppetversion => puppet,
       :path => '/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin',
+      :puppetversion => Puppet.version,
     }
     end
 
@@ -145,6 +147,7 @@ describe 'zookeeper::service' do
       :operatingsystemmajrelease => '6',
       :puppetversion => puppet,
       :path => '/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin',
+      :puppetversion => Puppet.version,
     }
     end
 

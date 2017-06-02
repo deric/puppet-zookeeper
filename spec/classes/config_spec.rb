@@ -8,6 +8,7 @@ describe 'zookeeper::config' do
     :lsbdistcodename => 'wheezy',
     :operatingsystemmajrelease => '7',
     :ipaddress => '192.168.1.1',
+    :puppetversion => Puppet.version,
   }
   end
 
@@ -19,6 +20,7 @@ describe 'zookeeper::config' do
       :lsbdistcodename => codename,
       :operatingsystemmajrelease => majrelease,
       :ipaddress => '192.168.1.1',
+      :puppetversion => Puppet.version,
     }
     end
 
@@ -105,7 +107,7 @@ describe 'zookeeper::config' do
             environment_file => "java.env",
           }'
        end
- 
+
        it do
          should contain_file('/etc/zookeeper/conf/java.env').with_content(/ERROR/)
          should_not contain_file('/etc/zookeeper/environment')

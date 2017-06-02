@@ -111,6 +111,7 @@ describe 'zookeeper::install' do
       :osfamily => 'Debian',
       :lsbdistcodename => 'trusty',
       :operatingsystemmajrelease => '14.04',
+      :puppetversion => Puppet.version,
     }
     end
 
@@ -139,6 +140,7 @@ describe 'zookeeper::install' do
       :osfamily => 'Debian',
       :lsbdistcodename => 'trusty',
       :operatingsystemmajrelease => '14.04',
+      :puppetversion => Puppet.version,
     }
     end
 
@@ -282,6 +284,7 @@ describe 'zookeeper::install' do
       :osfamily => 'Debian',
       :lsbdistcodename => 'trusty',
       :operatingsystemmajrelease => '14.04',
+      :puppetversion => Puppet.version,
     }
     end
     let(:user) { 'zookeeper' }
@@ -338,6 +341,7 @@ describe 'zookeeper::install' do
       :osfamily => 'Debian',
       :lsbdistcodename => 'trusty',
       :operatingsystemmajrelease => '14.04',
+      :puppetversion => Puppet.version,
     }}
 
     let :pre_condition do
