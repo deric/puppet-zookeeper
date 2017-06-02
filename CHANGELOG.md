@@ -1,3 +1,12 @@
+## 0.7.3
+- New features:
+  - [Enable possibility of system users for zookeeper](https://github.com/deric/puppet-zookeeper/pull/98) #98
+
+- Fixes:
+  - [Make service run even if bin/zkEnv.sh does not exist](https://github.com/deric/puppet-zookeeper/pull/94) #94
+  - [Ensure that `/etc/zookeeper` directory exists when installing from archive](https://github.com/deric/puppet-zookeeper/issues/96) #96
+- [Full diff](https://github.com/deric/puppet-zookeeper/compare/v0.7.2...v0.7.3)
+
 ## 0.7.2
 - New or changed features:
   - [Basic acceptance tests](https://github.com/deric/puppet-zookeeper/issues/90)
