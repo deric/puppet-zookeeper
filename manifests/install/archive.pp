@@ -37,7 +37,6 @@ class zookeeper::install::archive {
   }
 
   if $::zookeeper::archive_symlink {
-
     file { $::zookeeper::archive_symlink_name:
       ensure  => link,
       require => $symlink_require,
@@ -45,6 +44,14 @@ class zookeeper::install::archive {
       owner   => $::zookeeper::user,
       group   => $::zookeeper::group,
     }
+  }
 
+  # directory is required for creating conf subdirectory
+  if $::zookeeper::zk_dir {
+    file { $::zookeeper::zk_dir:
+      ensure  => directory,
+      owner   => $::zookeeper::user,
+      group   => $::zookeeper::group,
+    }
   }
 }

@@ -97,6 +97,7 @@ class zookeeper::params {
   $systemd_unit_want = undef
   $systemd_unit_after = 'network.target'
 
+  $zk_dir = '/etc/zookeeper'
   # zookeeper config
   $cfg_dir = '/etc/zookeeper/conf'
   $cleanup_sh = '/usr/share/zookeeper/bin/zkCleanup.sh'

@@ -350,7 +350,7 @@ describe 'zookeeper::install' do
     end
 
     it do
-      should contain_file(zoo_dir).with({
+      is_expected.to contain_file(zoo_dir).with({
         :ensure => 'link',
         :target => extract_path,
       })
@@ -362,6 +362,14 @@ describe 'zookeeper::install' do
         :creates      => extract_path,
         :user         => 'root',
         :group        => 'root',
+      })
+    end
+
+    it do
+      is_expected.to contain_file('/etc/zookeeper').with({
+        :ensure => 'directory',
+        :owner => 'zookeeper',
+        :group => 'zookeeper',
       })
     end
   end

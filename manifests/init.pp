@@ -38,6 +38,7 @@ class zookeeper(
   $service_provider        = $::zookeeper::params::service_provider,
   $systemd_unit_want       = $::zookeeper::params::systemd_unit_want,
   $systemd_unit_after      = $::zookeeper::params::systemd_unit_after,
+  $zk_dir                  = $::zookeeper::params::zk_dir,
   # zookeeper config
   $cfg_dir                 = $::zookeeper::params::cfg_dir,
   $cleanup_sh              = $::zookeeper::params::cleanup_sh,
