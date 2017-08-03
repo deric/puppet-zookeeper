@@ -121,4 +121,10 @@ maxSessionTimeout=<%= scope.lookupvar("zookeeper::max_session_timeout") %>
 # Enable SASL authentication and use the default provider/renew provided by cloudera
 authProvider.1=org.apache.zookeeper.server.auth.SASLAuthenticationProvider
 jaasLoginRenew=3600000
+<% if scope.lookupvar("zookeeper::remove_host_principal") -%>
+kerberos.removeHostFromPrincipal=true
+<% end -%>
+<% if scope.lookupvar("zookeeper::remove_realm_principal") -%>
+kerberos.removeRealmFromPrincipal=true
+<% end -%>
 <% end -%>

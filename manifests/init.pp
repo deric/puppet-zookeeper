@@ -81,7 +81,9 @@ class zookeeper(
   $realm                   = $::zookeeper::params::realm,
   $store_key               = $::zookeeper::params::store_key,
   $use_keytab              = $::zookeeper::params::use_keytab,
-  $use_ticket_cache        = $::zookeeper::params::use_ticket_cache
+  $use_ticket_cache        = $::zookeeper::params::use_ticket_cache,
+  $remove_host_principal   = $::zookeeper::params::remove_host_principal,
+  $remove_realm_principal  = $::zookeeper::params::remove_realm_principal,
 ) inherits ::zookeeper::params {
 
   # validations are not necessary on Puppet 4
@@ -92,6 +94,8 @@ class zookeeper(
     validate_bool($initialize_datastore)
     validate_bool($manage_service)
     validate_bool($use_sasl_auth)
+    validate_bool($remove_host_principal)
+    validate_bool($remove_realm_principal)
     validate_hash($archive_checksum)
     validate_integer($id)
     validate_integer($init_limit)
