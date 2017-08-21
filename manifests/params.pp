@@ -89,6 +89,7 @@ class zookeeper::params {
   $manage_service_file = false
   $pid_dir = '/var/run'
   $pid_file = undef
+  $restart_on_change = true
   $service_ensure = 'running'
   $service_name = $_params['service_name']
   $service_provider = $_params['service_provider']

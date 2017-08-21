@@ -33,6 +33,7 @@ class zookeeper(
   $manage_service_file     = $::zookeeper::params::manage_service_file,
   $pid_dir                 = $::zookeeper::params::pid_dir,
   $pid_file                = $::zookeeper::params::pid_file,
+  $restart_on_change       = $::zookeeper::params::restart_on_change,
   $service_ensure          = $::zookeeper::params::service_ensure,
   $service_name            = $::zookeeper::params::service_name,
   $service_provider        = $::zookeeper::params::service_provider,

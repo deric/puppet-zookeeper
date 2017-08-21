@@ -16,6 +16,25 @@ describe 'zookeeper', :type => :class do
   it { is_expected.to contain_class('zookeeper::install') }
   it { is_expected.to contain_class('zookeeper::service') }
   it { is_expected.to compile.with_all_deps }
+  it { is_expected.to contain_service('zookeeper') }
+  it { is_expected.to contain_service('zookeeper').that_subscribes_to('File[/etc/zookeeper/conf/myid]') }
+  it { is_expected.to contain_service('zookeeper').that_subscribes_to('File[/etc/zookeeper/conf/zoo.cfg]') }
+  it { is_expected.to contain_service('zookeeper').that_subscribes_to('File[/etc/zookeeper/conf/environment]') }
+  it { is_expected.to contain_service('zookeeper').that_subscribes_to('File[/etc/zookeeper/conf/log4j.properties]') }
+
+  context 'skip service restart' do
+    let(:params) do
+      {
+        :restart_on_change => false,
+      }
+    end
+
+    it { is_expected.to contain_service('zookeeper') }
+    it { is_expected.not_to contain_service('zookeeper').that_subscribes_to('File[/etc/zookeeper/conf/myid]') }
+    it { is_expected.not_to contain_service('zookeeper').that_subscribes_to('File[/etc/zookeeper/conf/zoo.cfg]') }
+    it { is_expected.not_to contain_service('zookeeper').that_subscribes_to('File[/etc/zookeeper/conf/environment]') }
+    it { is_expected.not_to contain_service('zookeeper').that_subscribes_to('File[/etc/zookeeper/conf/log4j.properties]') }
+  end
 
   context 'allow installing multiple packages' do
     let(:user) { 'zookeeper' }
