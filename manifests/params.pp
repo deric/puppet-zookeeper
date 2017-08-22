@@ -146,4 +146,6 @@ class zookeeper::params {
   $store_key = true
   $use_keytab = true
   $use_ticket_cache = false
+  $remove_host_principal = false
+  $remove_realm_principal = false
 }
