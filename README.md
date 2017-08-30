@@ -166,6 +166,7 @@ After=network-online.target
    - `archive_install_dir` controls the installation directory when using source packages (defaults to `/opt`)
    - `archive_symlink` controls the name of a version-independent symlink when using source packages
    - `archive_dl_url` allows to change the download URL for source packages (defaults to apache.org)
+   - `systemd_path` where to put `systemd` service files (applies only if `manage_service_file` and `service_provider == 'systemd'`)
    - `restart_on_change` whether ZooKeeper service should be restarted on configuration files change (default: `true`)
    - `remove_host_principal` whether to remove host from Kerberos principal (default: `false`)
    - `remove_realm_principal` whether to remove relam from Kerberos principal (default: `false`)

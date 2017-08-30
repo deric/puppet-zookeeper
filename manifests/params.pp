@@ -97,6 +97,7 @@ class zookeeper::params {
   # donate the matching directives in the [Unit] section
   $systemd_unit_want = undef
   $systemd_unit_after = 'network.target'
+  $systemd_path = '/etc/systemd/system'
 
   $zk_dir = '/etc/zookeeper'
   # zookeeper config

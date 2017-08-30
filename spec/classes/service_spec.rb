@@ -47,6 +47,7 @@ describe 'zookeeper::service' do
       'class {"zookeeper":
          manage_service_file => true,
          service_provider    => "systemd",
+         systemd_path        => "/usr/lib/systemd/system",
          zoo_dir             => "/usr/lib/zookeeper",
          log_dir             => "/var/log/zookeeper",
        }'
@@ -85,15 +86,15 @@ describe 'zookeeper::service' do
       end
 
         it do
-          should contain_file(
-            '/usr/lib/systemd/system/my-zookeeper.service'
+          is_expected.to contain_file(
+            '/etc/systemd/system/my-zookeeper.service'
           ).with({
             'ensure' => 'present',
           })
         end
 
         it do
-          should contain_service('my-zookeeper').with(
+          is_expected.to contain_service('my-zookeeper').with(
             :ensure => 'running',
             :enable => true
           )
@@ -111,8 +112,8 @@ describe 'zookeeper::service' do
       end
 
       it do
-        should contain_file(
-          '/usr/lib/systemd/system/zookeeper-server.service'
+        is_expected.to contain_file(
+          '/etc/systemd/system/zookeeper-server.service'
         ).with_content(/zookeeper-3\.4\.9\.jar/)
       end
 
@@ -128,8 +129,16 @@ describe 'zookeeper::service' do
       end
 
       it do
-        should_not contain_file(
+        is_expected.not_to contain_file(
           '/usr/lib/systemd/system/zookeeper.service'
+        ).with({
+          'ensure' => 'present',
+        })
+      end
+
+      it do
+        is_expected.not_to contain_file(
+          '/etc/systemd/system/zookeeper.service'
         ).with({
           'ensure' => 'present',
         })
