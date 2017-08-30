@@ -2,8 +2,9 @@
 - [Full diff](https://github.com/deric/puppet-zookeeper/compare/v0.7.3...v0.7.4)
 - New features:
   - [Allow service restarts to be skipped on change](https://github.com/deric/puppet-zookeeper/pull/100) #100
+  - [Provide option to remove host and realm from Kerberos principal](https://github.com/deric/puppet-zookeeper/pull/99)
 - Fixes:
-  - [systemd classpath overwritten](https://github.com/deric/puppet-zookeeper/issues/101) #101
+  - [systemd classpath overwritten](https://github.com/deric/puppet-zookeeper/issues/101) #102
 
 ## 0.7.3
 - New features:

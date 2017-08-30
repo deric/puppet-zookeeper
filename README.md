@@ -167,6 +167,8 @@ After=network-online.target
    - `archive_symlink` controls the name of a version-independent symlink when using source packages
    - `archive_dl_url` allows to change the download URL for source packages (defaults to apache.org)
    - `restart_on_change` whether ZooKeeper service should be restarted on configuration files change (default: `true`)
+   - `remove_host_principal` whether to remove host from Kerberos principal (default: `false`)
+   - `remove_realm_principal` whether to remove relam from Kerberos principal (default: `false`)
 
 and many others, see the `params.pp` file for more details.
 
