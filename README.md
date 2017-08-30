@@ -166,6 +166,7 @@ After=network-online.target
    - `archive_install_dir` controls the installation directory when using source packages (defaults to `/opt`)
    - `archive_symlink` controls the name of a version-independent symlink when using source packages
    - `archive_dl_url` allows to change the download URL for source packages (defaults to apache.org)
+   - `restart_on_change` whether ZooKeeper service should be restarted on configuration files change (default: `true`)
 
 and many others, see the `params.pp` file for more details.
 

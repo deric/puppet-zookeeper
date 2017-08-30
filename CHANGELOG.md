@@ -1,3 +1,10 @@
+## 0.7.4
+- [Full diff](https://github.com/deric/puppet-zookeeper/compare/v0.7.3...v0.7.4)
+- New features:
+  - [Allow service restarts to be skipped on change](https://github.com/deric/puppet-zookeeper/pull/100) #100
+- Fixes:
+  - [systemd classpath overwritten](https://github.com/deric/puppet-zookeeper/issues/101) #101
+
 ## 0.7.3
 - New features:
   - [Enable possibility of system users for zookeeper](https://github.com/deric/puppet-zookeeper/pull/98) #98
