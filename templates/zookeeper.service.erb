@@ -4,7 +4,7 @@
 [Unit]
 Description=Apache ZooKeeper
 <%if ! [nil, :undefined, :undef].include?(scope.lookupvar("zookeeper::systemd_unit_want")) -%>
-Want=<%= scope.lookupvar("zookeeper::systemd_unit_want")%>
+Wants=<%= scope.lookupvar("zookeeper::systemd_unit_want")%>
 <% end -%>
 <%if ! [nil, :undefined, :undef].include?(scope.lookupvar("zookeeper::systemd_unit_after")) -%>
 After=<%= scope.lookupvar("zookeeper::systemd_unit_after") %>
