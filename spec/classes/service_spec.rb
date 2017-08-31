@@ -269,5 +269,13 @@ describe 'zookeeper::service' do
         :enable => true
       )
     end
+
+    # TODO: doesn't apply to Debian
+    it do
+      is_expected.to contain_file(
+        '/etc/systemd/system/zookeeper.service'
+      ).with_content(/CLASSPATH="\/usr\/lib\/zookeeper\/zookeeper.jar/)
+    end
+
   end
 end
