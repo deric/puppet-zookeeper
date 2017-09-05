@@ -139,6 +139,8 @@ class zookeeper::params {
   $rollingfile_threshold = 'INFO'
   $console_threshold = 'INFO'
   $tracefile_threshold = 'TRACE'
+  $maxfilesize = '256MB'
+  $maxbackupindex = '20'
 
   # sasl options
   $keytab_path = '/etc/zookeeper/conf/zookeeper.keytab'
