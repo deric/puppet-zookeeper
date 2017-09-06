@@ -27,4 +27,4 @@ JAVA_OPTS="${JAVA_OPTS} -Djava.security.auth.login.config=<%= File.join(scope.lo
 <% end -%>
 # will be concatenated with JVMFLAGS var
 # see https://github.com/apache/zookeeper/blob/master/bin/zkServer.sh#L78
-export SERVER_JVMFLAGS=$JAVA_OPTS
+SERVER_JVMFLAGS=$JAVA_OPTS
