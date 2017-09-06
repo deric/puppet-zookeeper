@@ -3,7 +3,7 @@
 # This module manages installation tasks.
 #
 # PRIVATE CLASS - do not use directly (use main `zookeeper` class).
-class zookeeper::install {
+class zookeeper::install inherits zookeeper {
   anchor { 'zookeeper::install::begin': }
 
   # Repo management
