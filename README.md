@@ -195,8 +195,10 @@ class { 'zookeeper':
 }
 ```
 Threshold supported values are: `ALL`, `DEBUG`, `ERROR`, `FATAL`, `INFO`, `OFF`, `TRACE` and `WARN`.
+
 [Maxfilesize](https://logging.apache.org/log4j/1.2/apidocs/org/apache/log4j/RollingFileAppender.html#maxFileSize)
-[MaxBackupIndez](https://logging.apache.org/log4j/1.2/apidocs/org/apache/log4j/RollingFileAppender.html#maxBackupIndex)
+
+[MaxBackupIndex](https://logging.apache.org/log4j/1.2/apidocs/org/apache/log4j/RollingFileAppender.html#maxBackupIndex)
 
 
 ## Hiera Support
