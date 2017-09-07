@@ -26,8 +26,8 @@ zookeeper.console.threshold=<%= scope.lookupvar("zookeeper::console_threshold") 
 zookeeper.log.dir=.
 zookeeper.log.file=zookeeper.log
 zookeeper.log.threshold=<%= scope.lookupvar("zookeeper::rollingfile_threshold") %>
-zookeeper.log.maxfilesize=256MB
-zookeeper.log.maxbackupindex=20
+zookeeper.log.maxfilesize=<%= scope.lookupvar("zookeeper::maxfilesize") %>
+zookeeper.log.maxbackupindex=<%= scope.lookupvar("zookeeper::maxbackupindex") %>
 
 zookeeper.tracelog.dir=${zookeeper.log.dir}
 zookeeper.tracelog.file=zookeeper_trace.log

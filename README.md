@@ -190,9 +190,16 @@ class { 'zookeeper':
   console_threshold     => 'INFO',
   rollingfile_threshold => 'INFO',
   tracefile_threshold   => 'TRACE',
+  maxfilesize           => '256MB',
+  maxbackupindex        => '20',
 }
 ```
-supported values are: `ALL`, `DEBUG`, `ERROR`, `FATAL`, `INFO`, `OFF`, `TRACE` and `WARN`.
+Threshold supported values are: `ALL`, `DEBUG`, `ERROR`, `FATAL`, `INFO`, `OFF`, `TRACE` and `WARN`.
+
+[Maxfilesize](https://logging.apache.org/log4j/1.2/apidocs/org/apache/log4j/RollingFileAppender.html#maxFileSize)
+
+[MaxBackupIndex](https://logging.apache.org/log4j/1.2/apidocs/org/apache/log4j/RollingFileAppender.html#maxBackupIndex)
+
 
 ## Hiera Support
 
