@@ -140,7 +140,7 @@ class zookeeper::params {
   $console_threshold = 'INFO'
   $tracefile_threshold = 'TRACE'
   $maxfilesize = '256MB'
-  $maxbackupindex = '20'
+  $maxbackupindex = 20
 
   # sasl options
   $keytab_path = '/etc/zookeeper/conf/zookeeper.keytab'
