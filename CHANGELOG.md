@@ -1,3 +1,13 @@
+## 0.7.5
+- [Full diff](https://github.com/deric/puppet-zookeeper/compare/v0.7.4...v0.7.5)
+- New features:
+  - Support Debian 9
+  - [Allow configuring log file size](https://github.com/deric/puppet-zookeeper/pull/105)
+  - [Allow customizing systed path](https://github.com/deric/puppet-zookeeper/commit/96ae6ee6fd398249d9218c8b242ac39d950bdd9a)
+- Fixes:
+  - [Properly configure log dir](https://github.com/deric/puppet-zookeeper/issues/108) #108
+  - [Fix systemd wants directive](https://github.com/deric/puppet-zookeeper/issues/103) #103
+
 ## 0.7.4
 - [Full diff](https://github.com/deric/puppet-zookeeper/compare/v0.7.3...v0.7.4)
 - New features:
