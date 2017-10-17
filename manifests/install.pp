@@ -50,18 +50,14 @@ class zookeeper::install inherits zookeeper {
     'archive': {
       include zookeeper::install::archive
       Anchor['zookeeper::install::intermediate']
-      ->
-      Class['zookeeper::install::archive']
-      ->
-      Anchor['zookeeper::install::end']
+      -> Class['zookeeper::install::archive']
+      -> Anchor['zookeeper::install::end']
     }
     'package': {
       include zookeeper::install::package
       Anchor['zookeeper::install::intermediate']
-      ->
-      Class['zookeeper::install::package']
-      ->
-      Anchor['zookeeper::install::end']
+      -> Class['zookeeper::install::package']
+      -> Anchor['zookeeper::install::end']
     }
     default: {
       fail('Valid installation methods are `package` or `archive`')

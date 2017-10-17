@@ -7,6 +7,7 @@
 - Fixes:
   - [Properly configure log dir](https://github.com/deric/puppet-zookeeper/issues/108) #108
   - [Fix systemd wants directive](https://github.com/deric/puppet-zookeeper/issues/103) #103
+  - [replace all resource-style class with plain `include`](https://github.com/deric/puppet-zookeeper/pull/106)
 
 ## 0.7.4
 - [Full diff](https://github.com/deric/puppet-zookeeper/compare/v0.7.3...v0.7.4)

@@ -147,19 +147,15 @@ class zookeeper(
   if ($use_sasl_auth) {
     include zookeeper::sasl
     Class['zookeeper::config']
-    ->
-    Class['zookeeper::sasl']
-    ->
-    Class['zookeeper::service']
+    -> Class['zookeeper::sasl']
+    -> Class['zookeeper::service']
   }
 
   if ($manage_service) and ($service_provider != 'exhibitor') {
     include zookeeper::service
     Class['zookeeper::config']
-    ->
-    Class['zookeeper::service']
-    ->
-    Anchor['zookeeper::end']
+    -> Class['zookeeper::service']
+    -> Anchor['zookeeper::end']
   }
   anchor { 'zookeeper::end': }
 
