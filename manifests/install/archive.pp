@@ -3,7 +3,7 @@
 # This module manages archive installation
 #
 # PRIVATE CLASS - do not use directly (use main `zookeeper` class).
-class zookeeper::install::archive {
+class zookeeper::install::archive inherits zookeeper::install {
   $filename = "${module_name}-${::zookeeper::archive_version}"
   $download_url = $::zookeeper::archive_dl_url ? {
     undef   => "${::zookeeper::archive_dl_site}/${module_name}-${::zookeeper::archive_version}/${filename}.tar.gz",

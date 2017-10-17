@@ -4,7 +4,7 @@
 # some post-install task to ensure same behaviour on all platforms.
 #
 # PRIVATE CLASS - do not use directly (use main `zookeeper` class).
-class zookeeper::post_install {
+class zookeeper::post_install inherits zookeeper {
 
   if ($::zookeeper::manual_clean) {
     # User defined value

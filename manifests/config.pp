@@ -3,7 +3,7 @@
 # This module manages the configuration directories
 #
 # PRIVATE CLASS - do not use directly (use main `zookeeper` class).
-class zookeeper::config {
+class zookeeper::config inherits zookeeper {
   require ::zookeeper::install
 
   file { $::zookeeper::cfg_dir:

@@ -3,15 +3,15 @@
 # This module manages installation tasks.
 #
 # PRIVATE CLASS - do not use directly (use main `zookeeper` class).
-class zookeeper::install {
+class zookeeper::install inherits zookeeper {
   anchor { 'zookeeper::install::begin': }
 
   # Repo management
   case $::osfamily {
     'RedHat': {
-      class { 'zookeeper::install::repo':
-        require => Anchor['zookeeper::install::begin']
-      }
+      include zookeeper::install::repo
+      Anchor['zookeeper::install::begin']
+      -> Class['zookeeper::install::repo']
     }
     default: {} # nothing to do
   }
@@ -48,16 +48,20 @@ class zookeeper::install {
   # Package installation
   case $::zookeeper::install_method {
     'archive': {
-      class { 'zookeeper::install::archive':
-        before  => Anchor['zookeeper::install::end'],
-        require => Anchor['zookeeper::install::intermediate'],
-      }
+      include zookeeper::install::archive
+      Anchor['zookeeper::install::intermediate']
+      ->
+      Class['zookeeper::install::archive']
+      ->
+      Anchor['zookeeper::install::end']
     }
     'package': {
-      class { 'zookeeper::install::package':
-        before  => Anchor['zookeeper::install::end'],
-        require => Anchor['zookeeper::install::intermediate'],
-      }
+      include zookeeper::install::package
+      Anchor['zookeeper::install::intermediate']
+      ->
+      Class['zookeeper::install::package']
+      ->
+      Anchor['zookeeper::install::end']
     }
     default: {
       fail('Valid installation methods are `package` or `archive`')

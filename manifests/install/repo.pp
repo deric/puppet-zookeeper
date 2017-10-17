@@ -3,7 +3,7 @@
 # This class manages yum repository for Zookeeper packages
 #
 # PRIVATE CLASS - do not use directly (use main `zookeeper` class).
-class zookeeper::install::repo {
+class zookeeper::install::repo inherits zookeeper::install {
 
   if $::zookeeper::repo_source {
     case $::zookeeper::repo_source {
