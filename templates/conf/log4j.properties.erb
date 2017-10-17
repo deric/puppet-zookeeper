@@ -23,7 +23,7 @@ zookeeper.root.logger=<%= scope.lookupvar("zookeeper::log4j_prop") %>
 
 zookeeper.console.threshold=<%= scope.lookupvar("zookeeper::console_threshold") %>
 
-zookeeper.log.dir=.
+zookeeper.log.dir=<%= scope.lookupvar("zookeeper::log_dir") %>
 zookeeper.log.file=zookeeper.log
 zookeeper.log.threshold=<%= scope.lookupvar("zookeeper::rollingfile_threshold") %>
 zookeeper.log.maxfilesize=<%= scope.lookupvar("zookeeper::maxfilesize") %>

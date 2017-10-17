@@ -267,6 +267,12 @@ describe 'zookeeper', :type => :class do
     }
     end
 
+    it do
+      is_expected.to contain_file(
+        '/etc/zookeeper/conf/log4j.properties'
+      ).with_content(/zookeeper.log.dir=\/var\/log\/zookeeper/)
+    end
+
     context 'set service provider' do
       it { is_expected.to contain_package('zookeeper').with({:ensure => 'present'}) }
       it do

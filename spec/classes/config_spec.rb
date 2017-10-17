@@ -204,7 +204,7 @@ describe 'zookeeper::config' do
     let(:cfg_dir) { '/etc/zookeeper/conf' }
     let(:log_dir) { '/var/lib/zookeeper' }
     let(:id_file) { '/etc/zookeeper/conf/myid' }
-    let(:myid)    { /1/ }
+    let(:myid)    { /^1/ }
 
     precond = 'class {"zookeeper": }'
 
@@ -226,7 +226,7 @@ describe 'zookeeper::config' do
     let(:cfg_dir) { '/var/lib/zookeeper/conf' }
     let(:log_dir) { '/var/lib/zookeeper/log' }
     let(:id_file) { '/var/lib/zookeeper/conf/myid' }
-    let(:myid)    { /2/ }
+    let(:myid)    { /^2/ }
 
     it_behaves_like 'common', 'Debian', 'wheezy', '7', precond
   end
