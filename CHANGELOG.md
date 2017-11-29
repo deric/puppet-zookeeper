@@ -1,4 +1,4 @@
-## 0.7.5
+## 0.7.6
 - [Full diff](https://github.com/deric/puppet-zookeeper/compare/v0.7.5...v0.7.6)
 - Fixes:
   - [zookeeper does not start under debian stretch](https://github.com/deric/puppet-zookeeper/issues/109) #109
