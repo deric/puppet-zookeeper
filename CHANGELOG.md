@@ -1,4 +1,9 @@
 ## 0.7.5
+- [Full diff](https://github.com/deric/puppet-zookeeper/compare/v0.7.5...v0.7.6)
+- Fixes:
+  - [zookeeper does not start under debian stretch](https://github.com/deric/puppet-zookeeper/issues/109) #109
+
+## 0.7.5
 - [Full diff](https://github.com/deric/puppet-zookeeper/compare/v0.7.4...v0.7.5)
 - New features:
   - Support Debian 9
