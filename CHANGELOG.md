@@ -1,3 +1,10 @@
+## 0.7.7
+- [Full diff](https://github.com/deric/puppet-zookeeper/compare/v0.7.6...v0.7.7)
+- Drop testing on Ruby 1.9.3
+- Include Puppet 5 in build matrix
+- Fixes:
+  - [Replace sh with bash in systemd unit](https://github.com/deric/puppet-zookeeper/pull/113) #113
+
 ## 0.7.6
 - [Full diff](https://github.com/deric/puppet-zookeeper/compare/v0.7.5...v0.7.6)
 - Fixes:

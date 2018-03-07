@@ -8,10 +8,15 @@ A puppet receipt for [Apache Zookeeper](http://zookeeper.apache.org/). ZooKeeper
 
 ## Requirements
 
-  * Puppet 3.x, Puppet 4.x
-  * Ruby 1.9.3, 2.0.0, 2.1.x
-  * Binary or source package of ZooKeeper
+  * Puppet
+  * Binary or ZooKeeper source code archive
 
+Compatibility matrix:
+
+| `puppet-zookeeper`| Puppet 3.x    | Puppet 4.x   | Puppet 5.x |
+| ----------------- | ------------- |--------------| -----------|
+| `0.7.x`           | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
+| `1.x|             | :x:           | :heavy_check_mark: | :heavy_check_mark: |
 ## Basic Usage:
 
 ```puppet
