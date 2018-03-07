@@ -1,7 +1,7 @@
 source 'https://rubygems.org'
 
 group :tests do
-  puppetversion = ENV.key?('PUPPET_VERSION') ? "#{ENV['PUPPET_VERSION']}" : ['>= 2.7.0', '< 5.0']
+  puppetversion = ENV.key?('PUPPET_VERSION') ? "#{ENV['PUPPET_VERSION']}" : ['>= 2.7.0', '< 6.0']
   gem 'puppet', puppetversion
   gem 'rake'
   gem 'puppet-lint'
@@ -24,17 +24,10 @@ group :tests do
   else
     gem 'metadata-json-lint', require: false
   end
-  if RUBY_VERSION < "2.1.0"
-    gem 'nokogiri', '< 1.7.0'
-  end
 end
 
 group :development do
-  if RUBY_VERSION < "2.0.0"
-    gem 'rubocop','~> 0.33.0'
-  else
-    gem 'rubocop'
-  end
+  gem 'rubocop', '>= 0.49.0'
   gem 'puppet-blacksmith'
 end
 
