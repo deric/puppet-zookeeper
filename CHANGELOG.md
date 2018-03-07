@@ -1,3 +1,6 @@
+## 1.0.0 [UNRELEASED]
+* Drop Puppet 3 support (still might work with `FUTURE_PARSER=true`)
+
 ## 0.7.7
 - [Full diff](https://github.com/deric/puppet-zookeeper/compare/v0.7.6...v0.7.7)
 - Drop testing on Ruby 1.9.3
