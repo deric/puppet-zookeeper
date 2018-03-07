@@ -18,7 +18,6 @@ env:
   global:
     - LIBRARIAN_PUPPET_TMP="$HOME/librarian-puppet"
   matrix:
-    - PUPPET_VERSION="~> 3.7.0" STRICT_VARIABLES=yes
     - PUPPET_VERSION="~> 3.8.0" STRICT_VARIABLES=yes FUTURE_PARSER=yes
     - PUPPET_VERSION="~> 4.5.0" STRICT_VARIABLES=yes
     - PUPPET_VERSION="~> 4.6.0" STRICT_VARIABLES=yes
@@ -28,13 +27,6 @@ env:
     - PUPPET_VERSION="~> 4.10.0" STRICT_VARIABLES=yes
     - PUPPET_VERSION="~> 5.4.0" STRICT_VARIABLES=yes
 matrix:
-  include:
-    - rvm: 2.4.0
-      dist: trusty
-      env: RAKE_ENV=ci BEAKER_debug=true BEAKER_set=debian8-3.8
-      script: bundle exec rake acceptance
-      services: docker
-      sudo: required
     - rvm: 2.4.0
       dist: trusty
       env: RAKE_ENV=ci BEAKER_debug=true BEAKER_set=debian8-4.8
@@ -43,13 +35,9 @@ matrix:
       sudo: required
   exclude:
     - rvm: 2.2.7
-      env: PUPPET_VERSION="~> 3.7.0" STRICT_VARIABLES=yes
-    - rvm: 2.2.7
       env: PUPPET_VERSION="~> 3.8.0" STRICT_VARIABLES=yes
     - rvm: 2.2.7
       env: PUPPET_VERSION="~> 3.8.0" STRICT_VARIABLES=yes FUTURE_PARSER=yes
-    - rvm: 2.3.3
-      env: PUPPET_VERSION="~> 3.7.0" STRICT_VARIABLES=yes
     - rvm: 2.3.3
       env: PUPPET_VERSION="~> 3.8.0" STRICT_VARIABLES=yes
     - rvm: 2.3.3

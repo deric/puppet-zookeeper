@@ -268,7 +268,7 @@ describe 'zookeeper::install' do
     # by versioncmp function (like '~>')
 
     precond = 'class {"zookeeper":
-      snap_retain_count => "1",
+      snap_retain_count => 1,
     }'
 
     it_behaves_like 'redhat-install', 'RedHat', '6', Puppet.version, precond

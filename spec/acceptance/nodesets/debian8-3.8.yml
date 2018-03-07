@@ -13,3 +13,4 @@ CONFIG:
   masterless: true
   log_level: verbose
   type: foss
+  future_parser: yes

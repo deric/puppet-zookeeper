@@ -58,7 +58,7 @@ describe 'zookeeper::config' do
       let :pre_condition do
         'class {"zookeeper":
            log4j_prop => "ERROR",
-           snap_count => "15000",
+           snap_count => 15000,
          }'
       end
 
@@ -117,7 +117,7 @@ describe 'zookeeper::config' do
     context 'max allowed connections' do
       let :pre_condition do
         'class {"zookeeper":
-           max_allowed_connections => "15",
+           max_allowed_connections => 15,
          }'
       end
 
@@ -145,7 +145,7 @@ describe 'zookeeper::config' do
     context 'setting tick time' do
       let :pre_condition do
         'class {"zookeeper":
-           tick_time => "3000",
+           tick_time => 3000,
          }'
       end
 
@@ -157,8 +157,8 @@ describe 'zookeeper::config' do
     context 'setting init and sync limit' do
       let :pre_condition do
         'class {"zookeeper":
-           init_limit => "15",
-           sync_limit => "10",
+           init_limit => 15,
+           sync_limit => 10,
          }'
       end
 
