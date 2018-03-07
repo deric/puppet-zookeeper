@@ -143,6 +143,8 @@ class zookeeper::params {
   $maxbackupindex = 20
 
   # sasl options
+  $sasl_krb5 = true
+  $sasl_users = {}
   $keytab_path = '/etc/zookeeper/conf/zookeeper.keytab'
   $principal = "zookeeper/${::fqdn}"
   $realm = $::domain
