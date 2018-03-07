@@ -11,7 +11,7 @@ After=<%= scope.lookupvar("zookeeper::systemd_unit_after") %>
 <% end -%>
 
 [Service]
-ExecStart=/bin/sh -c 'set -x; \
+ExecStart=/bin/bash -c 'set -x; \
   . <%= scope.lookupvar("zookeeper::cfg_dir") %>/<%= scope.lookupvar("zookeeper::environment_file") %>; \
   CLASSPATH="<%= @_zoo_dir %>/zookeeper<% if scope.lookupvar('zookeeper::install_method') == 'archive' -%>-<%= scope.lookupvar("zookeeper::archive_version") %><% end -%>.jar:<%= @_zoo_dir %>/lib/*:$CLASSPATH"; \
   CLASSPATH="$([ -r <%= scope.lookupvar("zookeeper::service::_zoo_dir") %>/bin/zkEnv.sh ] && . <%= scope.lookupvar("zookeeper::service::_zoo_dir") %>/bin/zkEnv.sh ; echo $CLASSPATH)"; \
