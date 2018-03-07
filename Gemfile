@@ -28,7 +28,7 @@ end
 
 group :development do
   gem 'rubocop', '>= 0.49.0'
-  gem 'puppet-blacksmith'
+  gem 'puppet-blacksmith', '< 4.0.0'
 end
 
 group :system_tests do
