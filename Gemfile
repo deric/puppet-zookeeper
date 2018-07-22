@@ -13,17 +13,7 @@ group :tests do
   gem 'rspec-puppet-facts'
   gem 'rspec', '>= 3.0.0'
   gem 'rspec-puppet', '>= 2.3.0'
-  if RUBY_VERSION < "2.0.0"
-    gem 'json', '< 2.0' # newer versions requires at least ruby 2.0
-    gem 'json_pure', '< 2.0.0'
-    gem 'fog-google', '< 0.1.1'
-    gem 'google-api-client', '< 0.9'
-    gem 'public_suffix', '< 1.5.0'
-    gem 'parallel_tests', '< 2.10'
-    gem 'metadata-json-lint', '< 1.2.0', require: false
-  else
-    gem 'metadata-json-lint', require: false
-  end
+  gem 'metadata-json-lint', require: false
 end
 
 group :development do
