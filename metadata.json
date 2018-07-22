@@ -1,6 +1,6 @@
 {
   "name": "deric-zookeeper",
-  "version": "1.0.0",
+  "version": "0.8.0",
   "author": "Tomas Barton",
   "summary": "Module for managing Apache Zookeeper",
   "license": "Apache-2.0",
@@ -48,7 +48,8 @@
         "10.04",
         "12.04",
         "14.04",
-        "16.04"
+        "16.04",
+        "18.04"
       ]
     }
   ],

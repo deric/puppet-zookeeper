@@ -15,8 +15,9 @@ Compatibility matrix:
 
 | `puppet-zookeeper`| Puppet 3.x    | Puppet 4.x   | Puppet 5.x |
 | ----------------- | ------------- |--------------| -----------|
-| `0.7.x`           | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
-| `1.x`             | :x:           | :heavy_check_mark: | :heavy_check_mark: |
+| `0.7.x`           | :heavy_check_mark: | :heavy_check_mark: | :question: |
+| `0.8.x`           | :x:  | :heavy_check_mark: |  :heavy_check_mark: |
+
 ## Basic Usage:
 
 ```puppet
