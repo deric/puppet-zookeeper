@@ -16,6 +16,11 @@ group :tests do
   gem 'metadata-json-lint', require: false
 end
 
+# xmlrpc used to be bundled with Ruby until 2.4
+if RUBY_VERSION >= '2.4.0'
+  gem 'xmlrpc'
+end
+
 group :development do
   gem 'rubocop', '>= 0.49.0'
   gem 'puppet-blacksmith', '< 4.0.0'
