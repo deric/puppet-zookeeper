@@ -80,6 +80,7 @@ class zookeeper(
   String                                     $tracefile_threshold     = $::zookeeper::params::tracefile_threshold,
   String                                     $console_threshold       = $::zookeeper::params::console_threshold,
   # sasl options
+  Hash[String, String]                       $sasl_users              = $::zookeeper::params::sasl_users,
   String                                     $keytab_path             = $::zookeeper::params::keytab_path,
   String                                     $principal               = $::zookeeper::params::principal,
   String                                     $realm                   = $::zookeeper::params::realm,
