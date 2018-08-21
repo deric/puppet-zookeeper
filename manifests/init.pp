@@ -84,6 +84,7 @@ class zookeeper(
   String                                     $keytab_path             = $::zookeeper::params::keytab_path,
   String                                     $principal               = $::zookeeper::params::principal,
   String                                     $realm                   = $::zookeeper::params::realm,
+  Boolean                                    $sasl_krb5               = $::zookeeper::params::sasl_krb5,
   Boolean                                    $store_key               = $::zookeeper::params::store_key,
   Boolean                                    $use_keytab              = $::zookeeper::params::use_keytab,
   Boolean                                    $use_ticket_cache        = $::zookeeper::params::use_ticket_cache,
