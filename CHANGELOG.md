@@ -1,3 +1,7 @@
+## 0.8.1
+* Allow newer dependencies stdlib, archive, puppet (#116)
+* Include SASL parameters in init.pp (#115)
+
 ## 0.8.0
 * Dropped Puppet 3 support (still might work with `FUTURE_PARSER=true`)
 
