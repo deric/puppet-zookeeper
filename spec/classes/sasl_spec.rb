@@ -30,7 +30,7 @@ describe 'zookeeper::sasl' do
     it do
       is_expected.to contain_file(
         '/etc/zookeeper/conf/environment'
-      ).with_content(/JAVA_OPTS="\${JAVA_OPTS} -Djava.security.auth.login.config=\/etc\/zookeeper\/conf\/jaas.conf"/)
+      ).with_content(/JAVA_OPTS=".* -Djava.security.auth.login.config=\/etc\/zookeeper\/conf\/jaas.conf"/)
     end
   end
 
@@ -63,7 +63,7 @@ describe 'zookeeper::sasl' do
     it do
       is_expected.to contain_file(
         '/etc/zookeeper/conf/java.env'
-      ).with_content(/JAVA_OPTS="\${JAVA_OPTS} -Djava.security.auth.login.config=\/etc\/zookeeper\/conf\/jaas.conf"/)
+      ).with_content(/JAVA_OPTS=".* -Djava.security.auth.login.config=\/etc\/zookeeper\/conf\/jaas.conf"/)
     end
   end
  
