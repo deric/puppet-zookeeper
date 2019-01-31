@@ -1,3 +1,7 @@
+## 0.8.2
+- [Full diff](https://github.com/deric/puppet-zookeeper/compare/v0.8.1...v0.8.2)
+- Fixed `JAVA_OPTS` broken with enabled SASL auth ([#120](https://github.com/deric/puppet-zookeeper/pull/120))
+
 ## 0.8.1
 * Allow newer dependencies stdlib, archive, puppet (#116)
 * Include SASL parameters in init.pp (#115)
