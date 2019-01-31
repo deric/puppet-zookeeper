@@ -167,7 +167,7 @@ After=network-online.target
    - `manage_service` (default: `true`) whether Puppet should ensure running service
    - `manage_service_file` when enabled on RHEL 7.0 a systemd config will be managed
    - `ensure_account` controls whether `zookeeper` user and group will be ensured (set to `false` to disable this feature)
-   - `install_method` controls whether ZooKeeper ist installed from binary (`package`) or source (`archive`) packages
+   - `install_method` controls whether ZooKeeper is installed from binary (`package`) or source (`archive`) packages
    - `archive_version` allows to specify an arbitrary version of ZooKeeper when using source packages
    - `archive_install_dir` controls the installation directory when using source packages (defaults to `/opt`)
    - `archive_symlink` controls the name of a version-independent symlink when using source packages
