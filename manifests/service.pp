@@ -51,6 +51,7 @@ class zookeeper::service inherits zookeeper {
   }
 
   if $::zookeeper::restart_on_change {
+    File[$::zookeeper::log_dir] ~> Service[$::zookeeper::service_name]
     File["${::zookeeper::cfg_dir}/myid"] ~> Service[$::zookeeper::service_name]
     File["${::zookeeper::cfg_dir}/zoo.cfg"] ~> Service[$::zookeeper::service_name]
     File["${::zookeeper::cfg_dir}/${::zookeeper::environment_file}"] ~> Service[$::zookeeper::service_name]
