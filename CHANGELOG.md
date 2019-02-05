@@ -1,3 +1,10 @@
+## 0.8.4
+- Bugfix: prevent service from failing to log any upcoming events ([#122](https://github.com/deric/puppet-zookeeper/pull/122))
+- [Full diff](https://github.com/deric/puppet-zookeeper/compare/v0.8.2...v0.8.4)
+
+## 0.8.3
+- Same as `v0.8.2` (incorrectly tagged release)
+
 ## 0.8.2
 - [Full diff](https://github.com/deric/puppet-zookeeper/compare/v0.8.1...v0.8.2)
 - Fixed `JAVA_OPTS` broken with enabled SASL auth ([#120](https://github.com/deric/puppet-zookeeper/pull/120))
