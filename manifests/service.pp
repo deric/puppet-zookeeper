@@ -2,7 +2,6 @@
 #
 # PRIVATE CLASS - do not use directly (use main `zookeeper` class).
 class zookeeper::service inherits zookeeper {
-  require ::zookeeper::install
 
   case $::zookeeper::install_method {
     'archive': {
