@@ -327,11 +327,11 @@ describe 'zookeeper::install' do
     end
   end
 
-  context 'installing from tar archive' do
+  context 'installing 3.4.8 from tar archive' do
     let(:install_dir) { '/opt' }
     let(:zoo_dir) { '/opt/zookeeper' }
     let(:vers) { '3.4.8' }
-    let(:mirror_url) { 'http://apache.org/dist' }
+    let(:mirror_url) { 'http://archive.apache.org/dist' }
     let(:basefilename) { "zookeeper-#{vers}.tar.gz" }
     let(:package_url) { "#{mirror_url}/zookeeper/zookeeper-#{vers}/zookeeper-#{vers}.tar.gz" }
     let(:extract_path) { "#{zoo_dir}-#{vers}" }
@@ -359,6 +359,58 @@ describe 'zookeeper::install' do
         :target => extract_path,
       })
     end
+    it do
+      should contain_archive("#{install_dir}/#{basefilename}").with({
+        :extract_path => install_dir,
+        :source       => package_url,
+        :creates      => extract_path,
+        :user         => 'root',
+        :group        => 'root',
+      })
+    end
+
+    it do
+      is_expected.to contain_file('/etc/zookeeper').with({
+        :ensure => 'directory',
+        :owner => 'zookeeper',
+        :group => 'zookeeper',
+      })
+    end
+  end
+
+  context 'installing 3.5.5 from tar archive' do
+    let(:install_dir) { '/opt' }
+    let(:zoo_dir) { '/opt/zookeeper' }
+    let(:vers) { '3.5.5' }
+    let(:mirror_url) { 'http://apache.org/dist' }
+    let(:basefilename) { "apache-zookeeper-#{vers}.tar.gz" }
+    let(:package_url) { "#{mirror_url}/zookeeper/zookeeper-#{vers}/apache-zookeeper-#{vers}.tar.gz" }
+    let(:extract_path) { "#{zoo_dir}-#{vers}" }
+
+    let(:facts) {{
+      :operatingsystem => 'Ubuntu',
+      :osfamily => 'Debian',
+      :lsbdistcodename => 'trusty',
+      :operatingsystemmajrelease => '14.04',
+      :puppetversion => Puppet.version,
+    }}
+
+    let :pre_condition do
+      'class {"zookeeper":
+         install_method => "archive",
+         archive_version => "3.5.5",
+         archive_install_dir => "/opt",
+         zoo_dir => "/opt/zookeeper",
+       }'
+    end
+
+    it do
+      is_expected.to contain_file(zoo_dir).with({
+        :ensure => 'link',
+        :target => extract_path,
+      })
+    end
+
     it do
       should contain_archive("#{install_dir}/#{basefilename}").with({
         :extract_path => install_dir,

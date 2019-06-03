@@ -4,7 +4,15 @@
 #
 # PRIVATE CLASS - do not use directly (use main `zookeeper` class).
 class zookeeper::install::archive inherits zookeeper::install {
-  $filename = "${module_name}-${::zookeeper::archive_version}"
+
+
+  # Apache updated the filename base for archive files in release 3.5.5
+  if versioncmp($::zookeeper::archive_version, '3.5.5') <= 0 {
+    $filename = "apache-${module_name}-${::zookeeper::archive_version}-bin"
+  } else {
+    $filename = "${module_name}-${::zookeeper::archive_version}"
+  }
+  
   $download_url = $::zookeeper::archive_dl_url ? {
     undef   => "${::zookeeper::archive_dl_site}/${module_name}-${::zookeeper::archive_version}/${filename}.tar.gz",
     default => $::zookeeper::archive_dl_url,
