@@ -5,7 +5,7 @@ class zookeeper::service inherits zookeeper {
 
   case $::zookeeper::install_method {
     'archive': {
-      $_zoo_dir = "${::zookeeper::archive_install_dir}/${module_name}-${::zookeeper::archive_version}"
+      $_zoo_dir = "${::zookeeper::archive_install_dir}/${module_name}"
     }
     'package': {
       $_zoo_dir = $::zookeeper::zoo_dir
