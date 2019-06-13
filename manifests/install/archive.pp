@@ -7,7 +7,7 @@ class zookeeper::install::archive inherits zookeeper::install {
 
 
   # Apache updated the filename base for archive files in release 3.5.5
-  if versioncmp($::zookeeper::archive_version, '3.5.5') <= 0 {
+  if versioncmp($::zookeeper::archive_version, '3.5.5') >= 0 {
     $filename = "apache-${module_name}-${::zookeeper::archive_version}-bin"
   } else {
     $filename = "${module_name}-${::zookeeper::archive_version}"
