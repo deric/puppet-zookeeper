@@ -383,9 +383,9 @@ describe 'zookeeper::install' do
     let(:zoo_dir) { '/opt/zookeeper' }
     let(:vers) { '3.5.5' }
     let(:mirror_url) { 'http://apache.org/dist' }
-    let(:basefilename) { "apache-zookeeper-#{vers}.tar.gz" }
-    let(:package_url) { "#{mirror_url}/zookeeper/zookeeper-#{vers}/apache-zookeeper-#{vers}.tar.gz" }
-    let(:extract_path) { "#{zoo_dir}-#{vers}" }
+    let(:basefilename) { "apache-zookeeper-#{vers}-bin.tar.gz" }
+    let(:package_url) { "#{mirror_url}/zookeeper-#{vers}/apache-zookeeper-#{vers}-bin.tar.gz" }
+    let(:extract_path) { "/opt/apache-zookeeper-#{vers}-bin" }
 
     let(:facts) {{
       :operatingsystem => 'Ubuntu',
