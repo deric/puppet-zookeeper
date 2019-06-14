@@ -14,7 +14,7 @@ class zookeeper(
   Boolean                                    $system_user             = $::zookeeper::params::system_user,
   # installation options
   Hash                                       $archive_checksum        = $::zookeeper::params::archive_checksum,
-  String                                     $archive_dl_site         = $::zookeeper::params::archive_dl_site,
+  Optional[String]                           $archive_dl_site         = $::zookeeper::params::archive_dl_site,
   Integer                                    $archive_dl_timeout      = $::zookeeper::params::archive_dl_timeout,
   Optional[String]                           $archive_dl_url          = $::zookeeper::params::archive_dl_url,
   String                                     $archive_install_dir     = $::zookeeper::params::archive_install_dir,

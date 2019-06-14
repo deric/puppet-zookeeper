@@ -9,12 +9,20 @@ class zookeeper::install::archive inherits zookeeper::install {
   # Apache updated the filename base for archive files in release 3.5.5
   if versioncmp($::zookeeper::archive_version, '3.5.5') >= 0 {
     $filename = "apache-${module_name}-${::zookeeper::archive_version}-bin"
+    $archive_dl_site = $::zookeeper::archive_dl_site ? {
+      undef   => 'http://apache.org/dist',
+      default => $::zookeeper::archive_dl_site,
+    }
   } else {
     $filename = "${module_name}-${::zookeeper::archive_version}"
+    $archive_dl_site = $::zookeeper::archive_dl_site ? {
+      undef   => 'http://archive.apache.org/dist/zookeeper',
+      default => $::zookeeper::archive_dl_site,
+    }
   }
-  
+
   $download_url = $::zookeeper::archive_dl_url ? {
-    undef   => "${::zookeeper::archive_dl_site}/${module_name}-${::zookeeper::archive_version}/${filename}.tar.gz",
+    undef   => "${archive_dl_site}/${module_name}-${::zookeeper::archive_version}/${filename}.tar.gz",
     default => $::zookeeper::archive_dl_url,
   }
 
