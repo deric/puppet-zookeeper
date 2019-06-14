@@ -24,7 +24,7 @@ describe 'zookeeper::install' do
     it { should compile.with_all_deps }
 
     it 'installs cron script' do
-      should contain_cron('zookeeper-cleanup').with({
+      should contain_cron__job('zookeeper-cleanup').with({
         'ensure'    => 'present',
         'command'   => '/usr/share/zookeeper/bin/zkCleanup.sh /var/lib/zookeeper 1',
         'user'      => 'zookeeper',
@@ -190,7 +190,7 @@ describe 'zookeeper::install' do
       it { should contain_package('cron') }
 
       it 'installs cron script' do
-        should contain_cron('zookeeper-cleanup').with({
+        should contain_cron__job('zookeeper-cleanup').with({
           'ensure'    => 'present',
           'command'   => '/usr/share/zookeeper/bin/zkCleanup.sh /var/lib/zookeeper 5',
           'user'      => 'zookeeper',

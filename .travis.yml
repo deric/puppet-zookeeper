@@ -12,20 +12,19 @@ script:
   - RAKE_ENV=ci bundle exec rake spec
   - RAKE_ENV=ci bundle exec rake lint
 rvm:
-  - 2.2.10
   - 2.3.7
   - 2.4.4
+  - 2.5.5
 env:
   global:
     - LIBRARIAN_PUPPET_TMP="$HOME/librarian-puppet"
   matrix:
     - PUPPET_VERSION="~> 4.5.0" STRICT_VARIABLES=yes
-    - PUPPET_VERSION="~> 4.6.0" STRICT_VARIABLES=yes
-    - PUPPET_VERSION="~> 4.7.0" STRICT_VARIABLES=yes
     - PUPPET_VERSION="~> 4.8.0" STRICT_VARIABLES=yes
     - PUPPET_VERSION="~> 4.9.0" STRICT_VARIABLES=yes
     - PUPPET_VERSION="~> 4.10.0" STRICT_VARIABLES=yes
-    - PUPPET_VERSION="~> 5.4.0" STRICT_VARIABLES=yes
+    - PUPPET_VERSION="~> 5.10.0" STRICT_VARIABLES=yes
+    - PUPPET_VERSION="~> 6.0" STRICT_VARIABLES=yes
 matrix:
     - rvm: 2.4.0
       dist: trusty
