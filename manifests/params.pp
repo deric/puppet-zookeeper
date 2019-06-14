@@ -147,7 +147,7 @@ class zookeeper::params {
   $sasl_users = {}
   $keytab_path = '/etc/zookeeper/conf/zookeeper.keytab'
   $principal = "zookeeper/${::fqdn}"
-  $realm = $::domain
+  $realm = pick($trusted['domain'], $trusted['certname'])
   $store_key = true
   $use_keytab = true
   $use_ticket_cache = false
