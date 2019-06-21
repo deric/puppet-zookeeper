@@ -1,3 +1,9 @@
+## 0.8.5
+- Replace 'require' function with an explicit relationship (#125)
+- Allow puppetlabs/stdlib 6.x, puppet/archive 4.x (#131)
+- Use mirror according to required version (#129)
+- [Full diff](https://github.com/deric/puppet-zookeeper/compare/v0.8.4...v0.8.5)
+
 ## 0.8.4
 - Bugfix: prevent service from failing to log any upcoming events ([#122](https://github.com/deric/puppet-zookeeper/pull/122))
 - [Full diff](https://github.com/deric/puppet-zookeeper/compare/v0.8.2...v0.8.4)
