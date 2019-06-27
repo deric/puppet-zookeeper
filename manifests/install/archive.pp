@@ -33,7 +33,6 @@ class zookeeper::install::archive inherits zookeeper::install {
     user          => 'root',
     group         => 'root',
     source        => $download_url,
-    proxy_server  => $::zookeeper::proxy_server,
     checksum      => $::zookeeper::archive_checksum['hash'],
     checksum_type => $::zookeeper::archive_checksum['type'],
     extract_path  => $::zookeeper::archive_install_dir,
@@ -44,6 +43,13 @@ class zookeeper::install::archive inherits zookeeper::install {
     extract       => true,
     cleanup       => true,
     notify        => Exec['chown_zookeeper_directory'],
+  }
+
+  if $::zookeeper::proxy_server {
+    Archive<| title == $archive_file |> {
+      proxy_server => $::zookeeper::proxy_server,
+      proxy_type   => $::zookeeper::proxy_type,
+    }
   }
 
   $symlink_require = Archive["${::zookeeper::archive_install_dir}/${filename}.tar.gz"]

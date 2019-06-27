@@ -22,6 +22,7 @@ class zookeeper(
   String                                     $archive_symlink_name    = $::zookeeper::params::archive_symlink_name,
   String                                     $archive_version         = $::zookeeper::params::archive_version,
   Optional[String]                           $proxy_server            = $::zookeeper::params::proxy_server,
+  Optional[String]                           $proxy_type              = $::zookeeper::params::proxy_type,
   Optional[String]                           $cdhver                  = $::zookeeper::params::cdhver,
   Boolean                                    $install_java            = $::zookeeper::params::install_java,
   String                                     $install_method          = $::zookeeper::params::install_method,
