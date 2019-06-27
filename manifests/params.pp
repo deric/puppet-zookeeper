@@ -83,6 +83,7 @@ class zookeeper::params {
   $java_opts = ''
   $java_package = undef
   $repo = undef
+  $proxy_server = undef
 
   # service options
   $manage_service = true

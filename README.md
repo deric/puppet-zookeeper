@@ -269,6 +269,16 @@ class { 'zookeeper':
 }
 ```
 
+Optionally you can specify a `proxy_server`:
+
+```puppet
+class { 'zookeeper':
+  install_method  => 'archive',
+  archive_version => '3.4.8',
+  proxy_server    => 'http://10.0.0.1:8080'
+}
+```
+
 ## Java installation
 
 Default: `false`

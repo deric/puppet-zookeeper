@@ -429,4 +429,59 @@ describe 'zookeeper::install' do
       })
     end
   end
+
+  context 'installing 3.4.8 from tar archive over proxy server' do
+    let(:install_dir) { '/opt' }
+    let(:zoo_dir) { '/opt/zookeeper' }
+    let(:vers) { '3.4.8' }
+    let(:mirror_url) { 'http://archive.apache.org/dist' }
+    let(:basefilename) { "zookeeper-#{vers}.tar.gz" }
+    let(:package_url) { "#{mirror_url}/zookeeper/zookeeper-#{vers}/zookeeper-#{vers}.tar.gz" }
+    let(:extract_path) { "#{zoo_dir}-#{vers}" }
+
+    let(:facts) {{
+      :operatingsystem => 'Ubuntu',
+      :osfamily => 'Debian',
+      :lsbdistcodename => 'bionic',
+      :operatingsystemmajrelease => '18.04',
+      :puppetversion => Puppet.version,
+    }}
+
+    let :pre_condition do
+      'class {"zookeeper":
+         install_method => "archive",
+         proxy_server => "http://10.0.0.1:8080",
+         archive_version => "3.4.8",
+         archive_install_dir => "/opt",
+         zoo_dir => "/opt/zookeeper",
+       }'
+    end
+
+    it do
+      is_expected.to contain_file(zoo_dir).with({
+        :ensure => 'link',
+        :target => extract_path,
+      })
+    end
+    it do
+      should contain_archive("#{install_dir}/#{basefilename}").with({
+        extract_path:  install_dir,
+        source:        package_url,
+        creates:       extract_path,
+        proxy_server:  'http://10.0.0.1:8080',
+        user:          'root',
+        group:         'root',
+      })
+    end
+
+    it do
+      is_expected.to contain_file('/etc/zookeeper').with({
+        :ensure => 'directory',
+        :owner => 'zookeeper',
+        :group => 'zookeeper',
+      })
+    end
+  end
+
+
 end

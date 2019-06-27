@@ -26,11 +26,14 @@ class zookeeper::install::archive inherits zookeeper::install {
     default => $::zookeeper::archive_dl_url,
   }
 
-  archive { "${::zookeeper::archive_install_dir}/${filename}.tar.gz":
+  $archive_file = "${::zookeeper::archive_install_dir}/${filename}.tar.gz"
+
+  archive { $archive_file:
     ensure        => present,
     user          => 'root',
     group         => 'root',
     source        => $download_url,
+    proxy_server  => $::zookeeper::proxy_server,
     checksum      => $::zookeeper::archive_checksum['hash'],
     checksum_type => $::zookeeper::archive_checksum['type'],
     extract_path  => $::zookeeper::archive_install_dir,
