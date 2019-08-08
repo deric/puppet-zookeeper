@@ -87,6 +87,47 @@ shared_examples 'zookeeper common' do |os_facts|
        'class {"zookeeper":
           log4j_prop => "ERROR",
           environment_file => "java.env",
+          }'
+        end
+   
+        it do
+          should contain_file('/etc/zookeeper/conf/java.env').with_content(/ERROR/)
+          should_not contain_file('/etc/zookeeper/environment')
+        end
+     end
+
+    context 'admin server options' do
+      enable = false
+      port = '3000'
+      url = '/alternative'
+      let :pre_condition do
+        "class {'zookeeper':
+           admin_enable_server => #{enable},
+           admin_server_port => #{port},
+           admin_command_url => '#{url}'
+         }"
+      end
+
+      it do
+        is_expected.to contain_file(
+          '/etc/zookeeper/conf/zoo.cfg'
+        ).with_content(/admin.enableServer=#{enable}/)
+
+        is_expected.to contain_file(
+          '/etc/zookeeper/conf/zoo.cfg'
+        ).with_content(/admin.serverPort=#{port}/)
+
+        is_expected.to contain_file(
+          '/etc/zookeeper/conf/zoo.cfg'
+        ).with_content(/admin.commandURL=#{url}/)
+      end
+    end
+
+    context 'install from archive' do
+      let :pre_condition do
+        'class {"zookeeper":
+           install_method: "archive",
+           archive_version: "3.4.9",
         }'
      end
 
