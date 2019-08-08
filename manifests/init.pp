@@ -92,6 +92,11 @@ class zookeeper(
   Boolean                                    $use_ticket_cache        = $::zookeeper::params::use_ticket_cache,
   Boolean                                    $remove_host_principal   = $::zookeeper::params::remove_host_principal,
   Boolean                                    $remove_realm_principal  = $::zookeeper::params::remove_realm_principal,
+  Boolean                                    $admin_enable_server     = $::zookeeper::params::admin_enable_server,
+  String                                     $admin_server_address    = $::zookeeper::params::admin_server_address,
+  Integer                                    $admin_server_port       = $::zookeeper::params::admin_server_port,
+  Integer                                    $admin_idle_timeout      = $::zookeeper::params::admin_idle_timeout,
+  String                                     $admin_command_url       = $::zookeeper::params::admin_command_url,
 ) inherits ::zookeeper::params {
 
   if $pid_file {

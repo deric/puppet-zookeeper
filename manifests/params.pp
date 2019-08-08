@@ -155,4 +155,11 @@ class zookeeper::params {
   $use_ticket_cache = false
   $remove_host_principal = false
   $remove_realm_principal = false
+
+  # admin server options
+  $admin_enable_server = true
+  $admin_server_address = '0.0.0.0'
+  $admin_server_port = 8080
+  $admin_idle_timeout = 30000
+  $admin_command_url = '/commands'
 }
