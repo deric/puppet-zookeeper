@@ -2,7 +2,8 @@
 - New features:
   - [Support commands whitelist](https://github.com/deric/puppet-zookeeper/issues/135) (#135)
   - [Support proxy_server for archive install method](https://github.com/deric/puppet-zookeeper/issues/133) (#133)
-
+- Fixes:
+  - Fixed mirror URI for ZooKeeper 3.5.5 from archive (832f3e5)
 - [Full diff](https://github.com/deric/puppet-zookeeper/compare/v0.8.5...v0.8.6)
 
 ## 0.8.5
