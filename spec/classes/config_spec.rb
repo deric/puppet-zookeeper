@@ -605,6 +605,20 @@ describe 'zookeeper::config' do
       end
     end
 
+    context 'set global outstanding limit' do
+      let :pre_condition do
+        'class {"zookeeper":
+           global_outstanding_limit => 2000
+         }'
+      end
+
+      it do
+        should contain_file(
+          '/etc/zookeeper/conf/zoo.cfg'
+        ).with_content(/globalOutstandingLimit=2000/)
+      end
+    end
+
 
   end
 

@@ -1,3 +1,8 @@
+## 0.8.7
+- New features:
+  - [Support global outstanding limit](https://github.com/deric/puppet-zookeeper/issues/128) (#128)
+- [Full diff](https://github.com/deric/puppet-zookeeper/compare/v0.8.6...v0.8.7)
+
 ## 0.8.6
 - New features:
   - [Support commands whitelist](https://github.com/deric/puppet-zookeeper/issues/135) (#135)

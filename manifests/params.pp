@@ -131,6 +131,7 @@ class zookeeper::params {
   $snap_retain_count = 3
   $sync_limit = 5
   $tick_time = 2000
+  $global_outstanding_limit = 1000
   $use_sasl_auth = false
   $zoo_dir = '/usr/lib/zookeeper'
   $zoo_main = 'org.apache.zookeeper.server.quorum.QuorumPeerMain'

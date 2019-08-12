@@ -164,6 +164,7 @@ After=network-online.target
    - `snap_retain_count` - number of snapshots that will be kept after purging (since ZooKeeper 3.4.0)
    - `min_session_timeout` - the minimum session timeout in milliseconds that the server will allow the client to negotiate. Defaults to 2 times the **tickTime** (since ZooKeeper 3.3.0)
    - `max_session_timeout` - the maximum session timeout in milliseconds that the server will allow the client to negotiate. Defaults to 20 times the **tickTime** (since ZooKeeper 3.3.0)
+   - `global_outstanding_limit` - ZooKeeper will throttle clients so that there is no more than `global_outstanding_limit` outstanding requests in the system.
    - `manage_service` (default: `true`) whether Puppet should ensure running service
    - `manage_service_file` when enabled on RHEL 7.0 a systemd config will be managed
    - `ensure_account` controls whether `zookeeper` user and group will be ensured (set to `false` to disable this feature)
