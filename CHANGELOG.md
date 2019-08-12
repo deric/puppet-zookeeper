@@ -1,3 +1,10 @@
+## 0.8.6
+- New features:
+  - [Support commands whitelist](https://github.com/deric/puppet-zookeeper/issues/135) (#135)
+  - [Support proxy_server for archive install method](https://github.com/deric/puppet-zookeeper/issues/133) (#133)
+
+- [Full diff](https://github.com/deric/puppet-zookeeper/compare/v0.8.5...v0.8.6)
+
 ## 0.8.5
 - Replace 'require' function with an explicit relationship (#125)
 - Allow puppetlabs/stdlib 6.x, puppet/archive 4.x (#131)

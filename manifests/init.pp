@@ -1,6 +1,14 @@
 # Class: zookeeper
 #
-# This module manages ZooKeeper
+# This module manages ZooKeeper installation
+#
+#
+# Parameters:
+#
+# * [whitelist_4lw] Fine grained control over the set of commands ZooKeeper can execute
+#
+#                   whitelist_4lw = ['stat','ruok']
+#
 class zookeeper(
   # meta options
   String                                     $ensure                  = $::zookeeper::params::ensure,
@@ -92,6 +100,8 @@ class zookeeper(
   Boolean                                    $use_ticket_cache        = $::zookeeper::params::use_ticket_cache,
   Boolean                                    $remove_host_principal   = $::zookeeper::params::remove_host_principal,
   Boolean                                    $remove_realm_principal  = $::zookeeper::params::remove_realm_principal,
+  # four letter words whitelist
+  Array[String]                              $whitelist_4lw           = $::zookeeper::params::whitelist_4lw,
 ) inherits ::zookeeper::params {
 
   if $pid_file {

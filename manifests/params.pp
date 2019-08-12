@@ -155,4 +155,6 @@ class zookeeper::params {
   $use_ticket_cache = false
   $remove_host_principal = false
   $remove_realm_principal = false
+  # whitelist of Four Letter Words commands, see https://zookeeper.apache.org/doc/r3.4.12/zookeeperAdmin.html#sc_zkCommands
+  $whitelist_4lw = []
 }

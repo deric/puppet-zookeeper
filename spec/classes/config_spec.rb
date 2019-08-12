@@ -590,6 +590,22 @@ describe 'zookeeper::config' do
         ).with_content(/log4j.appender.TRACEFILE.Threshold=DEBUG/)
       end
     end
+
+    context 'setting 4lw whitelist' do
+      let :pre_condition do
+        'class {"zookeeper":
+           whitelist_4lw => ["ruok","stat"]
+         }'
+      end
+
+      it do
+        should contain_file(
+          '/etc/zookeeper/conf/zoo.cfg'
+        ).with_content(/4lw.commands.whitelist=ruok,stat/)
+      end
+    end
+
+
   end
 
 end

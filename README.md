@@ -176,6 +176,7 @@ After=network-online.target
    - `restart_on_change` whether ZooKeeper service should be restarted on configuration files change (default: `true`)
    - `remove_host_principal` whether to remove host from Kerberos principal (default: `false`)
    - `remove_realm_principal` whether to remove relam from Kerberos principal (default: `false`)
+   - `whitelist_4lw` Fine grained control over the set of commands ZooKeeper can execute (an array e.g. `whitelist_4lw = ['*']`)
 
 and many others, see the `params.pp` file for more details.
 
