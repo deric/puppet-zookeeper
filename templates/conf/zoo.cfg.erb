@@ -8,6 +8,8 @@ initLimit=<%= scope.lookupvar("zookeeper::init_limit") %>
 # The number of ticks that can pass between
 # sending a request and getting an acknowledgement
 syncLimit=<%= scope.lookupvar("zookeeper::sync_limit") %>
+#  ZooKeeper will throttle clients so that there is no more than globalOutstandingLimit outstanding requests in the system.
+globalOutstandingLimit=<%= scope.lookupvar('zookeeper::global_outstanding_limit') %>
 # the directory where the snapshot is stored.
 dataDir=<%= scope.lookupvar("zookeeper::datastore") %>
 # Place the dataLogDir to a separate physical disc for better performance
@@ -138,4 +140,9 @@ kerberos.removeHostFromPrincipal=true
 <% if scope.lookupvar("zookeeper::remove_realm_principal") -%>
 kerberos.removeRealmFromPrincipal=true
 <% end -%>
+<% end -%>
+
+<% unless scope.lookupvar("zookeeper::whitelist_4lw").empty? -%>
+# Supported since 3.4.10
+4lw.commands.whitelist=<%= scope.lookupvar("zookeeper::whitelist_4lw").join(',') %>
 <% end -%>

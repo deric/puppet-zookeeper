@@ -1,3 +1,16 @@
+## 0.8.7
+- New features:
+  - [Support global outstanding limit](https://github.com/deric/puppet-zookeeper/issues/128) (#128)
+- [Full diff](https://github.com/deric/puppet-zookeeper/compare/v0.8.6...v0.8.7)
+
+## 0.8.6
+- New features:
+  - [Support commands whitelist](https://github.com/deric/puppet-zookeeper/issues/135) (#135)
+  - [Support proxy_server for archive install method](https://github.com/deric/puppet-zookeeper/issues/133) (#133)
+- Fixes:
+  - Fixed mirror URI for ZooKeeper 3.5.5 from archive (d33cf0289333846775860751d12533e72f284c3e)
+- [Full diff](https://github.com/deric/puppet-zookeeper/compare/v0.8.5...v0.8.6)
+
 ## 0.8.5
 - Replace 'require' function with an explicit relationship (#125)
 - Allow puppetlabs/stdlib 6.x, puppet/archive 4.x (#131)

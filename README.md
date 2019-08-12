@@ -164,6 +164,7 @@ After=network-online.target
    - `snap_retain_count` - number of snapshots that will be kept after purging (since ZooKeeper 3.4.0)
    - `min_session_timeout` - the minimum session timeout in milliseconds that the server will allow the client to negotiate. Defaults to 2 times the **tickTime** (since ZooKeeper 3.3.0)
    - `max_session_timeout` - the maximum session timeout in milliseconds that the server will allow the client to negotiate. Defaults to 20 times the **tickTime** (since ZooKeeper 3.3.0)
+   - `global_outstanding_limit` - ZooKeeper will throttle clients so that there is no more than `global_outstanding_limit` outstanding requests in the system.
    - `manage_service` (default: `true`) whether Puppet should ensure running service
    - `manage_service_file` when enabled on RHEL 7.0 a systemd config will be managed
    - `ensure_account` controls whether `zookeeper` user and group will be ensured (set to `false` to disable this feature)
@@ -176,6 +177,7 @@ After=network-online.target
    - `restart_on_change` whether ZooKeeper service should be restarted on configuration files change (default: `true`)
    - `remove_host_principal` whether to remove host from Kerberos principal (default: `false`)
    - `remove_realm_principal` whether to remove relam from Kerberos principal (default: `false`)
+   - `whitelist_4lw` Fine grained control over the set of commands ZooKeeper can execute (an array e.g. `whitelist_4lw = ['*']`)
 
 and many others, see the `params.pp` file for more details.
 
@@ -318,6 +320,33 @@ If you are versioning your puppet conf with git just add it as submodule, from y
 
   * stdlib `> 2.3.3` - function `ensure_resources` is required
   * puppet-archive `> 0.4.4` - provides capabilities to use archives instead of binary packages
+
+
+## Acceptance testing
+
+Fastest way is to run tests on prepared Docker images:
+```
+BEAKER_set=debian9-6.3 bundle exec rake acceptance
+```
+For examining system state set Beaker's ENV variable `BEAKER_destroy=no`:
+
+```
+BEAKER_destroy=no BEAKER_set=default bundle exec rake acceptance
+```
+and after finishing tests connect to container:
+```
+docker exec -it adoring_shirley bash
+```
+
+When host machine is NOT provisioned (puppet installed, etc.):
+```
+PUPPET_install=yes BEAKER_set=debian-8 bundle exec rake acceptance
+```
+
+Run on specific OS (see `spec/acceptance/nodesets`), to see available sets:
+```
+rake beaker:sets
+```
 
 ## Supported platforms
 
