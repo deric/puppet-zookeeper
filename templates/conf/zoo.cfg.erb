@@ -131,7 +131,7 @@ kerberos.removeRealmFromPrincipal=true
 <% end -%>
 <% end -%>
 
-<% if scope.lookupvar("zookeeper::whitelist_4lw") -%>
+<% unless scope.lookupvar("zookeeper::whitelist_4lw").empty? -%>
 # Supported since 3.4.10
 4lw.commands.whitelist=<%= scope.lookupvar("zookeeper::whitelist_4lw").join(',') %>
 <% end -%>
