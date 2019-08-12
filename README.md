@@ -320,6 +320,33 @@ If you are versioning your puppet conf with git just add it as submodule, from y
   * stdlib `> 2.3.3` - function `ensure_resources` is required
   * puppet-archive `> 0.4.4` - provides capabilities to use archives instead of binary packages
 
+
+## Acceptance testing
+
+Fastest way is to run tests on prepared Docker images:
+```
+BEAKER_set=debian9-6.3 bundle exec rake acceptance
+```
+For examining system state set Beaker's ENV variable `BEAKER_destroy=no`:
+
+```
+BEAKER_destroy=no BEAKER_set=default bundle exec rake acceptance
+```
+and after finishing tests connect to container:
+```
+docker exec -it adoring_shirley bash
+```
+
+When host machine is NOT provisioned (puppet installed, etc.):
+```
+PUPPET_install=yes BEAKER_set=debian-8 bundle exec rake acceptance
+```
+
+Run on specific OS (see `spec/acceptance/nodesets`), to see available sets:
+```
+rake beaker:sets
+```
+
 ## Supported platforms
 
   * Debian/Ubuntu
