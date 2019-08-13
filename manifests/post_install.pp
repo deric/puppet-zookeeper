@@ -52,12 +52,13 @@ class zookeeper::post_install inherits zookeeper {
   # If !$cleanup_count, then ensure this cron is absent.
   if ($_clean and $::zookeeper::snap_retain_count > 0 and $::zookeeper::ensure != 'absent') {
 
+
     if ($::zookeeper::ensure_cron){
       ensure_resource('package', 'cron', {
         ensure => 'installed',
       })
 
-      cron { 'zookeeper-cleanup':
+      cron::job { 'zookeeper-cleanup':
           ensure  => present,
           command => "${::zookeeper::cleanup_sh} ${::zookeeper::datastore} ${::zookeeper::snap_retain_count}",
           hour    => 2,
@@ -75,7 +76,7 @@ class zookeeper::post_install inherits zookeeper {
   # Package removal
   if($_clean and $::zookeeper::ensure == 'absent'){
     if ($::zookeeper::ensure_cron){
-      cron { 'zookeeper-cleanup':
+      cron::job { 'zookeeper-cleanup':
         ensure  => $::zookeeper::ensure,
       }
     }else{
