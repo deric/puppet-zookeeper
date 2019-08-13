@@ -20,7 +20,7 @@ RSpec.configure do |c|
         on host, 'yum install -y tar'
       end
       if ['Debian'].include?(fact('osfamily'))
-        on host, 'apt-get update -q && apt-get install net-tools'
+        on host, 'apt-get update -q && apt-get install -y net-tools netcat'
       end
       #on host, 'gem install bundler'
       #on host, 'cd /etc/puppet && bundle install --without development'

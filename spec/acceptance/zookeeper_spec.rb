@@ -5,16 +5,13 @@ describe 'zookeeper defintion', :unless => UNSUPPORTED_PLATFORMS.include?(fact('
     it 'install zookeeper' do
       pp = <<-EOS
         class{'zookeeper':
-          # provider 'init' doesn't seem to work with puppet 4.3 and newer
-          # 'debian' should work with older systems as well
-          service_provider => 'debian', #systemd requires host with systemd
-          client_port      => 2181,
+          client_port => 2181,
         }
       EOS
 
       expect(apply_manifest(pp,
         :catch_failures => false,
-        :debug => true
+        :debug => false
       ).exit_code).to be_zero
    end
 
@@ -49,5 +46,22 @@ describe 'zookeeper defintion', :unless => UNSUPPORTED_PLATFORMS.include?(fact('
       its(:exit_status) { is_expected.to eq 0 }
       its(:stdout) { is_expected.to match /^1$/ }
     end
- end
+
+    describe file('/etc/zookeeper/conf/zoo.cfg') do
+      it { is_expected.to be_file }
+      it { is_expected.to be_writable.by('owner') }
+      it { is_expected.to be_readable.by('group') }
+      it { is_expected.to be_readable.by('others') }
+    end
+
+    describe command('cat /etc/zookeeper/conf/zoo.cfg') do
+      its(:exit_status) { is_expected.to eq 0 }
+      its(:stdout) { is_expected.to match /^clientPort=2181$/ }
+    end
+
+    describe command('echo stat | nc 0.0.0.0 2181') do
+      its(:exit_status) { is_expected.to eq 0 }
+      its(:stdout) { is_expected.to match /^Mode: standalone$/ }
+    end
+  end
 end
