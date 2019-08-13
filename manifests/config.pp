@@ -57,11 +57,11 @@ class zookeeper::config inherits zookeeper {
       mode    => '0644',
       require => File[$::zookeeper::cfg_dir],
     }
-  }
 
-  file { "${::zookeeper::datastore}/myid":
-    ensure => 'link',
-    target => "${::zookeeper::cfg_dir}/myid",
+    file { "${::zookeeper::datastore}/myid":
+      ensure => 'link',
+      target => "${::zookeeper::cfg_dir}/myid",
+    }
   }
 
   file { "${::zookeeper::cfg_dir}/${::zookeeper::environment_file}":
