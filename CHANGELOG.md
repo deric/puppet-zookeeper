@@ -1,3 +1,11 @@
+## 0.9.0-UNRELEASED
+- New features:
+  - [Support Puppet 6](https://github.com/deric/puppet-zookeeper/issues/132) (#132)
+- Fixes:
+  - Fixed and extended acceptance tests
+- [Full diff](https://github.com/deric/puppet-zookeeper/compare/v0.8.7...v0.9.0)
+
+
 ## 0.8.7
 - New features:
   - [Support global outstanding limit](https://github.com/deric/puppet-zookeeper/issues/128) (#128)
