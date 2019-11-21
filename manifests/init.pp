@@ -95,6 +95,7 @@ class zookeeper(
   String                                     $rollingfile_threshold    = $::zookeeper::params::rollingfile_threshold,
   String                                     $tracefile_threshold      = $::zookeeper::params::tracefile_threshold,
   String                                     $console_threshold        = $::zookeeper::params::console_threshold,
+  Hash[String,Hash[String,String]]           $extra_appenders          = $::zookeeper::params::extra_appenders,
   # sasl options
   Hash[String, String]                       $sasl_users               = $::zookeeper::params::sasl_users,
   String                                     $keytab_path              = $::zookeeper::params::keytab_path,
