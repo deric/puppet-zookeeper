@@ -215,7 +215,7 @@ have syslog listening on port 514/udp for this to work):
 
 ```puppet
 class { 'zookeeper':
-  log4j_prop      => 'INFO, SYSLOG',
+  log4j_prop      => 'INFO,SYSLOG',
   extra_appenders => {
     'Syslog' => {
       'class'                    => 'org.apache.log4j.net.SyslogAppender',
