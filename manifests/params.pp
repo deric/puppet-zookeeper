@@ -144,6 +144,7 @@ class zookeeper::params {
   $tracefile_threshold = 'TRACE'
   $maxfilesize = '256MB'
   $maxbackupindex = 20
+  $extra_appenders = {}
 
   # sasl options
   $sasl_krb5 = true

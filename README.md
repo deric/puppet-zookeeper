@@ -209,6 +209,25 @@ Threshold supported values are: `ALL`, `DEBUG`, `ERROR`, `FATAL`, `INFO`, `OFF`,
 
 [MaxBackupIndex](https://logging.apache.org/log4j/1.2/apidocs/org/apache/log4j/RollingFileAppender.html#maxBackupIndex)
 
+By default console, rolling file and trace logging can be configured. Additional log appenders (vulgo log methods) can be configured
+by adding a hash `extra_appenders`. The following sets up syslog logging and points the root logger towards syslog (note that you must
+have syslog listening on port 514/udp for this to work):
+
+```puppet
+class { 'zookeeper':
+  log4j_prop      => 'INFO,SYSLOG',
+  extra_appenders => {
+    'Syslog' => {
+      'class'                    => 'org.apache.log4j.net.SyslogAppender',
+      'layout'                   => 'org.apache.log4j.PatternLayout',
+      'layout.conversionPattern' => "${hostname} zookeeper[id:%X{myid}] - %-5p [%t:%C{1}@%L][%x] - %m%n",
+      'syslogHost'               => 'localhost',
+      'facility'                 => 'user',
+    },
+  },
+}
+```
+
 
 ## Hiera Support
 
