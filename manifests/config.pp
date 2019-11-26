@@ -40,6 +40,7 @@ class zookeeper::config inherits zookeeper {
   }
 
   if $::zookeeper::service_provider != 'exhibitor' {
+    $enable_admin_server = versioncmp($::zookeeper::archive_version, '3.5.5') >= 0
     file { "${::zookeeper::cfg_dir}/zoo.cfg":
       owner   => $::zookeeper::user,
       group   => $::zookeeper::group,

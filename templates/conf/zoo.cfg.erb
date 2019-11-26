@@ -28,6 +28,19 @@ clientPortAddress=<%= scope.lookupvar("zookeeper::client_ip") %>
 #clientPortAddress=
 <% end -%>
 
+<% if @enable_admin_server -%>
+# Set to "false" to disable the AdminServer. By default the AdminServer is enabled.
+admin.enableServer=<%= scope.lookupvar('zookeeper::admin_enable_server') %>
+# The address the embedded Jetty server listens on. Defaults to 0.0.0.0.
+admin.serverAddress=<%= scope.lookupvar('zookeeper::admin_server_address') %>
+# The port the embedded Jetty server listens on. Defaults to 8080.
+admin.serverPort=<%= scope.lookupvar('zookeeper::admin_server_port') %>
+# Set the maximum idle time in milliseconds that a connection can wait before sending or receiving data. Defaults to 30000 ms.
+admin.idleTimeout=<%= scope.lookupvar('zookeeper::admin_idle_timeout') %>
+# The URL for listing and issuing commands relative to the root URL. Defaults to "/commands".
+admin.commandURL=<%= scope.lookupvar('zookeeper::admin_command_url') %>
+<% end -%>
+
 # specify all zookeeper servers
 # The first port is used by followers to connect to the leader
 # The second one is used for leader election

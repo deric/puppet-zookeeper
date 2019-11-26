@@ -87,6 +87,62 @@ describe 'zookeeper::config' do
       end
     end
 
+    context 'admin server options' do
+      enable = false
+      port = '3000'
+      url = '/alternative'
+      let :pre_condition do
+        "class {'zookeeper':
+           archive_version => '3.5.5',
+           admin_enable_server => #{enable},
+           admin_server_port => #{port},
+           admin_command_url => '#{url}'
+         }"
+      end
+
+      it do
+        is_expected.to contain_file(
+          '/etc/zookeeper/conf/zoo.cfg'
+        ).with_content(/admin.enableServer=#{enable}/)
+
+        is_expected.to contain_file(
+          '/etc/zookeeper/conf/zoo.cfg'
+        ).with_content(/admin.serverPort=#{port}/)
+
+        is_expected.to contain_file(
+          '/etc/zookeeper/conf/zoo.cfg'
+        ).with_content(/admin.commandURL=#{url}/)
+      end
+    end
+
+    context 'admin server disables if version < 3.5.5' do
+      enable = false
+      port = '3000'
+      url = '/alternative'
+      let :pre_condition do
+        "class {'zookeeper':
+           archive_version => '3.5.4',
+           admin_enable_server => #{enable},
+           admin_server_port => #{port},
+           admin_command_url => '#{url}'
+         }"
+      end
+
+      it do
+        is_expected.to contain_file(
+          '/etc/zookeeper/conf/zoo.cfg'
+        ).without_content(/admin.enableServer=#{enable}/)
+
+        is_expected.to contain_file(
+          '/etc/zookeeper/conf/zoo.cfg'
+        ).without_content(/admin.serverPort=#{port}/)
+
+        is_expected.to contain_file(
+          '/etc/zookeeper/conf/zoo.cfg'
+        ).without_content(/admin.commandURL=#{url}/)
+      end
+    end
+
     context 'install from archive' do
       let :pre_condition do
         'class {"zookeeper":
