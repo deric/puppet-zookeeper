@@ -28,7 +28,7 @@ clientPortAddress=<%= scope.lookupvar("zookeeper::client_ip") %>
 #clientPortAddress=
 <% end -%>
 
-<% if @enable_admin_server -%>
+<% if @enable_admin_server_config -%>
 # Set to "false" to disable the AdminServer. By default the AdminServer is enabled.
 admin.enableServer=<%= scope.lookupvar('zookeeper::admin_enable_server') %>
 # The address the embedded Jetty server listens on. Defaults to 0.0.0.0.

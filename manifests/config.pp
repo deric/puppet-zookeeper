@@ -40,7 +40,18 @@ class zookeeper::config inherits zookeeper {
   }
 
   if $::zookeeper::service_provider != 'exhibitor' {
-    $enable_admin_server = versioncmp($::zookeeper::archive_version, '3.5.5') >= 0
+    if !$::zookeeper::admin_enable_server {
+      $enable_admin_server_config = false
+    } elsif $::zookeeper::install_method == 'archive' and versioncmp($::zookeeper::archive_version, '3.5.5') >= 0 {
+      $enable_admin_server_config = true
+    } elsif $::zookeeper::install_method == 'archive' and versioncmp($::zookeeper::archive_version, '3.5.5') < 0 {
+      $enable_admin_server_config = false
+    } elsif $::zookeeper::install_method == 'package' and $::zookeeper::ensure =~ /^[0-9]/ and versioncmp($::zookeeper::ensure, '3.5.5') < 0 {
+      $enable_admin_server_config = false
+    } else {
+      $enable_admin_server_config = true
+    }
+
     file { "${::zookeeper::cfg_dir}/zoo.cfg":
       owner   => $::zookeeper::user,
       group   => $::zookeeper::group,
