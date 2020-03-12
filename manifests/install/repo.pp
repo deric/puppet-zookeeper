@@ -4,6 +4,8 @@
 #
 # PRIVATE CLASS - do not use directly (use main `zookeeper` class).
 class zookeeper::install::repo inherits zookeeper::install {
+  $os_release = $facts['os']['release']['major']
+  $os_hardware = $facts['os']['hardware']
 
   if $::zookeeper::repo_source {
     case $::zookeeper::repo_source {
@@ -12,39 +14,38 @@ class zookeeper::install::repo inherits zookeeper::install {
         if $::zookeeper::cdhver == undef {
           fail('Cloudera repo is required, but no CDH version is provided.')
         }
-        $osrel = $::operatingsystemmajrelease
         case $::zookeeper::cdhver {
           '4': {
-            case $::hardwaremodel {
+            case $os_hardware {
               'i386', 'x86_64': {
-                case $osrel {
+                case $os_release {
                   '6', '7': {
                     $release = '6'
                   }
                   default: {
-                    fail("Yum repository '${::zookeeper::repo_source}' is not supported for redhat version ${osrel}")
+                    fail("Yum repository '${::zookeeper::repo_source}' is not supported for redhat version ${os_release}")
                   }
                 }
               }
               default: {
-                fail("Yum repository '${::zookeeper::repo_source}' is not supported for architecture ${::hardwaremodel}")
+                fail("Yum repository '${::zookeeper::repo_source}' is not supported for architecture ${os_hardware}")
               }
             }
           }
           '5': {
-            case $::hardwaremodel {
+            case $os_hardware {
               'x86_64': {
-                case $osrel { # CentOS uses osrel=2015
+                case $os_release { # CentOS uses os_release=2015
                   '6', '7', '2015': {
-                    $release = $osrel
+                    $release = $os_release
                   }
                   default: {
-                    fail("Yum repository '${::zookeeper::repo_source}' is not supported for redhat version ${osrel}")
+                    fail("Yum repository '${::zookeeper::repo_source}' is not supported for redhat version ${os_release}")
                   }
                 }
               }
               default: {
-                fail("Yum repository '${::zookeeper::repo_source}' is not supported for architecture ${::hardwaremodel}")
+                fail("Yum repository '${::zookeeper::repo_source}' is not supported for architecture ${os_hardware}")
               }
             }
           }
@@ -58,15 +59,15 @@ class zookeeper::install::repo inherits zookeeper::install {
           yumrepo { "cloudera-cdh${::zookeeper::cdhver}":
             ensure   => $::zookeeper::ensure,
             descr    => "Cloudera's Distribution for Hadoop, Version ${::zookeeper::cdhver}",
-            baseurl  => "http://archive.cloudera.com/cdh${::zookeeper::cdhver}/redhat/${release}/${::hardwaremodel}/cdh/${::zookeeper::cdhver}/",
-            gpgkey   => "http://archive.cloudera.com/cdh${::zookeeper::cdhver}/redhat/${release}/${::hardwaremodel}/cdh/RPM-GPG-KEY-cloudera",
+            baseurl  => "http://archive.cloudera.com/cdh${::zookeeper::cdhver}/redhat/${release}/${os_hardware}/cdh/${::zookeeper::cdhver}/",
+            gpgkey   => "http://archive.cloudera.com/cdh${::zookeeper::cdhver}/redhat/${release}/${os_hardware}/cdh/RPM-GPG-KEY-cloudera",
             gpgcheck => 1
           }
         } else {
           yumrepo { "cloudera-cdh${::zookeeper::cdhver}":
             descr    => "Cloudera's Distribution for Hadoop, Version ${::zookeeper::cdhver}",
-            baseurl  => "http://archive.cloudera.com/cdh${::zookeeper::cdhver}/redhat/${osrel}/${::hardwaremodel}/cdh/${::zookeeper::cdhver}/",
-            gpgkey   => "http://archive.cloudera.com/cdh${::zookeeper::cdhver}/redhat/${osrel}/${::hardwaremodel}/cdh/RPM-GPG-KEY-cloudera",
+            baseurl  => "http://archive.cloudera.com/cdh${::zookeeper::cdhver}/redhat/${os_release}/${os_hardware}/cdh/${::zookeeper::cdhver}/",
+            gpgkey   => "http://archive.cloudera.com/cdh${::zookeeper::cdhver}/redhat/${os_release}/${os_hardware}/cdh/RPM-GPG-KEY-cloudera",
             gpgcheck => 1
           }
         }
@@ -77,8 +78,7 @@ class zookeeper::install::repo inherits zookeeper::install {
         if $_config['name'] == undef or $_config['url'] == undef or $_config['descr'] == undef {
           fail('Invalid parameter settings for custom repo')
         }
-        $osrel = $::operatingsystemmajrelease
-        case $osrel {
+        case $os_release {
           '6', '7': {
             # Puppet 4 compatibility: force variable to be a String
             if versioncmp("${::puppetversion}", '3.0.0') < 0 { # lint:ignore:only_variable_string
@@ -123,7 +123,7 @@ class zookeeper::install::repo inherits zookeeper::install {
             }
           }
           default: {
-            fail("Redhat '${osrel}' is not a supported.")
+            fail("Redhat '${os_release}' is not a supported.")
           }
         }
       }

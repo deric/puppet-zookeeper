@@ -16,19 +16,15 @@ class zookeeper::params {
         'Debian': {
           if versioncmp($os_release, '8') < 0 {
             $initstyle = 'init'
-          } elsif versioncmp($os_release, '8') >= 0 {
+          } else  {
             $initstyle = 'systemd'
-          } else {
-            $initstyle = undef
           }
         }
         'Ubuntu': {
           if versioncmp($os_release, '15.04') < 0 {
             $initstyle = 'upstart'
-          } elsif versioncmp($os_release, '15.04') >= 0 {
-            $initstyle = 'systemd'
           } else {
-            $initstyle = undef
+            $initstyle = 'systemd'
           }
         }
         default: { $initstyle = undef }
@@ -45,12 +41,24 @@ class zookeeper::params {
       $environment_file = 'environment'
     }
     'RedHat': {
-      if versioncmp($os_release, '7') < 0 {
-        $initstyle = 'redhat'
-      } elsif versioncmp($os_release, '7') >= 0 {
-        $initstyle = 'systemd'
-      } else {
-        $initstyle = undef
+      case $os_name {
+        'RedHat': {
+          if versioncmp($os_release, '7') < 0 {
+            $initstyle = 'redhat'
+          } else {
+            $initstyle = 'systemd'
+          }
+        }
+        'CentOS' : {
+          if versioncmp($os_release, '7') < 0 {
+            $initstyle = 'redhat'
+          } else {
+            $initstyle = 'systemd'
+          }
+        }
+        default: {
+          $initstyle = undef
+        }
       }
 
       $_os_overrides = {
