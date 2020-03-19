@@ -5,6 +5,9 @@
 #
 # PRIVATE CLASS - do not use directly (use main `zookeeper` class).
 class zookeeper::post_install inherits zookeeper {
+  $os_family = $facts['os']['family']
+  $os_name = $facts['os']['name']
+  $os_release = $facts['os']['release']['major']
 
   if ($::zookeeper::manual_clean) {
     # User defined value
@@ -12,51 +15,41 @@ class zookeeper::post_install inherits zookeeper {
   } else {
     # Autodetect:
     # Since ZooKeeper 3.4 there's no need for purging snapshots with cron
-    case $::osfamily {
+    case $os_family {
       'Debian': {
-          case $::operatingsystem {
-            'Debian': {
-              case $::lsbdistcodename {
-                'wheezy', 'squeeze': { # 3.3.5
-                  $_clean = true
-                }
-                default: { # future releases
-                  $_clean = false
-                }
-              }
-            }
-            'Ubuntu': {
-              case $::lsbdistcodename {
-                'precise': { # 3.3.5
-                  $_clean = true
-                }
-                default: {
-                  $_clean = false
-                }
-              }
-            }
-            default: {
-              fail ("Family: '${::osfamily}' OS: '${::operatingsystem}' is not supported yet")
+        case $os_name {
+          'Debian': {
+            if versioncmp($os_release, '8') < 0 { # 3.3.5
+              $_clean = true
+            } else { # future releases
+              $_clean = false
             }
           }
+          'Ubuntu': {
+            if versioncmp($os_release, '12.04') < 0 { # 3.3.5
+              $_clean = true
+            } else { # future releases
+              $_clean = false
+            }
+          }
+          default: {
+            fail ("Family: '${os_family}' OS: '${os_name}' is not supported yet")
+          }
+        }
       }
       'Redhat': {
         $_clean = false
       }
       default: {
-        fail ("Family: '${::osfamily}' OS: '${::operatingsystem}' is not supported yet")
+        fail ("Family: '${os_family}' OS: '${os_name}' is not supported yet")
       }
     }
   }
 
   # If !$cleanup_count, then ensure this cron is absent.
   if ($_clean and $::zookeeper::snap_retain_count > 0 and $::zookeeper::ensure != 'absent') {
-
-
     if ($::zookeeper::ensure_cron){
-      ensure_resource('package', 'cron', {
-        ensure => 'installed',
-      })
+      include cron
 
       cron::job { 'zookeeper-cleanup':
           ensure  => present,
@@ -76,6 +69,10 @@ class zookeeper::post_install inherits zookeeper {
   # Package removal
   if($_clean and $::zookeeper::ensure == 'absent'){
     if ($::zookeeper::ensure_cron){
+      class { 'cron':
+        manage_package => false,
+      }
+
       cron::job { 'zookeeper-cleanup':
         ensure  => $::zookeeper::ensure,
       }

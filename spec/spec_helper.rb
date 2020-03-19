@@ -3,8 +3,13 @@ require 'rspec'
 require 'rubygems'
 require 'puppetlabs_spec_helper/module_spec_helper'
 require 'rspec-puppet/coverage'
+require 'rspec-puppet-facts'
+
+require 'spec_helper_local' if File.file?(File.join(File.dirname(__FILE__), 'spec_helper_local.rb'))
 
 #fixture_path = File.expand_path(File.join(__FILE__, '..', 'fixtures'))
+
+include RspecPuppetFacts
 
 RSpec.configure do |c|
   c.include PuppetlabsSpec::Files
@@ -34,6 +39,7 @@ RSpec.configure do |c|
     :kernel          => 'Linux',
     :concat_basedir  => '/var/lib/puppet/concat',
   }
+  c.default_facter_version = '3.14.0'
 end
 
 Puppet::Util::Log.level = :warning

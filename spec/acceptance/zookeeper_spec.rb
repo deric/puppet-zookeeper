@@ -6,6 +6,7 @@ describe 'zookeeper defintion', :unless => UNSUPPORTED_PLATFORMS.include?(fact('
       pp = <<-EOS
         class{'zookeeper':
           client_port => 2181,
+          service_provider => 'debian',
         }
       EOS
 

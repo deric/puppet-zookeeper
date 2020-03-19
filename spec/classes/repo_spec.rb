@@ -1,79 +1,7 @@
 require 'spec_helper'
 
-describe 'zookeeper::install::repo' do
-  shared_examples 'redhat-install' do |os, codename, puppet, cdhver, precond|
-    let(:hardwaremodel){ 'x86_64' }
-
-    let(:facts) do
-      {
-      :operatingsystem => os,
-      :osfamily => 'RedHat',
-      :lsbdistcodename => codename,
-      :operatingsystemrelease => codename,
-      :operatingsystemmajrelease => codename,
-      :hardwaremodel => hardwaremodel,
-      :puppetversion => puppet,
-    }
-    end
-
-    # load class, handle custom params
-    let :pre_condition do
-      precond
-    end
-
-    it { is_expected.to contain_yumrepo('cloudera-cdh5').with({
-        baseurl: "http://archive.cloudera.com/cdh#{cdhver}/redhat/#{codename}/#{hardwaremodel}/cdh/#{cdhver}/"
-      }) }
-  end
-
-  context 'on RedHat-like system' do
-    let(:user) { 'zookeeper' }
-    let(:group) { 'zookeeper' }
-
-    precond = 'class {"zookeeper":
-      repo   => "cloudera",
-      cdhver => "5",
-    }'
-    # ENV variable might contain characters which are not supported
-    # by versioncmp function (like '~>')
-
-    it_behaves_like 'redhat-install', 'RedHat', '7', Puppet.version, '5', precond
-  end
-
-  context 'fail when architecture not supported' do
-    let(:facts) do
-      {
-      :osfamily => 'RedHat',
-      :operatingsystemmajrelease => '7',
-      :hardwaremodel => 'arc',
-      :puppetversion => Puppet.version,
-    }
-    end
-
-    let :pre_condition do
-      'class {"zookeeper":
-        repo   => "cloudera",
-        cdhver => "5",
-       }'
-    end
-
-    it do
-      expect do
-        is_expected.to compile
-    end.to raise_error(/is not supported for architecture/) end
-  end
-
+shared_examples 'zookeeper repo release support' do |os_facts|
   context 'fail when release not supported' do
-    let(:facts) do
-      {
-      :osfamily => 'RedHat',
-      :operatingsystemmajrelease => '8',
-      :hardwaremodel => 'x86_64',
-      :osrel => '8',
-      :puppetversion => Puppet.version,
-    }
-    end
-
     let :pre_condition do
       'class {"zookeeper":
         repo   => "cloudera",
@@ -86,18 +14,47 @@ describe 'zookeeper::install::repo' do
         is_expected.to compile
     end.to raise_error(/is not supported for redhat version/) end
   end
+end
 
-  context 'fail when CDH version not supported' do
-    let(:facts) do
-    {
-      :osfamily => 'RedHat',
-      :operatingsystemmajrelease => '7',
-      :hardwaremodel => 'x86_64',
-      :osrel => '7',
-      :puppetversion => Puppet.version,
-    }
+shared_examples 'zookeeper repo arch support' do |os_facts|
+  context 'fail when architecture not supported' do
+    let :pre_condition do
+      'class {"zookeeper":
+        repo   => "cloudera",
+        cdhver => "5",
+       }'
     end
 
+    it do
+      expect do
+        is_expected.to compile
+    end.to raise_error(/is not supported for architecture/) end
+  end
+end
+
+shared_examples 'zookeeper repo' do |os_facts|
+  let(:user) { 'zookeeper' }
+  let(:group) { 'zookeeper' }
+
+  os_release = os_facts[:os]['release']['major']
+  os_hardware = os_facts[:os]['hardware']
+
+  if os_facts[:osfamily] == 'RedHat'
+    context 'Cloudera repo' do
+      let :pre_condition do
+        'class {"zookeeper":
+          repo   => "cloudera",
+          cdhver => "5",
+        }'
+      end
+
+      it { is_expected.to contain_yumrepo('cloudera-cdh5').with({
+          baseurl: "http://archive.cloudera.com/cdh5/redhat/#{os_release}/#{os_hardware}/cdh/5/"
+        }) }
+    end
+  end
+
+  context 'fail when CDH version not supported' do
     let :pre_condition do
       'class {"zookeeper":
         repo   => "cloudera",
@@ -112,16 +69,6 @@ describe 'zookeeper::install::repo' do
   end
 
   context 'fail when repository source not supported' do
-    let(:facts) do
-    {
-      :osfamily => 'RedHat',
-      :operatingsystemmajrelease => '7',
-      :hardwaremodel => 'x86_64',
-      :osrel => '7',
-      :puppetversion => Puppet.version,
-    }
-    end
-
     let :pre_condition do
       'class {"zookeeper":
         repo => "another-repo",
@@ -132,5 +79,71 @@ describe 'zookeeper::install::repo' do
       expect do
         should compile
     end.to raise_error(/provides no repository information for yum repository/) end
+  end
+end
+
+describe 'zookeeper::install::repo' do
+  on_supported_os.each do |os, os_facts|
+    os_facts[:os]['hardware'] = 'x86_64'
+
+    context "on #{os}" do
+      let(:facts) do
+        os_facts.merge({
+          :ipaddress     => '192.168.1.1',
+          :puppetversion => Puppet.version,
+        })
+      end
+
+      include_examples 'zookeeper repo', os_facts
+    end
+  end
+
+  context 'test unsupported repo arch' do
+    test_on = {
+      :hardwaremodels => ['arc'],
+      :supported_os => [
+        {
+          'operatingsystem'        => 'RedHat',
+          'operatingsystemrelease' => ['7'],
+        },
+      ],
+    }
+    on_supported_os(test_on).each do |os, os_facts|
+      context "on #{os}" do
+        let(:facts) do
+          os_facts.merge({
+            :ipaddress     => '192.168.1.1',
+            :puppetversion => Puppet.version,
+          })
+        end
+
+        include_examples 'zookeeper repo arch support', os_facts
+      end
+    end
+  end
+
+  context 'test unsupported repo release' do
+    test_on = {
+      :supported_os => [
+        {
+          'operatingsystem'        => 'RedHat',
+          'operatingsystemrelease' => ['8'],
+        },
+      ],
+    }
+    on_supported_os(test_on).each do |os, os_facts|
+      os_facts[:os]['hardware'] = 'x86_64'
+
+      context "on #{os}" do
+        let(:facts) do
+          os_facts.merge({
+            :ipaddress     => '192.168.1.1',
+            :puppetversion => Puppet.version,
+          })
+        end
+
+        include_examples 'zookeeper repo release support', os_facts
+      end
+    end
   end
 end

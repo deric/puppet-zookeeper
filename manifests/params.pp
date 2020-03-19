@@ -6,20 +6,25 @@ class zookeeper::params {
     'packages' => ['zookeeper'],
   }
 
-  case $::osfamily {
+  $os_family = $facts['os']['family']
+  $os_name = $facts['os']['name']
+  $os_release = $facts['os']['release']['major']
+
+  case $os_family {
     'Debian': {
-      case $::operatingsystem {
+      case $os_name {
         'Debian': {
-          case $::operatingsystemmajrelease {
-            '7': { $initstyle = 'init' }
-            '8': { $initstyle = 'systemd' }
-            default: { $initstyle = undef }
+          if versioncmp($os_release, '8') < 0 {
+            $initstyle = 'init'
+          } else  {
+            $initstyle = 'systemd'
           }
         }
         'Ubuntu': {
-          case $::operatingsystemmajrelease {
-            '14.04': { $initstyle = 'upstart' }
-            default: { $initstyle = undef }
+          if versioncmp($os_release, '15.04') < 0 {
+            $initstyle = 'upstart'
+          } else {
+            $initstyle = 'systemd'
           }
         }
         default: { $initstyle = undef }
@@ -36,11 +41,26 @@ class zookeeper::params {
       $environment_file = 'environment'
     }
     'RedHat': {
-      case $::operatingsystemmajrelease {
-        '6': { $initstyle = 'redhat' }
-        '7': { $initstyle = 'systemd' }
-        default: { $initstyle = undef }
+      case $os_name {
+        'RedHat': {
+          if versioncmp($os_release, '7') < 0 {
+            $initstyle = 'redhat'
+          } else {
+            $initstyle = 'systemd'
+          }
+        }
+        'CentOS' : {
+          if versioncmp($os_release, '7') < 0 {
+            $initstyle = 'redhat'
+          } else {
+            $initstyle = 'systemd'
+          }
+        }
+        default: {
+          $initstyle = undef
+        }
       }
+
       $_os_overrides = {
         'packages'         => ['zookeeper', 'zookeeper-server'],
         'service_name'     => 'zookeeper-server',
@@ -51,7 +71,7 @@ class zookeeper::params {
     }
 
     default: {
-      fail("Module '${module_name}' is not supported on OS: '${::operatingsystem}', family: '${::osfamily}'")
+      fail("Module '${module_name}' is not supported on OS: '${os_name}', family: '${os_family}'")
     }
   }
   $_params = merge($_defaults, $_os_overrides)
