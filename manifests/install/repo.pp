@@ -53,23 +53,13 @@ class zookeeper::install::repo inherits zookeeper::install {
             fail("CDH version'${::zookeeper::cdhver}' is not a supported cloudera repo.")
           }
         }
-        # Parameter ensure is not supported before Puppet 3.5
         # Puppet 4 compatibility: force variable to be a String
-        if versioncmp("${::puppetversion}", '3.5.0') >= 0 { # lint:ignore:only_variable_string
-          yumrepo { "cloudera-cdh${::zookeeper::cdhver}":
-            ensure   => $::zookeeper::ensure,
-            descr    => "Cloudera's Distribution for Hadoop, Version ${::zookeeper::cdhver}",
-            baseurl  => "http://archive.cloudera.com/cdh${::zookeeper::cdhver}/redhat/${release}/${os_hardware}/cdh/${::zookeeper::cdhver}/",
-            gpgkey   => "http://archive.cloudera.com/cdh${::zookeeper::cdhver}/redhat/${release}/${os_hardware}/cdh/RPM-GPG-KEY-cloudera",
-            gpgcheck => 1
-          }
-        } else {
-          yumrepo { "cloudera-cdh${::zookeeper::cdhver}":
-            descr    => "Cloudera's Distribution for Hadoop, Version ${::zookeeper::cdhver}",
-            baseurl  => "http://archive.cloudera.com/cdh${::zookeeper::cdhver}/redhat/${os_release}/${os_hardware}/cdh/${::zookeeper::cdhver}/",
-            gpgkey   => "http://archive.cloudera.com/cdh${::zookeeper::cdhver}/redhat/${os_release}/${os_hardware}/cdh/RPM-GPG-KEY-cloudera",
-            gpgcheck => 1
-          }
+        yumrepo { "cloudera-cdh${::zookeeper::cdhver}":
+          ensure   => $::zookeeper::ensure,
+          descr    => "Cloudera's Distribution for Hadoop, Version ${::zookeeper::cdhver}",
+          baseurl  => "http://archive.cloudera.com/cdh${::zookeeper::cdhver}/redhat/${release}/${os_hardware}/cdh/${::zookeeper::cdhver}/",
+          gpgkey   => "http://archive.cloudera.com/cdh${::zookeeper::cdhver}/redhat/${release}/${os_hardware}/cdh/RPM-GPG-KEY-cloudera",
+          gpgcheck => 1
         }
       }
       'custom':{
@@ -81,45 +71,19 @@ class zookeeper::install::repo inherits zookeeper::install {
         case $os_release {
           '6', '7': {
             # Puppet 4 compatibility: force variable to be a String
-            if versioncmp("${::puppetversion}", '3.0.0') < 0 { # lint:ignore:only_variable_string
-              # parameter 'sslverify' is not supported before puppet 3.0
-              yumrepo { $_config['name']:
-                descr    => $_config['descr'],
-                baseurl  => $_config['url'],
-                enabled  => 1,
-                gpgcheck => 0
-              }
-            # Puppet 4 compatibility: force variable to be a String
-            } elsif versioncmp("${::puppetversion}", '3.5.0') >= 0 { # lint:ignore:only_variable_string
-              # Parameter ensure is not supported before Puppet 3.5
-              yumrepo { $_config['name']:
-                ensure    => $::zookeeper::ensure,
-                descr     => $_config['descr'],
-                baseurl   => $_config['url'],
-                enabled   => 1,
-                sslverify => empty($_config['sslverify']) ? {
-                  true  => 0,
-                  false => $_config['sslverify']
-                },
-                gpgcheck  => empty($_config['gpgcheck']) ? {
-                  true  => 0,
-                  false => $_config['gpgcheck']
-                },
-              }
-            } else {
-              yumrepo { $_config['name']:
-                descr     => $_config['descr'],
-                baseurl   => $_config['url'],
-                enabled   => 1,
-                sslverify => empty($_config['sslverify']) ? {
-                  true  => 0,
-                  false => $_config['sslverify']
-                },
-                gpgcheck  => empty($_config['gpgcheck']) ? {
-                  true  => 0,
-                  false => $_config['gpgcheck']
-                },
-              }
+            yumrepo { $_config['name']:
+              ensure    => $::zookeeper::ensure,
+              descr     => $_config['descr'],
+              baseurl   => $_config['url'],
+              enabled   => 1,
+              sslverify => empty($_config['sslverify']) ? {
+                true  => 0,
+                false => $_config['sslverify']
+              },
+              gpgcheck  => empty($_config['gpgcheck']) ? {
+                true  => 0,
+                false => $_config['gpgcheck']
+              },
             }
           }
           default: {
