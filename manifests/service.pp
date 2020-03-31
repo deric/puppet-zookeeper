@@ -16,28 +16,14 @@ class zookeeper::service inherits zookeeper {
   }
 
   if $::zookeeper::manage_service_file == true {
-    if $::zookeeper::service_provider == 'systemd'  {
-      file { "${::zookeeper::systemd_path}/${::zookeeper::service_name}.service":
-        ensure  => 'present',
-        content => template("${module_name}/zookeeper.service.erb"),
-      }
-      ~> exec { 'systemctl daemon-reload # for zookeeper':
-        refreshonly => true,
-        path        => $::path,
-        notify      => Service[$::zookeeper::service_name],
-      }
-    } elsif (
-      $::zookeeper::service_provider == 'init'
-      or $::zookeeper::service_provider == 'redhat'
-      or $::zookeeper::service_provider == 'debian'
-    )  {
-      file { "/etc/init.d/${::zookeeper::service_name}":
-        ensure  => present,
-        content => template("${module_name}/zookeeper.${facts['os']['family']}.init.erb"),
-        mode    => '0755',
-        before  => Service[$::zookeeper::service_name],
-        notify  => Service[$::zookeeper::service_name],
-      }
+    file { "${::zookeeper::systemd_path}/${::zookeeper::service_name}.service":
+      ensure  => 'present',
+      content => template("${module_name}/zookeeper.service.erb"),
+    }
+    ~> exec { 'systemctl daemon-reload # for zookeeper':
+      refreshonly => true,
+      path        => $::path,
+      notify      => Service[$::zookeeper::service_name],
     }
   }
 

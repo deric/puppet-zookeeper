@@ -13,19 +13,8 @@ class zookeeper::params {
   case $os_family {
     'Debian': {
       case $os_name {
-        'Debian': {
-          if versioncmp($os_release, '8') < 0 {
-            $initstyle = 'init'
-          } else  {
-            $initstyle = 'systemd'
-          }
-        }
-        'Ubuntu': {
-          if versioncmp($os_release, '15.04') < 0 {
-            $initstyle = 'upstart'
-          } else {
-            $initstyle = 'systemd'
-          }
+        'Debian', 'Ubuntu': {
+          $initstyle = 'systemd'
         }
         default: { $initstyle = undef }
       }
@@ -42,19 +31,8 @@ class zookeeper::params {
     }
     'RedHat': {
       case $os_name {
-        'RedHat': {
-          if versioncmp($os_release, '7') < 0 {
-            $initstyle = 'redhat'
-          } else {
-            $initstyle = 'systemd'
-          }
-        }
-        'CentOS' : {
-          if versioncmp($os_release, '7') < 0 {
-            $initstyle = 'redhat'
-          } else {
-            $initstyle = 'systemd'
-          }
+        'RedHat', 'CentOS': {
+          $initstyle = 'systemd'
         }
         default: {
           $initstyle = undef
