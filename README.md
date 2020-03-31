@@ -17,7 +17,7 @@ Compatibility matrix:
 | ----------------- | ------------- |--------------| -----------|----------------|
 | `0.7.x`           | :heavy_check_mark: | :heavy_check_mark: | :question: | :x: |
 | `0.8.x`           | :x:  | :heavy_check_mark: | :heavy_check_mark: | :x:       |
-| `0.9.x`           | :x:  | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
+| `0.9.x`           | :x:  | :x: | :heavy_check_mark: | :heavy_check_mark: |
 
 ## Basic Usage:
 

@@ -1,6 +1,11 @@
 ## 0.9.0-UNRELEASED
 - New features:
   - [Support Puppet 6](https://github.com/deric/puppet-zookeeper/issues/132) (#132)
+  - [allow configuring additional log appenders (#139)](https://github.com/deric/puppet-zookeeper/pull/139)
+- Changes:
+  - Drop support for Puppet 3 ([#144](https://github.com/deric/puppet-zookeeper/pull/144))
+  - Drop support for Puppet 4 ([#145](https://github.com/deric/puppet-zookeeper/pull/145))
+  - Drop support for Debian (6, 7) and Ubuntu (10.04, 12.04, 14.04) ([#143](https://github.com/deric/puppet-zookeeper/pull/143))
 - Fixes:
   - Fixed and extended acceptance tests
 - [Full diff](https://github.com/deric/puppet-zookeeper/compare/v0.8.7...v0.9.0)
