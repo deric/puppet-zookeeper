@@ -90,7 +90,6 @@ describe 'zookeeper::install::repo' do
       let(:facts) do
         os_facts.merge({
           :ipaddress     => '192.168.1.1',
-          :puppetversion => Puppet.version,
         })
       end
 
@@ -113,7 +112,6 @@ describe 'zookeeper::install::repo' do
         let(:facts) do
           os_facts.merge({
             :ipaddress     => '192.168.1.1',
-            :puppetversion => Puppet.version,
           })
         end
 
@@ -138,7 +136,6 @@ describe 'zookeeper::install::repo' do
         let(:facts) do
           os_facts.merge({
             :ipaddress     => '192.168.1.1',
-            :puppetversion => Puppet.version,
           })
         end
 

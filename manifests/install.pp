@@ -29,20 +29,11 @@ class zookeeper::install inherits zookeeper {
     # Make sure the Java package is only installed once.
     anchor { 'zookeeper::install::java': }
 
-    # parameter allow_virtual is not supported before Puppet 3.6
-    if versioncmp($::puppetversion, '3.6.0') >= 0 {
-      ensure_resource('package', $::zookeeper::java_package,
-        {'ensure' => $::zookeeper::ensure, 'allow_virtual' => true,
-        'before'  => Anchor['zookeeper::install::intermediate'],
-        'require' => Anchor['zookeeper::install::begin']}
-      )
-    } else {
-      ensure_resource('package', $::zookeeper::java_package,
-        {'ensure' => $::zookeeper::ensure,
-        'before'  => Anchor['zookeeper::install::intermediate'],
-        'require' => Anchor['zookeeper::install::begin']}
-      )
-    }
+    ensure_resource('package', $::zookeeper::java_package,
+      {'ensure' => $::zookeeper::ensure, 'allow_virtual' => true,
+      'before'  => Anchor['zookeeper::install::intermediate'],
+      'require' => Anchor['zookeeper::install::begin']}
+    )
   }
 
   anchor { 'zookeeper::install::intermediate': }

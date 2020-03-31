@@ -12,25 +12,23 @@ script:
   - RAKE_ENV=ci bundle exec rake spec
   - RAKE_ENV=ci bundle exec rake lint
 rvm:
-  - 2.3.7
   - 2.4.4
-  - 2.5.5
+  - 2.5.3
 env:
   global:
     - LIBRARIAN_PUPPET_TMP="$HOME/librarian-puppet"
   matrix:
-    - PUPPET_VERSION="~> 4.10.0" STRICT_VARIABLES=yes
-    - PUPPET_VERSION="~> 5.5.0" STRICT_VARIABLES=yes
+    - PUPPET_VERSION="~> 5.0" STRICT_VARIABLES=yes
     - PUPPET_VERSION="~> 6.0" STRICT_VARIABLES=yes
 matrix:
   include:
-    - rvm: 2.4.0
+    - rvm: 2.4.4
       dist: trusty
       env: RAKE_ENV=ci BEAKER_debug=true BEAKER_set=default
       script: bundle exec rake acceptance
       services: docker
       sudo: required
-    - rvm: 2.4.0
+    - rvm: 2.4.4
       dist: trusty
       env: RAKE_ENV=ci BEAKER_debug=true BEAKER_set=debian9-6.3
       script: bundle exec rake acceptance

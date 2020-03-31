@@ -372,17 +372,13 @@ shared_examples 'zookeeper install' do |os_facts|
 end
 
 describe 'zookeeper::install' do
-  puppet = `puppet --version`
-
   let(:user) { 'zookeeper' }
   let(:group) { 'zookeeper' }
 
   on_supported_os.each do |os, os_facts|
     context "on #{os}" do
       let(:facts) do
-        os_facts.merge({
-          :puppetversion => puppet,
-        })
+        os_facts
       end
 
       include_examples 'zookeeper install', os_facts
