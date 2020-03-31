@@ -8,7 +8,7 @@ shared_examples 'zookeeper install' do |os_facts|
     }'
   end
 
-  it { should contain_package('zookeeper') }
+  it { is_expected.to contain_package('zookeeper') }
 
   os_info = get_os_info(os_facts)
 
@@ -16,29 +16,27 @@ shared_examples 'zookeeper install' do |os_facts|
   should_install_zookeeperd = os_info[:should_install_zookeeperd]
   zookeeper_shell = os_info[:zookeeper_shell]
 
-  it { should contain_class('zookeeper::post_install') }
-  it { should compile.with_all_deps }
+  it { is_expected.to contain_class('zookeeper::post_install') }
+  it { is_expected.to compile.with_all_deps }
 
   if should_install_zookeeperd
-    it { should contain_package('zookeeperd') }
+    it { is_expected.to contain_package('zookeeperd') }
   else
-    it { should_not contain_package('zookeeperd') }
+    it { is_expected.not_to contain_package('zookeeperd') }
   end
 
   if should_install_cron
-    it { should contain_package('cron') }
+    it { is_expected.to contain_package('cron') }
   else
-    it { should_not contain_package('cron') }
+    it { is_expected.not_to contain_package('cron') }
   end
 
   it 'installs cron script' do
-    cron_exists = contain_cron__job('zookeeper-cleanup').with({
-      'ensure'    => 'present',
-      'command'   => '/usr/share/zookeeper/bin/zkCleanup.sh /var/lib/zookeeper 1',
-      'user'      => 'zookeeper',
-      'hour'      => '2',
-      'minute' => '42',
-    })
+    cron_exists = contain_cron__job('zookeeper-cleanup').with('ensure' => 'present',
+                                                              'command'   => '/usr/share/zookeeper/bin/zkCleanup.sh /var/lib/zookeeper 1',
+                                                              'user'      => 'zookeeper',
+                                                              'hour'      => '2',
+                                                              'minute' => '42')
 
     if should_install_cron
       is_expected.to cron_exists
@@ -47,15 +45,12 @@ shared_examples 'zookeeper install' do |os_facts|
     end
   end
 
-
   it 'installs cron script' do
-    cron_exists = contain_cron__job('zookeeper-cleanup').with({
-      'ensure'    => 'present',
-      'command'   => '/usr/share/zookeeper/bin/zkCleanup.sh /var/lib/zookeeper 1',
-      'user'      => 'zookeeper',
-      'hour'      => '2',
-      'minute' => '42',
-    })
+    cron_exists = contain_cron__job('zookeeper-cleanup').with('ensure' => 'present',
+                                                              'command'   => '/usr/share/zookeeper/bin/zkCleanup.sh /var/lib/zookeeper 1',
+                                                              'user'      => 'zookeeper',
+                                                              'hour'      => '2',
+                                                              'minute' => '42')
 
     if should_install_cron
       is_expected.to cron_exists
@@ -71,13 +66,13 @@ shared_examples 'zookeeper install' do |os_facts|
        }'
     end
 
-    it { should contain_package('zookeeper') }
-    it { should_not contain_package('cron') }
+    it { is_expected.to contain_package('zookeeper') }
+    it { is_expected.not_to contain_package('cron') }
 
     if should_install_zookeeperd
-      it { should contain_package('zookeeperd') }
+      it { is_expected.to contain_package('zookeeperd') }
     else
-      it { should_not contain_package('zookeeperd') }
+      it { is_expected.not_to contain_package('zookeeperd') }
     end
   end
 
@@ -89,17 +84,15 @@ shared_examples 'zookeeper install' do |os_facts|
        }'
     end
 
-    it { should contain_package('zookeeper') }
-    it { should contain_package('cron') }
+    it { is_expected.to contain_package('zookeeper') }
+    it { is_expected.to contain_package('cron') }
 
     it 'installs cron script' do
-      should contain_cron__job('zookeeper-cleanup').with({
-        'ensure'    => 'present',
-        'command'   => '/usr/share/zookeeper/bin/zkCleanup.sh /var/lib/zookeeper 5',
-        'user'      => 'zookeeper',
-        'hour'      => '2',
-        'minute' => '42',
-      })
+      is_expected.to contain_cron__job('zookeeper-cleanup').with('ensure' => 'present',
+                                                                 'command'   => '/usr/share/zookeeper/bin/zkCleanup.sh /var/lib/zookeeper 5',
+                                                                 'user'      => 'zookeeper',
+                                                                 'hour'      => '2',
+                                                                 'minute' => '42')
     end
   end
 
@@ -110,9 +103,9 @@ shared_examples 'zookeeper install' do |os_facts|
        }'
     end
 
-    it { should contain_package('zookeeper') }
-    it { should contain_package('zookeeper-server') }
-    it { should_not contain_package('zookeeperd') }
+    it { is_expected.to contain_package('zookeeper') }
+    it { is_expected.to contain_package('zookeeper-server') }
+    it { is_expected.not_to contain_package('zookeeperd') }
   end
 
   context 'allow installing multiple packages' do
@@ -122,8 +115,8 @@ shared_examples 'zookeeper install' do |os_facts|
        }'
     end
 
-    it { should contain_package('zookeeper') }
-    it { should contain_package('zookeeper-devel') }
+    it { is_expected.to contain_package('zookeeper') }
+    it { is_expected.to contain_package('zookeeper-devel') }
   end
 
   context 'with java installation' do
@@ -138,14 +131,10 @@ shared_examples 'zookeeper install' do |os_facts|
     end
 
     it do
-      should contain_package('java-1.7.0-openjdk').with({
-      'ensure' => 'present',
-      })
+      is_expected.to contain_package('java-1.7.0-openjdk').with('ensure' => 'present')
     end
     it do
-      should contain_package('zookeeper').with({
-      'ensure' => 'present',
-      })
+      is_expected.to contain_package('zookeeper').with('ensure' => 'present')
     end
   end
 
@@ -158,8 +147,8 @@ shared_examples 'zookeeper install' do |os_facts|
 
     it do
       expect do
-        should compile
-    end.to raise_error(/Java installation is required/) end
+        is_expected.to compile
+      end.to raise_error(%r{Java installation is required}) end
   end
 
   context 'removing package' do
@@ -170,33 +159,25 @@ shared_examples 'zookeeper install' do |os_facts|
     end
 
     it do
-      should contain_package('zookeeper').with({
-      'ensure' => 'absent',
-      })
+      is_expected.to contain_package('zookeeper').with('ensure' => 'absent')
     end
     if should_install_zookeeperd
       it do
-        should contain_package('zookeeperd').with({
-        'ensure' => 'absent',
-        })
+        is_expected.to contain_package('zookeeperd').with('ensure' => 'absent')
       end
     else
       it do
-        should_not contain_package('zookeeperd').with({
-          'ensure' => 'present',
-          })
+        is_expected.not_to contain_package('zookeeperd').with('ensure' => 'present')
       end
     end
-    it { should_not contain_package('cron') }
+    it { is_expected.not_to contain_package('cron') }
   end
 
   # create user with proper shell #50 (https://github.com/deric/puppet-zookeeper/issues/50)
   context 'ensure user resource exists' do
     it do
-      should contain_user('zookeeper').with({
-      'ensure' => 'present',
-      'shell' => zookeeper_shell,
-    })
+      is_expected.to contain_user('zookeeper').with('ensure' => 'present',
+                                                    'shell' => zookeeper_shell)
     end
   end
 
@@ -208,9 +189,7 @@ shared_examples 'zookeeper install' do |os_facts|
     end
 
     it do
-      should contain_user('zookeeper').with({
-      :ensure => 'present'
-    })
+      is_expected.to contain_user('zookeeper').with(ensure: 'present')
     end
 
     context 'remove user accounts' do
@@ -221,9 +200,7 @@ shared_examples 'zookeeper install' do |os_facts|
       end
 
       it do
-        should contain_user('zookeeper').with({
-        :ensure => 'absent'
-      })
+        is_expected.to contain_user('zookeeper').with(ensure: 'absent')
       end
     end
 
@@ -234,7 +211,7 @@ shared_examples 'zookeeper install' do |os_facts|
         }'
       end
 
-      it { should_not contain_user('zookeeper') }
+      it { is_expected.not_to contain_user('zookeeper') }
     end
   end
 
@@ -257,27 +234,21 @@ shared_examples 'zookeeper install' do |os_facts|
     end
 
     it do
-      is_expected.to contain_file(zoo_dir).with({
-        :ensure => 'link',
-        :target => extract_path,
-      })
+      is_expected.to contain_file(zoo_dir).with(ensure: 'link',
+                                                target: extract_path)
     end
     it do
-      should contain_archive("#{install_dir}/#{basefilename}").with({
-        :extract_path => install_dir,
-        :source       => package_url,
-        :creates      => extract_path,
-        :user         => 'root',
-        :group        => 'root',
-      })
+      is_expected.to contain_archive("#{install_dir}/#{basefilename}").with(extract_path: install_dir,
+                                                                            source: package_url,
+                                                                            creates: extract_path,
+                                                                            user: 'root',
+                                                                            group: 'root')
     end
 
     it do
-      is_expected.to contain_file('/etc/zookeeper').with({
-        :ensure => 'directory',
-        :owner => 'zookeeper',
-        :group => 'zookeeper',
-      })
+      is_expected.to contain_file('/etc/zookeeper').with(ensure: 'directory',
+                                                         owner: 'zookeeper',
+                                                         group: 'zookeeper')
     end
   end
 
@@ -300,28 +271,22 @@ shared_examples 'zookeeper install' do |os_facts|
     end
 
     it do
-      is_expected.to contain_file(zoo_dir).with({
-        :ensure => 'link',
-        :target => extract_path,
-      })
+      is_expected.to contain_file(zoo_dir).with(ensure: 'link',
+                                                target: extract_path)
     end
 
     it do
-      should contain_archive("#{install_dir}/#{basefilename}").with({
-        :extract_path => install_dir,
-        :source       => package_url,
-        :creates      => extract_path,
-        :user         => 'root',
-        :group        => 'root',
-      })
+      is_expected.to contain_archive("#{install_dir}/#{basefilename}").with(extract_path: install_dir,
+                                                                            source: package_url,
+                                                                            creates: extract_path,
+                                                                            user: 'root',
+                                                                            group: 'root')
     end
 
     it do
-      is_expected.to contain_file('/etc/zookeeper').with({
-        :ensure => 'directory',
-        :owner => 'zookeeper',
-        :group => 'zookeeper',
-      })
+      is_expected.to contain_file('/etc/zookeeper').with(ensure: 'directory',
+                                                         owner: 'zookeeper',
+                                                         group: 'zookeeper')
     end
   end
 
@@ -345,28 +310,22 @@ shared_examples 'zookeeper install' do |os_facts|
     end
 
     it do
-      is_expected.to contain_file(zoo_dir).with({
-        :ensure => 'link',
-        :target => extract_path,
-      })
+      is_expected.to contain_file(zoo_dir).with(ensure: 'link',
+                                                target: extract_path)
     end
     it do
-      should contain_archive("#{install_dir}/#{basefilename}").with({
-        extract_path:  install_dir,
-        source:        package_url,
-        creates:       extract_path,
-        proxy_server:  'http://10.0.0.1:8080',
-        user:          'root',
-        group:         'root',
-      })
+      is_expected.to contain_archive("#{install_dir}/#{basefilename}").with(extract_path:  install_dir,
+                                                                            source:        package_url,
+                                                                            creates:       extract_path,
+                                                                            proxy_server:  'http://10.0.0.1:8080',
+                                                                            user:          'root',
+                                                                            group:         'root')
     end
 
     it do
-      is_expected.to contain_file('/etc/zookeeper').with({
-        :ensure => 'directory',
-        :owner => 'zookeeper',
-        :group => 'zookeeper',
-      })
+      is_expected.to contain_file('/etc/zookeeper').with(ensure: 'directory',
+                                                         owner: 'zookeeper',
+                                                         group: 'zookeeper')
     end
   end
 end

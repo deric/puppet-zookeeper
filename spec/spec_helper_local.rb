@@ -1,13 +1,13 @@
 def get_os_info(facts)
   info = {
-    :service_name => nil,
-    :environment_file => nil,
-    :should_install_zookeeperd => nil,
-    :init_provider => nil,
-    :init_dir => nil,
-    :service_file => nil,
-    :should_install_cron => false,
-    :zookeeper_shell => nil,
+    service_name: nil,
+    environment_file: nil,
+    should_install_zookeeperd: nil,
+    init_provider: nil,
+    init_dir: nil,
+    service_file: nil,
+    should_install_cron: false,
+    zookeeper_shell: nil
   }
 
   case facts[:osfamily]
@@ -28,5 +28,5 @@ def get_os_info(facts)
   info[:init_dir] = '/etc/systemd/system'
   info[:service_file] = "#{info[:init_dir]}/#{info[:service_name]}.service"
 
-  return info
+  info
 end

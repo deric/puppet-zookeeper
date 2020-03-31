@@ -25,32 +25,30 @@ shared_examples 'zookeeper::service' do |os_facts|
          }'
       end
 
-      it { should contain_package('zookeeper') }
+      it { is_expected.to contain_package('zookeeper') }
 
       if should_install_zookeeperd
-        it { should contain_package('zookeeperd') }
+        it { is_expected.to contain_package('zookeeperd') }
       else
-        it { should_not contain_package('zookeeperd') }
+        it { is_expected.not_to contain_package('zookeeperd') }
       end
 
       it do
         is_expected.to contain_file(
           "/usr/lib/systemd/system/#{service_name}.service"
-        ).with({
-          'ensure' => 'present',
-        })
+        ).with('ensure' => 'present')
       end
 
       it do
         is_expected.to contain_file(
           "/usr/lib/systemd/system/#{service_name}.service"
-        ).with_content(/CLASSPATH="\/usr\/lib\/zookeeper\/zookeeper.jar/)
+        ).with_content(%r{CLASSPATH="/usr/lib/zookeeper/zookeeper.jar})
       end
 
       it do
         is_expected.to contain_service(service_name).with(
-          :ensure => 'running',
-          :enable => true
+          ensure: 'running',
+          enable: true
         )
       end
 
@@ -65,7 +63,7 @@ shared_examples 'zookeeper::service' do |os_facts|
 
         it do
           is_expected.to contain_file(service_file).with_content(
-            /zookeeper-3\.4\.9\.jar/
+            %r{zookeeper-3\.4\.9\.jar}
           )
         end
       end
@@ -82,15 +80,11 @@ shared_examples 'zookeeper::service' do |os_facts|
         it do
           is_expected.not_to contain_file(
             '/usr/lib/systemd/system/zookeeper.service'
-          ).with({
-            'ensure' => 'present',
-          })
+          ).with('ensure' => 'present')
         end
 
         it do
-          is_expected.not_to contain_file(service_file).with({
-            'ensure' => 'present',
-          })
+          is_expected.not_to contain_file(service_file).with('ensure' => 'present')
         end
       end
 
@@ -106,21 +100,19 @@ shared_examples 'zookeeper::service' do |os_facts|
         end
 
         it do
-          is_expected.to contain_file(service_file).with({
-            'ensure' => 'present',
-          })
+          is_expected.to contain_file(service_file).with('ensure' => 'present')
         end
 
         it do
           is_expected.to contain_file(service_file).with_content(
-            /Wants=network-online.target openvpn-client@.service/
+            %r{Wants=network-online.target openvpn-client@.service}
           )
         end
 
         it do
           is_expected.to contain_service(service_name).with(
-            :ensure => 'running',
-            :enable => true
+            ensure: 'running',
+            enable: true
           )
         end
       end
@@ -134,22 +126,20 @@ shared_examples 'zookeeper::service' do |os_facts|
          }'
       end
 
-      if init_provider == 'systemd'
-        custom_service_file = "#{init_dir}/my-zookeeper.service"
-      else
-        custom_service_file = "#{init_dir}/my-zookeeper"
-      end
+      custom_service_file = if init_provider == 'systemd'
+                              "#{init_dir}/my-zookeeper.service"
+                            else
+                              "#{init_dir}/my-zookeeper"
+                            end
 
       it do
-        is_expected.to contain_file(custom_service_file).with({
-          'ensure' => 'present',
-        })
+        is_expected.to contain_file(custom_service_file).with('ensure' => 'present')
       end
 
       it do
         is_expected.to contain_service('my-zookeeper').with(
-          :ensure => 'running',
-          :enable => true
+          ensure: 'running',
+          enable: true
         )
       end
     end
@@ -162,9 +152,7 @@ describe 'zookeeper::service' do
 
     context "on #{os}" do
       let(:facts) do
-        os_facts.merge({
-          :ipaddress     => '192.168.1.1',
-        })
+        os_facts.merge(ipaddress: '192.168.1.1')
       end
 
       include_examples 'zookeeper::service', os_facts
