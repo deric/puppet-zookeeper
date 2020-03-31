@@ -63,3 +63,5 @@ RSpec.configure do |c|
     RSpec::Puppet::Coverage.report!
   end
 end
+
+require 'spec_helper_local' if File.file?(File.join(File.dirname(__FILE__), 'spec_helper_local.rb'))

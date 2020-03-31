@@ -148,7 +148,7 @@ class zookeeper::params {
   $sasl_krb5 = true
   $sasl_users = {}
   $keytab_path = '/etc/zookeeper/conf/zookeeper.keytab'
-  $principal = "zookeeper/${::fqdn}"
+  $principal = "zookeeper/${facts['networking']['fqdn']}"
   $realm = pick($trusted['domain'], $trusted['certname'])
   $store_key = true
   $use_keytab = true
