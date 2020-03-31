@@ -44,8 +44,6 @@
     {
       "operatingsystem": "Debian",
       "operatingsystemrelease": [
-        "6",
-        "7",
         "8",
         "9",
         "10"
@@ -54,8 +52,6 @@
     {
       "operatingsystem": "Ubuntu",
       "operatingsystemrelease": [
-        "12.04",
-        "14.04",
         "16.04",
         "18.04"
       ]

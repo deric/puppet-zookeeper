@@ -18,19 +18,8 @@ class zookeeper::post_install inherits zookeeper {
     case $os_family {
       'Debian': {
         case $os_name {
-          'Debian': {
-            if versioncmp($os_release, '8') < 0 { # 3.3.5
-              $_clean = true
-            } else { # future releases
-              $_clean = false
-            }
-          }
-          'Ubuntu': {
-            if versioncmp($os_release, '12.04') < 0 { # 3.3.5
-              $_clean = true
-            } else { # future releases
-              $_clean = false
-            }
+          'Debian', 'Ubuntu': {
+            $_clean = false
           }
           default: {
             fail ("Family: '${os_family}' OS: '${os_name}' is not supported yet")

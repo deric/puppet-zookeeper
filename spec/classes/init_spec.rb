@@ -178,48 +178,6 @@ shared_examples 'zookeeper' do |os_facts|
     it { is_expected.to contain_user('zookeeper').with({:ensure => 'present'}) }
   end
 
-  context 'set pid file for init provider' do
-    let(:params) do
-      {
-      :zoo_dir             => '/usr/lib/zookeeper',
-      :log_dir             => '/var/log/zookeeper',
-      :manage_service      => true,
-      :manage_service_file => true,
-      :service_provider    => 'init',
-    }
-    end
-
-    it do
-      is_expected.to contain_file(
-        '/etc/zookeeper/conf/log4j.properties'
-      ).with_content(/zookeeper.log.dir=\/var\/log\/zookeeper/)
-    end
-
-    context 'set service provider' do
-      it { is_expected.to contain_package('zookeeper').with({:ensure => 'present'}) }
-      it do
-        is_expected.to contain_service(service_name).with({
-        :ensure => 'running',
-        :provider => 'init',
-      })
-      end
-    end
-
-    if os_facts[:osfamily] == 'RedHat'
-      it do
-        is_expected.to contain_file(
-          "/etc/init.d/#{service_name}"
-        ).with_content(/pidfile=\/var\/run\/zookeeper.pid/)
-      end
-    else
-      it do
-        is_expected.to contain_file(
-          environment_file
-        ).with_content(/PIDFILE=\/var\/run\/zookeeper.pid/)
-      end
-    end
-  end
-
   context 'create env file' do
     it do
       is_expected.to contain_file(
