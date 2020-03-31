@@ -117,9 +117,7 @@ class { 'zookeeper':
 
 Some reasonable values are:
 
-  * `init` - RHEL6, Debian 7
-  * `upstart` - Ubuntu
-  * `systemd` - RHEL 7, Debian 8
+  * `systemd`
   * `runit`
   * `exhibitor` - zookeeper process and config will be managed by exhibitor (https://github.com/soabase/exhibitor). Exhibitor is not managed by this module.
   * `none` - service won't be installed
@@ -371,12 +369,11 @@ rake beaker:sets
 ## Supported platforms
 
   * Debian/Ubuntu
-    * Debian 6 Squeeze: you can get ZooKeeper package from [Wheezy](http://packages.debian.org/wheezy/zookeeper) or [Sid](http://packages.debian.org/sid/zookeeper) repo.
-    * Debian 7 Wheezy: available in apt repository
   * RedHat/CentOS/Fedora
 
 ### Tested on:
 
-  * Debian 6 - Squeeze, 7 - Wheezy, 8 - Jessie
-  * Ubuntu 12.04.03 LTS, 14.04
-  * RHEL 6, RHEL 7, CentOS 6
+  * Debian (8, 9, 10)
+  * Ubuntu (16.04, 18.04)
+  * RHEL (6, 7)
+  * CentOS (6, 7)
