@@ -1,5 +1,12 @@
 require 'spec_helper_acceptance'
 
+case fact('osfamily')
+when 'Debian'
+  service_name = 'zookeeper'
+when 'RedHat'
+  service_name = 'zookeeper-server'
+end
+
 describe 'zookeeper defintion' do
   context 'basic setup' do
     it 'install zookeeper' do
@@ -28,7 +35,7 @@ describe 'zookeeper defintion' do
       it { is_expected.to exist }
     end
 
-    describe command('/etc/init.d/zookeeper status') do
+    describe command("/etc/init.d/#{service_name} status") do
       its(:exit_status) { is_expected.to eq 0 }
       its(:stdout) { is_expected.to match %r{running} }
     end
