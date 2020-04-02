@@ -5,7 +5,6 @@ describe 'zookeeper defintion' do
     it 'install zookeeper' do
       pp = <<-EOS
         class{'zookeeper':
-          client_port => 2181,
           service_provider => 'debian',
         }
       EOS
