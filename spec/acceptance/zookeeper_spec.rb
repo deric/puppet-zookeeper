@@ -10,9 +10,19 @@ end
 describe 'zookeeper defintion' do
   context 'basic setup' do
     it 'install zookeeper' do
-      pp = <<-EOS
-        class { 'zookeeper': }
-      EOS
+      case fact('osfamily')
+      when 'Debian'
+        pp = <<-EOS
+          class { 'zookeeper': }
+        EOS
+      when 'RedHat'
+        pp = <<-EOS
+          class { 'zookeeper':
+            install_java => true,
+            java_package => 'java-1.8.0-openjdk-headless',
+          }
+        EOS
+      end
 
       expect(apply_manifest(pp,
                             catch_failures: false,
