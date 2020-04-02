@@ -21,6 +21,7 @@ describe 'zookeeper defintion' do
             install_java         => true,
             java_package         => 'java-1.8.0-openjdk-headless',
             initialize_datastore => true,
+            service_provider     => 'redhat',
           }
         EOS
       end
