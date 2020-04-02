@@ -4,9 +4,7 @@ describe 'zookeeper defintion' do
   context 'basic setup' do
     it 'install zookeeper' do
       pp = <<-EOS
-        class{'zookeeper':
-          service_provider => 'debian',
-        }
+        class { 'zookeeper': }
       EOS
 
       expect(apply_manifest(pp,
