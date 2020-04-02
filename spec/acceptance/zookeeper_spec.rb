@@ -1,6 +1,6 @@
 require 'spec_helper_acceptance'
 
-describe 'zookeeper defintion', unless: UNSUPPORTED_PLATFORMS.include?(fact('osfamily')) do
+describe 'zookeeper defintion' do
   context 'basic setup' do
     it 'install zookeeper' do
       pp = <<-EOS
