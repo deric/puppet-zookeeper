@@ -32,7 +32,11 @@ class zookeeper::params {
     'RedHat': {
       case $os_name {
         'RedHat', 'CentOS': {
-          $initstyle = 'systemd'
+          if versioncmp($os_release, '7') < 0 {
+            $initstyle = 'redhat'
+          } else {
+            $initstyle = 'systemd'
+          }
         }
         default: {
           $initstyle = undef

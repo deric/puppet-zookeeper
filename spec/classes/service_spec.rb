@@ -118,6 +118,32 @@ shared_examples 'zookeeper::service' do |os_facts|
       end
     end
 
+  when 'init'
+    context 'init' do
+      let :pre_condition do
+        'class {"zookeeper":
+           zoo_dir             => "/usr/lib/zookeeper",
+           log_dir             => "/var/log/zookeeper",
+           manage_service_file => true,
+           service_provider    => "init",
+         }'
+      end
+
+      it do
+        is_expected.to contain_file(
+          '/etc/init.d/zookeeper'
+        ).with('ensure' => 'present')
+      end
+
+      it do
+        is_expected.to contain_service('zookeeper').with(
+          ensure: 'running',
+          enable: true,
+          provider: 'init'
+        )
+      end
+    end
+
     context 'custom service name' do
       let :pre_condition do
         'class {"zookeeper":

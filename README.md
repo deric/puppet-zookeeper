@@ -117,6 +117,7 @@ class { 'zookeeper':
 
 Some reasonable values are:
 
+  * `init`
   * `systemd`
   * `runit`
   * `exhibitor` - zookeeper process and config will be managed by exhibitor (https://github.com/soabase/exhibitor). Exhibitor is not managed by this module.
