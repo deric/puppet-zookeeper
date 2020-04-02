@@ -18,8 +18,9 @@ describe 'zookeeper defintion' do
       when 'RedHat'
         pp = <<-EOS
           class { 'zookeeper':
-            install_java => true,
-            java_package => 'java-1.8.0-openjdk-headless',
+            install_java         => true,
+            java_package         => 'java-1.8.0-openjdk-headless',
+            initialize_datastore => true,
           }
         EOS
       end
