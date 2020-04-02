@@ -74,13 +74,13 @@ class zookeeper::params {
   $archive_symlink = true
   $archive_symlink_name = "${archive_install_dir}/zookeeper"
   $archive_version = '3.4.8'
-  $cdhver = undef
+  $cdhver = '5'
   $install_java = false
   $install_method = 'package'
   $java_bin = '/usr/bin/java'
   $java_opts = ''
   $java_package = undef
-  $repo = undef
+  $repo = 'cloudera'
   $proxy_server = undef
   $proxy_type = undef
 
