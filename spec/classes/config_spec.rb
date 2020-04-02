@@ -82,18 +82,161 @@ shared_examples 'zookeeper common' do |os_facts|
   end
 
   context 'extra environment_file parameter' do
-     # set custom params
-     let :pre_condition do
-       'class {"zookeeper":
-          log4j_prop => "ERROR",
-          environment_file => "java.env",
-        }'
-     end
+    # set custom params
+    let :pre_condition do
+      'class {"zookeeper":
+        log4j_prop => "ERROR",
+        environment_file => "java.env",
+      }'
+    end
+  
+    it do
+      should contain_file('/etc/zookeeper/conf/java.env').with_content(/ERROR/)
+      should_not contain_file('/etc/zookeeper/environment')
+    end
+  end
 
-     it do
-       should contain_file('/etc/zookeeper/conf/java.env').with_content(/ERROR/)
-       should_not contain_file('/etc/zookeeper/environment')
-     end
+  context 'admin server options absent if enabled for install_method package < 3.5.5' do
+    enable = true
+    port = '3000'
+    url = '/alternative'
+    let :pre_condition do
+      "class {'zookeeper':
+          ensure => '3.5.4',
+          admin_enable_server => #{enable},
+          admin_server_port => #{port},
+          admin_command_url => '#{url}'
+        }"
+    end
+
+    it do
+      is_expected.to contain_file(
+        '/etc/zookeeper/conf/zoo.cfg'
+      ).without_content(/admin.enableServer=/)
+
+      is_expected.to contain_file(
+        '/etc/zookeeper/conf/zoo.cfg'
+      ).without_content(/admin.serverPort=/)
+
+      is_expected.to contain_file(
+        '/etc/zookeeper/conf/zoo.cfg'
+      ).without_content(/admin.commandURL=/)
+    end
+  end
+
+  context 'admin server options on if enabled for > 3.5.5' do
+    enable = true
+    port = '3000'
+    url = '/alternative'
+    let :pre_condition do
+      "class {'zookeeper':
+          install_method => 'archive',
+          archive_version => '3.5.5',
+          admin_enable_server => #{enable},
+          admin_server_port => #{port},
+          admin_command_url => '#{url}'
+        }"
+    end
+
+    it do
+      is_expected.to contain_file(
+        '/etc/zookeeper/conf/zoo.cfg'
+      ).with_content(/admin.enableServer=#{enable}/)
+
+      is_expected.to contain_file(
+        '/etc/zookeeper/conf/zoo.cfg'
+      ).with_content(/admin.serverPort=#{port}/)
+
+      is_expected.to contain_file(
+        '/etc/zookeeper/conf/zoo.cfg'
+      ).with_content(/admin.commandURL=#{url}/)
+    end
+  end
+
+  context 'admin server options on by default if enabled for >= 3.5.5' do
+    enable = true
+    port = '3000'
+    url = '/alternative'
+    let :pre_condition do
+      "class {'zookeeper':
+          install_method => 'archive',
+          archive_version => '3.5.5',
+          admin_server_port => #{port},
+          admin_command_url => '#{url}'
+        }"
+    end
+
+    it do
+      is_expected.to contain_file(
+        '/etc/zookeeper/conf/zoo.cfg'
+      ).with_content(/admin.enableServer=#{enable}/)
+
+      is_expected.to contain_file(
+        '/etc/zookeeper/conf/zoo.cfg'
+      ).with_content(/admin.serverPort=#{port}/)
+
+      is_expected.to contain_file(
+        '/etc/zookeeper/conf/zoo.cfg'
+      ).with_content(/admin.commandURL=#{url}/)
+    end
+  end
+
+  context 'admin server options missing if disabled' do
+    enable = false
+    port = '3000'
+    url = '/alternative'
+    let :pre_condition do
+      "class {'zookeeper':
+          install_method => 'archive',
+          archive_version => '3.5.5',
+          admin_enable_server => #{enable},
+          admin_server_port => #{port},
+          admin_command_url => '#{url}'
+        }"
+    end
+
+    it do
+      is_expected.to contain_file(
+        '/etc/zookeeper/conf/zoo.cfg'
+      ).without_content(/admin.enableServer=/)
+
+      is_expected.to contain_file(
+        '/etc/zookeeper/conf/zoo.cfg'
+      ).without_content(/admin.serverPort=/)
+
+      is_expected.to contain_file(
+        '/etc/zookeeper/conf/zoo.cfg'
+      ).without_content(/admin.commandURL=/)
+    end
+  end
+
+  context 'admin server missing if version < 3.5.5 even if enabled' do
+    enable = true
+    port = '3000'
+    url = '/alternative'
+    let :pre_condition do
+      "class {'zookeeper':
+          install_method => 'archive',
+          archive_version => '3.5.4',
+          admin_enable_server => #{enable},
+          admin_server_port => #{port},
+          admin_command_url => '#{url}'
+        }"
+    end
+
+    it do
+      is_expected.to contain_file(
+        '/etc/zookeeper/conf/zoo.cfg'
+      ).without_content(/admin.enableServer=/)
+
+      is_expected.to contain_file(
+        '/etc/zookeeper/conf/zoo.cfg'
+      ).without_content(/admin.serverPort=/)
+
+      is_expected.to contain_file(
+        '/etc/zookeeper/conf/zoo.cfg'
+      ).without_content(/admin.commandURL=/)
+    end
   end
 
   context 'max allowed connections' do

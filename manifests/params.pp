@@ -149,7 +149,7 @@ class zookeeper::params {
   $sasl_users = {}
   $keytab_path = '/etc/zookeeper/conf/zookeeper.keytab'
   $principal = "zookeeper/${::fqdn}"
-  $realm = pick($trusted['domain'], $trusted['certname'])
+  $realm = pick($trusted['domain'], $trusted['certname'], 'realm')
   $store_key = true
   $use_keytab = true
   $use_ticket_cache = false
@@ -157,4 +157,11 @@ class zookeeper::params {
   $remove_realm_principal = false
   # whitelist of Four Letter Words commands, see https://zookeeper.apache.org/doc/r3.4.12/zookeeperAdmin.html#sc_zkCommands
   $whitelist_4lw = []
+
+  # admin server options
+  $admin_enable_server = true
+  $admin_server_address = '0.0.0.0'
+  $admin_server_port = 8080
+  $admin_idle_timeout = 30000
+  $admin_command_url = '/commands'
 }
