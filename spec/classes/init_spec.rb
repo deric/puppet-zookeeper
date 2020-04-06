@@ -24,7 +24,7 @@ shared_examples 'zookeeper' do |os_facts|
   context 'skip service restart' do
     let(:params) do
       {
-        :restart_on_change => false,
+        restart_on_change: false
       }
     end
 
@@ -38,144 +38,183 @@ shared_examples 'zookeeper' do |os_facts|
   context 'allow installing multiple packages' do
     let(:params) do
       {
-        :packages => [ 'zookeeper', 'zookeeper-bin' ],
+        packages: ['zookeeper', 'zookeeper-bin']
       }
     end
 
     it { is_expected.to compile.with_all_deps }
-    it { is_expected.to contain_package('zookeeper').with({:ensure => 'present'}) }
-    it { is_expected.to contain_package('zookeeper-bin').with({:ensure => 'present'}) }
-    it { is_expected.to contain_service(service_name).with({:ensure => 'running'}) }
+    it { is_expected.to contain_package('zookeeper').with(ensure: 'present') }
+    it { is_expected.to contain_package('zookeeper-bin').with(ensure: 'present') }
+    it { is_expected.to contain_service(service_name).with(ensure: 'running') }
     # datastore exec is not included by default
     it { is_expected.not_to contain_exec('initialize_datastore') }
 
-    it { is_expected.to contain_user('zookeeper').with({:ensure => 'present'}) }
-    it { is_expected.to contain_group('zookeeper').with({:ensure => 'present'}) }
+    it { is_expected.to contain_user('zookeeper').with(ensure: 'present') }
+    it { is_expected.to contain_group('zookeeper').with(ensure: 'present') }
   end
 
   context 'Cloudera packaging' do
     let(:params) do
       {
-      :packages             => ['zookeeper','zookeeper-server'],
-      :service_name         => 'zookeeper-server',
-      :initialize_datastore => true
-    }
+        packages: ['zookeeper', 'zookeeper-server'],
+        service_name: 'zookeeper-server',
+        initialize_datastore: true
+      }
     end
 
-    it { should contain_package('zookeeper').with({:ensure => 'present'}) }
-    it { should contain_package('zookeeper-server').with({:ensure => 'present'}) }
-    it { should contain_service('zookeeper-server').with({:ensure => 'running'}) }
-    it { should contain_exec('initialize_datastore') }
+    it { is_expected.to contain_package('zookeeper').with(ensure: 'present') }
+    it { is_expected.to contain_package('zookeeper-server').with(ensure: 'present') }
+    it { is_expected.to contain_service('zookeeper-server').with(ensure: 'running') }
+    it { is_expected.to contain_exec('initialize_datastore') }
   end
 
   context 'setting minSessionTimeout' do
     let(:params) do
       {
-      :min_session_timeout => 3000
-    }
+        min_session_timeout: 3000
+      }
     end
 
     it do
-      should contain_file(
+      is_expected.to contain_file(
         '/etc/zookeeper/conf/zoo.cfg'
-      ).with_content(/minSessionTimeout=3000/)
+      ).with_content(%r{minSessionTimeout=3000})
     end
   end
 
   context 'setting maxSessionTimeout' do
     let(:params) do
       {
-      :max_session_timeout => 60000
-    }
+        max_session_timeout: 60_000
+      }
     end
 
     it do
-      should contain_file(
+      is_expected.to contain_file(
         '/etc/zookeeper/conf/zoo.cfg'
-      ).with_content(/maxSessionTimeout=60000/)
+      ).with_content(%r{maxSessionTimeout=60000})
     end
   end
 
   context 'disable service management' do
     let(:params) do
       {
-      :manage_service => false,
-    }
+        manage_service: false
+      }
     end
 
-    it { should contain_package('zookeeper').with({:ensure => 'present'}) }
-    it { should_not contain_service(service_name).with({:ensure => 'running'}) }
-    it { should_not contain_class('zookeeper::service') }
+    it { is_expected.to contain_package('zookeeper').with(ensure: 'present') }
+    it { is_expected.not_to contain_service(service_name).with(ensure: 'running') }
+    it { is_expected.not_to contain_class('zookeeper::service') }
   end
 
   if os_facts[:osfamily] == 'RedHat'
     context 'use Cloudera RPM repo' do
       let(:params) do
         {
-        :repo => 'cloudera',
-        :cdhver => '5',
-      }
+          repo: 'cloudera',
+          cdhver: '5'
+        }
       end
 
       it { is_expected.to compile.with_all_deps }
-      it { should contain_class('zookeeper::install::repo') }
-      it { should contain_yumrepo('cloudera-cdh5') }
+      it { is_expected.to contain_class('zookeeper::install::repo') }
+      it { is_expected.to contain_yumrepo('cloudera-cdh5') }
 
       context 'custom RPM repo' do
         let(:params) do
           {
-          :repo => {
-            'name'  => 'myrepo',
-            'url'   => 'http://repo.url',
-            'descr' => 'custom repo',
-          },
-          :cdhver => '5',
-        }
+            repo: {
+              'name'  => 'myrepo',
+              'url'   => 'http://repo.url',
+              'descr' => 'custom repo'
+            },
+            cdhver: '5'
+          }
         end
-        it { should contain_yumrepo('myrepo').with({:baseurl => 'http://repo.url'}) }
+
+        it { is_expected.to contain_yumrepo('myrepo').with(baseurl: 'http://repo.url') }
       end
     end
   end
 
   context 'service provider' do
     context 'autodetect provider' do
-      it { should contain_package('zookeeper').with({:ensure => 'present'}) }
+      it { is_expected.to contain_package('zookeeper').with(ensure: 'present') }
 
       if os_facts[:osfamily] == 'RedHat'
-        it { should contain_package('zookeeper-server').with({:ensure => 'present'}) }
+        it { is_expected.to contain_package('zookeeper-server').with(ensure: 'present') }
       else
-        it { should_not contain_package('zookeeper-server').with({:ensure => 'present'}) }
+        it { is_expected.not_to contain_package('zookeeper-server').with(ensure: 'present') }
       end
 
       it do
-        should contain_service(service_name).with({
-        :ensure => 'running',
-        :provider => init_provider,
-      })
+        is_expected.to contain_service(service_name).with(ensure: 'running',
+                                                          provider: init_provider)
       end
     end
 
-    it { should contain_class('zookeeper::service') }
+    it { is_expected.to contain_class('zookeeper::service') }
   end
 
   context 'allow passing specific version' do
-    let(:version) {'3.4.5+dfsg-1'}
+    let(:version) { '3.4.5+dfsg-1' }
 
     let(:params) do
       {
-      :ensure => version,
-    }
+        ensure: version
+      }
     end
 
-    it { is_expected.to contain_package('zookeeper').with({:ensure => version}) }
+    it { is_expected.to contain_package('zookeeper').with(ensure: version) }
 
     if should_install_zookeeperd
-      it { is_expected.to contain_package('zookeeperd').with({:ensure => version}) }
+      it { is_expected.to contain_package('zookeeperd').with(ensure: version) }
     else
-      it { is_expected.not_to contain_package('zookeeperd').with({:ensure => version}) }
+      it { is_expected.not_to contain_package('zookeeperd').with(ensure: version) }
     end
 
-    it { is_expected.to contain_user('zookeeper').with({:ensure => 'present'}) }
+    it { is_expected.to contain_user('zookeeper').with(ensure: 'present') }
+  end
+
+  context 'set pid file for init provider' do
+    let(:params) do
+      {
+        zoo_dir: '/usr/lib/zookeeper',
+        log_dir: '/var/log/zookeeper',
+        manage_service: true,
+        manage_service_file: true,
+        service_provider: 'init'
+      }
+    end
+
+    it do
+      is_expected.to contain_file(
+        '/etc/zookeeper/conf/log4j.properties'
+      ).with_content(%r{zookeeper.log.dir=/var/log/zookeeper})
+    end
+
+    context 'set service provider' do
+      it { is_expected.to contain_package('zookeeper').with(ensure: 'present') }
+      it do
+        is_expected.to contain_service(service_name).with(ensure: 'running',
+                                                          provider: 'init')
+      end
+    end
+
+    if os_facts[:osfamily] == 'RedHat'
+      it do
+        is_expected.to contain_file(
+          "/etc/init.d/#{service_name}"
+        ).with_content(%r{pidfile=/var/run/zookeeper.pid})
+      end
+    else
+      it do
+        is_expected.to contain_file(
+          environment_file
+        ).with_content(%r{PIDFILE=/var/run/zookeeper.pid})
+      end
+    end
   end
 
   context 'create env file' do
@@ -189,9 +228,9 @@ shared_examples 'zookeeper' do |os_facts|
   context 'managed by exhibitor' do
     let(:params) do
       {
-        :service_provider => 'exhibitor',
-        :service_name => 'zookeeper',
-        :cfg_dir => '/opt/zookeeper/conf',
+        service_provider: 'exhibitor',
+        service_name: 'zookeeper',
+        cfg_dir: '/opt/zookeeper/conf'
       }
     end
 
@@ -205,30 +244,28 @@ shared_examples 'zookeeper' do |os_facts|
     let(:params) do
       {
         install_method: 'archive',
-        archive_version: '3.4.9',
+        archive_version: '3.4.9'
       }
     end
 
     it { is_expected.to compile.with_all_deps }
     it { is_expected.to contain_class('Zookeeper::Install::Archive') }
 
-    it { is_expected.not_to contain_package('zookeeper').with({:ensure => 'present'}) }
-    it { is_expected.to contain_service(service_name).with({:ensure => 'running'}) }
+    it { is_expected.not_to contain_package('zookeeper').with(ensure: 'present') }
+    it { is_expected.to contain_service(service_name).with(ensure: 'running') }
 
-    it { is_expected.to contain_user('zookeeper').with({:ensure => 'present'}) }
-    it { is_expected.to contain_group('zookeeper').with({:ensure => 'present'}) }
+    it { is_expected.to contain_user('zookeeper').with(ensure: 'present') }
+    it { is_expected.to contain_group('zookeeper').with(ensure: 'present') }
   end
 end
 
-describe 'zookeeper', :type => :class do
+describe 'zookeeper', type: :class do
   on_supported_os.each do |os, os_facts|
     os_facts[:os]['hardware'] = 'x86_64'
 
     context "on #{os}" do
       let(:facts) do
-        os_facts.merge({
-          :ipaddress     => '192.168.1.1',
-        })
+        os_facts.merge(ipaddress: '192.168.1.1')
       end
 
       include_examples 'zookeeper', os_facts

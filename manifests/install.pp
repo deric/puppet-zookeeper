@@ -19,18 +19,18 @@ class zookeeper::install inherits zookeeper {
   }
 
   # Java installation
-  if ($::zookeeper::install_java) {
-    if !$::zookeeper::java_package {
+  if ($zookeeper::install_java) {
+    if !$zookeeper::java_package {
       fail('Java installation is required, but no java package was provided.')
     }
 
-    validate_string($::zookeeper::java_package)
+    validate_string($zookeeper::java_package)
 
     # Make sure the Java package is only installed once.
     anchor { 'zookeeper::install::java': }
 
-    ensure_resource('package', $::zookeeper::java_package,
-      {'ensure' => $::zookeeper::ensure, 'allow_virtual' => true,
+    ensure_resource('package', $zookeeper::java_package,
+      {'ensure' => $zookeeper::ensure, 'allow_virtual' => true,
       'before'  => Anchor['zookeeper::install::intermediate'],
       'require' => Anchor['zookeeper::install::begin']}
     )
@@ -39,7 +39,7 @@ class zookeeper::install inherits zookeeper {
   anchor { 'zookeeper::install::intermediate': }
 
   # Package installation
-  case $::zookeeper::install_method {
+  case $zookeeper::install_method {
     'archive': {
       include zookeeper::install::archive
       Anchor['zookeeper::install::intermediate']

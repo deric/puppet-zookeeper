@@ -1,43 +1,32 @@
-require 'beaker-rspec/spec_helper'
-require 'beaker-rspec/helpers/serverspec'
+require 'beaker-rspec'
+require 'beaker-puppet'
 require 'beaker/puppet_install_helper'
+require 'beaker/module_install_helper'
 
-UNSUPPORTED_PLATFORMS = ['windows','AIX','Solaris'].freeze
-
-HIERA_PATH = '/etc/puppetlabs/code/environments/production'
+run_puppet_install_helper unless ENV['BEAKER_provision'] == 'no'
+install_ca_certs unless ENV['PUPPET_INSTALL_TYPE'] =~ %r{pe}i
+install_module_on(hosts)
+install_module_dependencies_on(hosts)
 
 RSpec.configure do |c|
-  proj_root = File.expand_path(File.join(File.dirname(__FILE__), '..'))
-
+  # Readable test descriptions
   c.formatter = :documentation
-  hiera_config = '/etc/puppetlabs/puppet/hiera.yaml'
-
-  # Configure all nodes in nodeset
-  c.before :suite do
-    #install_puppet
-    hosts.each do |host|
-      if ['RedHat'].include?(fact('osfamily'))
-        on host, 'yum install -y tar'
-      end
-      if ['Debian'].include?(fact('osfamily'))
-        on host, 'apt-get update -q && apt-get install -y net-tools netcat'
-      end
-      #on host, 'gem install bundler'
-      #on host, 'cd /etc/puppet && bundle install --without development'
-      on host, puppet('module','install','puppetlabs-stdlib'), { :acceptable_exit_codes => [0,1] }
-      on host, puppet('module', 'install', 'puppet-archive'), { :acceptable_exit_codes => [0,1] }
-      #binding.pry
-      on host, "mkdir -p /etc/puppetlabs/puppet /etc/puppet/modules", { :acceptable_exit_codes => [0] }
-      on host, "mkdir -p #{HIERA_PATH}", { :acceptable_exit_codes => [0] }
-      scp_to host, File.expand_path('./spec/acceptance/hiera.yaml'), hiera_config
-      # compatibility with puppet 3.x
-      on host, "ln -s #{hiera_config} /etc/puppet/hiera.yaml", { :acceptable_exit_codes => [0] }
-      on host, "ln -s #{HIERA_PATH}/hieradata /etc/puppetlabs/puppet/hieradata", { :acceptable_exit_codes => [0] }
-      scp_to host, File.expand_path('./spec/acceptance/hieradata'), HIERA_PATH
-      # assume puppet is on $PATH
-      on host, "puppet --version"
-      on host, "puppet module list"
+  hosts.each do |host|
+    if fact_on(host, 'osfamily') == 'Debian'
+      on host, puppet('resource', 'package', 'net-tools', 'ensure=installed')
+      on host, puppet('resource', 'package', 'netcat', 'ensure=installed')
     end
-    puppet_module_install(:source => proj_root, :module_name => 'zookeeper')
+    if fact_on(host, 'osfamily') == 'RedHat'
+      case fact('os.release.major')
+      when '6'
+        on host, puppet('resource', 'package', 'nc', 'ensure=installed')
+      when '7'
+        on host, puppet('resource', 'package', 'net-tools', 'ensure=installed')
+        on host, puppet('resource', 'package', 'nmap-ncat', 'ensure=installed')
+      end
+    end
+    if host[:platform] =~ %r{el-7-x86_64} && host[:hypervisor] =~ %r{docker}
+      on(host, "sed -i '/nodocs/d' /etc/yum.conf")
+    end
   end
 end

@@ -1,0 +1,28 @@
+---
+.github/CONTRIBUTING.md:
+  delete: true
+
+.github/ISSUE_TEMPLATE.md:
+  delete: true
+
+.github/PULL_REQUEST_TEMPLATE.md:
+  delete: true
+
+.travis.yml:
+  docker_sets:
+    - set: debian8-64
+    - set: debian9-64
+    - set: debian10-64
+    - set: ubuntu1604-64
+    - set: ubuntu1804-64
+    - set: centos6-64
+    - set: centos7-64
+  irc: false
+  user: 'deric'
+  secure: ''
+
+Rakefile:
+  config.user: 'deric'
+
+spec/spec_helper.rb:
+  spec_overrides: "require 'spec_helper_local' if File.file?(File.join(File.dirname(__FILE__), 'spec_helper_local.rb'))"

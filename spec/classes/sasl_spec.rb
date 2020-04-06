@@ -18,13 +18,13 @@ shared_examples 'zookeeper::sasl' do |os_facts|
     it do
       is_expected.to contain_file(
         '/etc/zookeeper/conf/jaas.conf'
-      ).with_content(/storeKey=true/)
+      ).with_content(%r{storeKey=true})
     end
 
     it do
       is_expected.to contain_file(
         environment_file
-      ).with_content(/JAVA_OPTS=".* -Djava.security.auth.login.config=\/etc\/zookeeper\/conf\/jaas.conf"/)
+      ).with_content(%r{JAVA_OPTS=".* -Djava.security.auth.login.config=/etc/zookeeper/conf/jaas.conf"})
     end
   end
 
@@ -41,15 +41,15 @@ shared_examples 'zookeeper::sasl' do |os_facts|
     it { is_expected.to contain_class('zookeeper::sasl') }
 
     it do
-      should contain_file(
+      is_expected.to contain_file(
         '/etc/zookeeper/conf/zoo.cfg'
-      ).with_content(/kerberos.removeHostFromPrincipal=true/)
+      ).with_content(%r{kerberos.removeHostFromPrincipal=true})
     end
 
     it do
-      should contain_file(
+      is_expected.to contain_file(
         '/etc/zookeeper/conf/zoo.cfg'
-      ).with_content(/kerberos.removeRealmFromPrincipal=true/)
+      ).with_content(%r{kerberos.removeRealmFromPrincipal=true})
     end
   end
 end
@@ -60,9 +60,7 @@ describe 'zookeeper::sasl' do
 
     context "on #{os}" do
       let(:facts) do
-        os_facts.merge({
-          :ipaddress     => '192.168.1.1',
-        })
+        os_facts.merge(ipaddress: '192.168.1.1')
       end
 
       include_examples 'zookeeper::sasl', os_facts

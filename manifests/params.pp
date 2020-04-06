@@ -32,7 +32,11 @@ class zookeeper::params {
     'RedHat': {
       case $os_name {
         'RedHat', 'CentOS': {
-          $initstyle = 'systemd'
+          if versioncmp($os_release, '7') < 0 {
+            $initstyle = 'redhat'
+          } else {
+            $initstyle = 'systemd'
+          }
         }
         default: {
           $initstyle = undef
@@ -74,13 +78,13 @@ class zookeeper::params {
   $archive_symlink = true
   $archive_symlink_name = "${archive_install_dir}/zookeeper"
   $archive_version = '3.4.8'
-  $cdhver = undef
+  $cdhver = '5'
   $install_java = false
   $install_method = 'package'
   $java_bin = '/usr/bin/java'
   $java_opts = ''
   $java_package = undef
-  $repo = undef
+  $repo = 'cloudera'
   $proxy_server = undef
   $proxy_type = undef
 
@@ -148,7 +152,7 @@ class zookeeper::params {
   $sasl_krb5 = true
   $sasl_users = {}
   $keytab_path = '/etc/zookeeper/conf/zookeeper.keytab'
-  $principal = "zookeeper/${::fqdn}"
+  $principal = "zookeeper/${facts['networking']['fqdn']}"
   $realm = pick($trusted['domain'], $trusted['certname'])
   $store_key = true
   $use_keytab = true
