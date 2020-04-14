@@ -1,7 +1,7 @@
 {
   "name": "deric-zookeeper",
   "version": "1.0.0",
-  "author": "Tomas Barton",
+  "author": "deric",
   "summary": "Module for managing Apache Zookeeper",
   "license": "Apache-2.0",
   "source": "https://github.com/deric/puppet-zookeeper",
