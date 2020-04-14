@@ -8,7 +8,7 @@
   - Drop support for Debian (6, 7) and Ubuntu (10.04, 12.04, 14.04) ([#143](https://github.com/deric/puppet-zookeeper/pull/143))
 - Fixes:
   - Fixed and extended acceptance tests
-- [Full diff](https://github.com/deric/puppet-zookeeper/compare/v0.8.7...v0.9.0)
+- [Full diff](https://github.com/deric/puppet-zookeeper/compare/v0.8.7...v1.0.0)
 
 
 ## 0.8.7
