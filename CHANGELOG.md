@@ -1,4 +1,4 @@
-## 0.9.0-UNRELEASED
+## 1.0.0
 - New features:
   - [Support Puppet 6](https://github.com/deric/puppet-zookeeper/issues/132) (#132)
   - [allow configuring additional log appenders (#139)](https://github.com/deric/puppet-zookeeper/pull/139)
