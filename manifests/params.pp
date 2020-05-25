@@ -84,7 +84,7 @@ class zookeeper::params {
   $java_bin = '/usr/bin/java'
   $java_opts = ''
   $java_package = undef
-  $repo = 'cloudera'
+  $repo = undef
   $proxy_server = undef
   $proxy_type = undef
 
