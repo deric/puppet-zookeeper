@@ -109,6 +109,12 @@ shared_examples 'zookeeper' do |os_facts|
   end
 
   if os_facts[:osfamily] == 'RedHat'
+    context 'Do not use cloudera by default' do
+      it { is_expected.to compile.with_all_deps }
+      it { is_expected.to contain_class('zookeeper::install::repo') }
+      it { is_expected.not_to contain_yumrepo('cloudera-cdh5') }
+    end
+
     context 'use Cloudera RPM repo' do
       let(:params) do
         {
