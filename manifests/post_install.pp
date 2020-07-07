@@ -32,6 +32,16 @@ class zookeeper::post_install inherits zookeeper {
       default: {
         fail ("Family: '${os_family}' OS: '${os_name}' is not supported yet")
       }
+      'Suse': {
+        case $os_name {
+          'SLES': {
+            $_clean = false
+          }
+          default: {
+            fail ("Family: '${os_family}' OS: '${os_name}' is not supported yet")
+          }
+        }
+      }
     }
   }
 

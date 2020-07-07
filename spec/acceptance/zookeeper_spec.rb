@@ -3,7 +3,7 @@ require 'spec_helper_acceptance'
 case fact('osfamily')
 when 'Debian'
   service_name = 'zookeeper'
-when 'RedHat'
+when 'RedHat', 'Suse'
   service_name = 'zookeeper-server'
 end
 
@@ -22,6 +22,15 @@ describe 'zookeeper defintion' do
             java_package         => 'java-1.8.0-openjdk-headless',
             initialize_datastore => true,
             service_provider     => 'redhat',
+          }
+        EOS
+      when 'Suse'
+        pp = <<-EOS
+          class { 'zookeeper':
+            install_java         => true,
+            java_package         => 'java-1_8_0-openjdk-headless',
+            initialize_datastore => true,
+            service_provider     => 'systemd',
           }
         EOS
       end

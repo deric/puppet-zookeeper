@@ -27,6 +27,12 @@ def get_os_info(facts)
                            else
                              'systemd'
                            end
+  when 'Suse'
+    info[:service_name] = 'zookeeper-server'
+    info[:environment_file] = '/etc/zookeeper/conf/java.env'
+    info[:should_install_zookeeperd] = false
+    info[:zookeeper_shell] = '/bin/false'
+    info[:init_provider] = 'systemd'
   end
 
   case info[:init_provider]

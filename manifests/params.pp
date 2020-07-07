@@ -51,6 +51,22 @@ class zookeeper::params {
       }
       $environment_file = 'java.env'
     }
+    'Suse': {
+      case $os_name {
+        'SLES': {
+          $initstyle = 'systemd'
+        }
+        default: { $initstyle = undef }
+      }
+
+      $_os_overrides = {
+        'packages'         => ['zookeeper', 'zookeeper-server'],
+        'service_name'     => 'zookeeper-server',
+        'service_provider' => $initstyle,
+        'shell'            => '/bin/false',
+      }
+      $environment_file = 'java.env'
+    }
 
     default: {
       fail("Module '${module_name}' is not supported on OS: '${os_name}', family: '${os_family}'")

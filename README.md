@@ -378,3 +378,4 @@ rake beaker:sets
   * Ubuntu (16.04, 18.04)
   * RHEL (6, 7)
   * CentOS (6, 7)
+  * SLES (12)

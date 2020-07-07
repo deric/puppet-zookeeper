@@ -10,7 +10,7 @@ class zookeeper::install inherits zookeeper {
 
   # Repo management
   case $os_family {
-    'RedHat': {
+    'RedHat', 'Suse': {
       include zookeeper::install::repo
       Anchor['zookeeper::install::begin']
       -> Class['zookeeper::install::repo']
