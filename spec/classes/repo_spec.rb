@@ -1,6 +1,13 @@
 require 'spec_helper'
 
-shared_examples 'zookeeper repo release support' do |_os_facts|
+shared_examples 'zookeeper repo release support' do |os_facts|
+  os_name = if os_facts[:os]['family'] == 'RedHat'
+              os_facts[:os]['family'].downcase
+            else
+              os_facts[:os]['name'].downcase
+            end
+  os_release = os_facts[:os]['release']['major']
+
   context 'fail when release not supported' do
     let :pre_condition do
       'class {"zookeeper":
@@ -12,11 +19,13 @@ shared_examples 'zookeeper repo release support' do |_os_facts|
     it do
       expect do
         is_expected.to compile
-      end.to raise_error(%r{is not supported for redhat version}) end
+      end.to raise_error(%r{is not supported for #{os_name} version #{os_release}}) end
   end
 end
 
-shared_examples 'zookeeper repo arch support' do |_os_facts|
+shared_examples 'zookeeper repo arch support' do |os_facts|
+  os_hardware = os_facts[:os]['hardware']
+
   context 'fail when architecture not supported' do
     let :pre_condition do
       'class {"zookeeper":
@@ -28,7 +37,7 @@ shared_examples 'zookeeper repo arch support' do |_os_facts|
     it do
       expect do
         is_expected.to compile
-      end.to raise_error(%r{is not supported for architecture}) end
+      end.to raise_error(%r{is not supported for architecture #{os_hardware}}) end
   end
 end
 
@@ -36,10 +45,15 @@ shared_examples 'zookeeper repo' do |os_facts|
   let(:user) { 'zookeeper' }
   let(:group) { 'zookeeper' }
 
+  os_name = if os_facts[:os]['family'] == 'RedHat'
+              os_facts[:os]['family'].downcase
+            else
+              os_facts[:os]['name'].downcase
+            end
   os_release = os_facts[:os]['release']['major']
   os_hardware = os_facts[:os]['hardware']
 
-  if os_facts[:osfamily] == 'RedHat'
+  if os_facts[:os]['family'] =~ %r{RedHat|Suse}
     context 'Cloudera repo' do
       let :pre_condition do
         'class {"zookeeper":
@@ -49,7 +63,7 @@ shared_examples 'zookeeper repo' do |os_facts|
       end
 
       it {
-        is_expected.to contain_yumrepo('cloudera-cdh5').with(baseurl: "http://archive.cloudera.com/cdh5/redhat/#{os_release}/#{os_hardware}/cdh/5/")
+        is_expected.to contain_yumrepo('cloudera-cdh5').with(baseurl: "http://archive.cloudera.com/cdh5/#{os_name}/#{os_release}/#{os_hardware}/cdh/5/")
       }
     end
   end

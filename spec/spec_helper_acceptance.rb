@@ -25,6 +25,10 @@ RSpec.configure do |c|
         on host, puppet('resource', 'package', 'nmap-ncat', 'ensure=installed')
       end
     end
+    if fact_on(host, 'osfamily') == 'Suse'
+      on host, puppet('resource', 'package', 'net-tools', 'ensure=installed')
+      on host, puppet('resource', 'package', 'netcat-openbsd', 'ensure=installed')
+    end
     if host[:platform] =~ %r{el-7-x86_64} && host[:hypervisor] =~ %r{docker}
       on(host, "sed -i '/nodocs/d' /etc/yum.conf")
     end

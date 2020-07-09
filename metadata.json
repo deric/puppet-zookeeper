@@ -55,6 +55,12 @@
         "16.04",
         "18.04"
       ]
+    },
+    {
+      "operatingsystem": "SLES",
+      "operatingsystemrelease": [
+        "12"
+      ]
     }
   ],
   "requirements": [
