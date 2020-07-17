@@ -28,6 +28,13 @@ clientPortAddress=<%= scope.lookupvar("zookeeper::client_ip") %>
 #clientPortAddress=
 <% end -%>
 
+# Supported since 3.5.1
+<% if ! [nil, :undefined, :undef].include?(scope.lookupvar("zookeeper::secure_client_port")) -%>
+secureClientPort=<%= scope.lookupvar("zookeeper::secure_client_port") %>
+<% else -%>
+#secureClientPort=2281
+<% end -%>
+
 # specify all zookeeper servers
 # The first port is used by followers to connect to the leader
 # The second one is used for leader election

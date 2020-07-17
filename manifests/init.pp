@@ -61,6 +61,7 @@ class zookeeper(
   String                                     $cleanup_sh               = $zookeeper::params::cleanup_sh,
   Optional[String]                           $client_ip                = $zookeeper::params::client_ip,
   Integer                                    $client_port              = $zookeeper::params::client_port,
+  Optional[Integer]                          $secure_client_port       = $zookeeper::params::secure_client_port,
   String                                     $datastore                = $zookeeper::params::datastore,
   Optional[String]                           $datalogstore             = $zookeeper::params::datalogstore,
   Integer                                    $election_port            = $zookeeper::params::election_port,
