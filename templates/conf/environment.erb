@@ -1,7 +1,7 @@
 NAME=zookeeper
 ZOOCFGDIR=<%= scope.lookupvar("zookeeper::cfg_dir") %>
 
-<% if scope.lookupvar('zookeeper::install_method') != 'archive' -%>
+<% if scope.lookupvar('zookeeper::install_method') != 'archive' and scope.lookupvar('zookeeper::service_provider') != 'systemd' -%>
 # TODO this is really ugly
 # How to find out, which jars are needed?
 # seems, that log4j requires the log4j.properties file to be in the classpath
