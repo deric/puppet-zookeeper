@@ -125,6 +125,7 @@ class zookeeper::params {
   $cleanup_sh = '/usr/share/zookeeper/bin/zkCleanup.sh'
   $client_ip = undef # use e.g. $::ipaddress if you want to bind to single interface
   $client_port = 2181
+  $secure_client_port = undef
   $datastore = '/var/lib/zookeeper'
   # datalogstore used to put transaction logs in separate location than snapshots
   $datalogstore = undef
