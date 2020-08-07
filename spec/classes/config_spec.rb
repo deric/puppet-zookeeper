@@ -544,6 +544,31 @@ shared_examples 'zookeeper common' do |os_facts|
         ).with_content(%r{globalOutstandingLimit=2000})
       end
     end
+    
+    context 'set portUnification' do
+      let :pre_condition do
+        'class {"zookeeper":
+           port_unification => true
+         }'
+      end
+
+      it do
+        is_expected.to contain_file(
+          '/etc/zookeeper/conf/zoo.cfg'
+        ).with_content(%r{portUnification=true})
+      end
+    end
+    context 'default does not set portUnification' do
+      let :pre_condition do
+        'class {"zookeeper":}'
+      end
+
+      it do
+        is_expected.not_to contain_file(
+          '/etc/zookeeper/conf/zoo.cfg'
+        ).with_content(%r{portUnification})
+      end
+    end
   end
 end
 
