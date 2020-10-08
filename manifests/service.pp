@@ -24,7 +24,6 @@ class zookeeper::service inherits zookeeper {
       ~> exec { 'systemctl daemon-reload # for zookeeper':
         refreshonly => true,
         path        => $::path,
-        notify      => Service[$zookeeper::service_name],
       }
     } elsif (
       $zookeeper::service_provider == 'init'
@@ -58,5 +57,6 @@ class zookeeper::service inherits zookeeper {
     File["${zookeeper::cfg_dir}/zoo.cfg"] ~> Service[$zookeeper::service_name]
     File["${zookeeper::cfg_dir}/${zookeeper::environment_file}"] ~> Service[$zookeeper::service_name]
     File["${zookeeper::cfg_dir}/log4j.properties"] ~> Service[$zookeeper::service_name]
+    Exec['systemctl daemon-reload # for zookeeper'] ~> Service[$::zookeeper::service_name]
   }
 }
