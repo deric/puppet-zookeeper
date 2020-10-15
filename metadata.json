@@ -7,7 +7,6 @@
   "source": "https://github.com/deric/puppet-zookeeper",
   "project_page": "https://github.com/deric/puppet-zookeeper",
   "issues_url": "https://github.com/deric/puppet-zookeeper/issues",
-  "description": "ZooKeeper is a centralized service for maintaining configuration information, naming, providing distributed synchronization, and providing group services.",
   "dependencies": [
     {
       "name": "puppet/archive",
@@ -68,5 +67,9 @@
       "name": "puppet",
       "version_requirement": ">= 5.5.8 < 7.0.0"
     }
-  ]
+  ],
+  "description": "ZooKeeper is a centralized service for maintaining configuration information, naming, providing distributed synchronization, and providing group services.",
+  "pdk-version": "1.18.1",
+  "template-url": "https://github.com/puppetlabs/pdk-templates#1.18.1",
+  "template-ref": "tags/1.18.1-0-g3d2e75c"
 }
