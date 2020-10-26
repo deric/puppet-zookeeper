@@ -69,6 +69,7 @@ class zookeeper(
   String                                     $id                       = $zookeeper::params::id,
   Integer                                    $init_limit               = $zookeeper::params::init_limit,
   Boolean                                    $initialize_datastore     = $zookeeper::params::initialize_datastore,
+  String                                     $initialize_datastore_bin = $zookeeper::params::initialize_datastore_bin,
   Boolean                                    $leader                   = $zookeeper::params::leader,
   Integer                                    $leader_port              = $zookeeper::params::leader_port,
   String                                     $log_dir                  = $zookeeper::params::log_dir,
