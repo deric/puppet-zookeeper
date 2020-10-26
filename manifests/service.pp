@@ -58,7 +58,11 @@ class zookeeper::service inherits zookeeper {
     File["${zookeeper::cfg_dir}/${zookeeper::environment_file}"] ~> Service[$zookeeper::service_name]
     File["${zookeeper::cfg_dir}/log4j.properties"] ~> Service[$zookeeper::service_name]
     if $::zookeeper::manage_service_file {
-      Exec['systemctl daemon-reload # for zookeeper'] ~> Service[$::zookeeper::service_name]
-    }    
+      if $zookeeper::service_provider == 'systemd'  {
+        Exec['systemctl daemon-reload # for zookeeper'] ~> Service[$::zookeeper::service_name]
+      } else {
+        Service[$::zookeeper::service_name]
+      }
+    }
   }
 }
