@@ -8,16 +8,6 @@ class zookeeper::install inherits zookeeper {
 
   $os_family = $facts['os']['family']
 
-  # Repo management
-  case $os_family {
-    'RedHat', 'Suse': {
-      include zookeeper::install::repo
-      Anchor['zookeeper::install::begin']
-      -> Class['zookeeper::install::repo']
-    }
-    default: {} # nothing to do
-  }
-
   # Java installation
   if ($zookeeper::install_java) {
     if !$zookeeper::java_package {
@@ -47,6 +37,16 @@ class zookeeper::install inherits zookeeper {
       -> Anchor['zookeeper::install::end']
     }
     'package': {
+      # Repo management
+      case $os_family {
+        'RedHat', 'Suse': {
+          include zookeeper::install::repo
+          Anchor['zookeeper::install::begin']
+          -> Class['zookeeper::install::repo']
+        }
+        default: {} # nothing to do
+      }
+
       include zookeeper::install::package
       Anchor['zookeeper::install::intermediate']
       -> Class['zookeeper::install::package']
