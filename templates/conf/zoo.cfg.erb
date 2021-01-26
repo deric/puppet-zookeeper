@@ -143,12 +143,11 @@ kerberos.removeRealmFromPrincipal=true
 4lw.commands.whitelist=<%= scope.lookupvar("zookeeper::whitelist_4lw").join(',') %>
 <% end -%>
 
-
 # Supported since 3.6
 ## Metrics Providers
 # 
 # https://prometheus.io Metrics Exporter
-<% if ! [nil, :undefined, :undef].include?(scope.lookupvar("zookeeper::metrics_provider_classname")) -%>
+<% unless [nil, :undefined, :undef].include?(scope.lookupvar("zookeeper::metrics_provider_classname")) -%>
 metricsProvider.className=<%= scope.lookupvar("zookeeper::metrics_provider_classname") %>
 metricsProvider.httpPort=<%= scope.lookupvar("zookeeper::metrics_provider_http_port") %>
 metricsProvider.exportJvmInfo=<%= scope.lookupvar("zookeeper::metrics_provider_export_jvm_info") %>

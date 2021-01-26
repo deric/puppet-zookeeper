@@ -14,7 +14,7 @@
 #
 #                   whitelist_4lw = ['stat','ruok']
 #
-class zookeeper(
+class zookeeper (
   # meta options
   String                                     $ensure                           = $zookeeper::params::ensure,
   Variant[Boolean,String]                    $ensure_account                   = $zookeeper::params::ensure_account,
@@ -111,11 +111,10 @@ class zookeeper(
   # four letter words whitelist
   Array[String]                              $whitelist_4lw                    = $zookeeper::params::whitelist_4lw,
   # Metrics Providers
-  Integer                                    $metrics_provider_http_port       = $zookeeper::params::metrics_provider_http_port,
-  Boolean                                    $metrics_provider_export_jvm_info = $zookeeper::metrics_provider_export_jvm_info,
   Optional[String]                           $metrics_provider_classname       = $zookeeper::params::metrics_provider_classname,
-) inherits ::zookeeper::params {
-
+  Integer                                    $metrics_provider_http_port       = $zookeeper::params::metrics_provider_http_port,
+  Boolean                                    $metrics_provider_export_jvm_info = $zookeeper::params::metrics_provider_export_jvm_info,
+) inherits zookeeper::params {
   if $pid_file {
     $pid_path = $pid_file
   } else {
@@ -164,5 +163,4 @@ class zookeeper(
     -> Anchor['zookeeper::end']
   }
   anchor { 'zookeeper::end': }
-
 }
