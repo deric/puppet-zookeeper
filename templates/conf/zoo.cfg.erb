@@ -63,7 +63,7 @@ secureClientPort=<%= scope.lookupvar("zookeeper::secure_client_port") %>
 # blocks of preAllocSize kilobytes. The default block size is 64M. One reason
 # for changing the size of the blocks is to reduce the block size if snapshots
 # are taken more often. (Also, see snapCount).
-#preAllocSize=65536
+preAllocSize=<%= scope.lookupvar("zookeeper::pre_alloc_size") %>
 
 # Clients can submit requests faster than ZooKeeper can process them,
 # especially if there are a lot of clients. To prevent ZooKeeper from running

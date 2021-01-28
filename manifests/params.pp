@@ -145,6 +145,7 @@ class zookeeper::params {
   # interval in hours, purging enabled when >= 1
   $purge_interval = 0
   $servers = []
+  $pre_alloc_size = 65536
   $snap_count = 10000
   # since zookeeper 3.4, for earlier version cron task might be used
   $snap_retain_count = 3

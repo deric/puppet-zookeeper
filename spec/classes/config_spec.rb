@@ -36,6 +36,7 @@ shared_examples 'zookeeper common' do |os_facts|
       'class {"zookeeper":
          log4j_prop => "ERROR",
          snap_count => 15000,
+         pre_alloc_size => 131072,
        }'
     end
 
@@ -46,6 +47,10 @@ shared_examples 'zookeeper common' do |os_facts|
 
     it do
       is_expected.to contain_file('/etc/zookeeper/conf/zoo.cfg').with_content(%r{snapCount=15000})
+    end
+
+    it do
+      is_expected.to contain_file('/etc/zookeeper/conf/zoo.cfg').with_content(%r{preAllocSize=131072})
     end
 
     # leave the default value to be determined by ZooKeeper
