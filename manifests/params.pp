@@ -126,6 +126,7 @@ class zookeeper::params {
   $client_ip = undef # use e.g. $::ipaddress if you want to bind to single interface
   $client_port = 2181
   $secure_client_port = undef
+  $quorum_listen_on_all_ips = false
   $datastore = '/var/lib/zookeeper'
   # datalogstore used to put transaction logs in separate location than snapshots
   $datalogstore = undef
