@@ -35,20 +35,20 @@ shared_examples 'zookeeper::service' do |os_facts|
 
       it do
         is_expected.to contain_file(
-          "/usr/lib/systemd/system/#{service_name}.service"
+          "/usr/lib/systemd/system/#{service_name}.service",
         ).with('ensure' => 'present')
       end
 
       it do
         is_expected.to contain_file(
-          "/usr/lib/systemd/system/#{service_name}.service"
+          "/usr/lib/systemd/system/#{service_name}.service",
         ).with_content(%r{CLASSPATH="/usr/lib/zookeeper/zookeeper.jar})
       end
 
       it do
         is_expected.to contain_service(service_name).with(
           ensure: 'running',
-          enable: true
+          enable: true,
         )
       end
 
@@ -63,7 +63,7 @@ shared_examples 'zookeeper::service' do |os_facts|
 
         it do
           is_expected.to contain_file(service_file).with_content(
-            %r{zookeeper-3\.4\.9\.jar}
+            %r{zookeeper-3\.4\.9\.jar},
           )
         end
       end
@@ -79,7 +79,7 @@ shared_examples 'zookeeper::service' do |os_facts|
 
         it do
           is_expected.not_to contain_file(
-            '/usr/lib/systemd/system/zookeeper.service'
+            '/usr/lib/systemd/system/zookeeper.service',
           ).with('ensure' => 'present')
         end
 
@@ -105,14 +105,14 @@ shared_examples 'zookeeper::service' do |os_facts|
 
         it do
           is_expected.to contain_file(service_file).with_content(
-            %r{Wants=network-online.target openvpn-client@.service}
+            %r{Wants=network-online.target openvpn-client@.service},
           )
         end
 
         it do
           is_expected.to contain_service(service_name).with(
             ensure: 'running',
-            enable: true
+            enable: true,
           )
         end
       end
@@ -131,7 +131,7 @@ shared_examples 'zookeeper::service' do |os_facts|
 
       it do
         is_expected.to contain_file(
-          '/etc/init.d/zookeeper'
+          '/etc/init.d/zookeeper',
         ).with('ensure' => 'present')
       end
 
@@ -139,7 +139,7 @@ shared_examples 'zookeeper::service' do |os_facts|
         is_expected.to contain_service('zookeeper').with(
           ensure: 'running',
           enable: true,
-          provider: 'init'
+          provider: 'init',
         )
       end
     end
@@ -165,7 +165,7 @@ shared_examples 'zookeeper::service' do |os_facts|
       it do
         is_expected.to contain_service('my-zookeeper').with(
           ensure: 'running',
-          enable: true
+          enable: true,
         )
       end
     end
