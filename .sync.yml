@@ -37,3 +37,10 @@ Gemfile:
   required:
     ":development":
       - gem: 'overcommit'
+  optional:
+    ':acceptance':
+      - gem: beaker
+      - gem: beaker-rspec
+      - gem: beaker-docker
+      - gem: beaker-puppet_install_helper
+      - gem: beaker-module_install_helper
