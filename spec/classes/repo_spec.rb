@@ -55,7 +55,7 @@ shared_examples 'zookeeper repo' do |os_facts|
   os_release = os_facts[:os]['release']['major']
   os_hardware = os_facts[:os]['hardware']
 
-  if os_facts[:os]['family'] =~ %r{RedHat|Suse}
+  if %r{RedHat|Suse}.match?(os_facts[:os]['family'])
     context 'Cloudera repo' do
       let :pre_condition do
         'class {"zookeeper":

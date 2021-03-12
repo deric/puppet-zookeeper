@@ -108,7 +108,7 @@ shared_examples 'zookeeper' do |os_facts|
     it { is_expected.not_to contain_class('zookeeper::service') }
   end
 
-  if os_facts[:os]['family'] =~ %r{RedHat|Suse}
+  if %r{RedHat|Suse}.match?(os_facts[:os]['family'])
     context 'Do not use cloudera by default' do
       it { is_expected.to compile.with_all_deps }
       it { is_expected.to contain_class('zookeeper::install::repo') }
@@ -148,7 +148,7 @@ shared_examples 'zookeeper' do |os_facts|
     context 'autodetect provider' do
       it { is_expected.to contain_package('zookeeper').with(ensure: 'present') }
 
-      if os_facts[:os]['family'] =~ %r{RedHat|Suse}
+      if %r{RedHat|Suse}.match?(os_facts[:os]['family'])
         it { is_expected.to contain_package('zookeeper-server').with(ensure: 'present') }
       else
         it { is_expected.not_to contain_package('zookeeper-server').with(ensure: 'present') }
@@ -208,7 +208,7 @@ shared_examples 'zookeeper' do |os_facts|
       end
     end
 
-    if os_facts[:os]['family'] =~ %r{RedHat|Suse}
+    if %r{RedHat|Suse}.match?(os_facts[:os]['family'])
       it do
         is_expected.to contain_file(
           "/etc/init.d/#{service_name}",
