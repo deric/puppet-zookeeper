@@ -30,15 +30,6 @@ jobs:
     -
       bundler_args: --with system_tests
       dist: trusty
-      env: PUPPET_INSTALL_TYPE=agent BEAKER_debug=true BEAKER_PUPPET_COLLECTION=puppet6 BEAKER_set=debian8-64 BEAKER_TESTMODE=apply
-      rvm: 2.5.7
-      script: bundle exec rake beaker
-      services: docker
-      stage: acceptance
-      sudo: required
-    -
-      bundler_args: --with system_tests
-      dist: trusty
       env: PUPPET_INSTALL_TYPE=agent BEAKER_debug=true BEAKER_PUPPET_COLLECTION=puppet6 BEAKER_set=debian9-64 BEAKER_TESTMODE=apply
       rvm: 2.5.7
       script: bundle exec rake beaker
@@ -57,25 +48,7 @@ jobs:
     -
       bundler_args: --with system_tests
       dist: trusty
-      env: PUPPET_INSTALL_TYPE=agent BEAKER_debug=true BEAKER_PUPPET_COLLECTION=puppet6 BEAKER_set=ubuntu1604-64 BEAKER_TESTMODE=apply
-      rvm: 2.5.7
-      script: bundle exec rake beaker
-      services: docker
-      stage: acceptance
-      sudo: required
-    -
-      bundler_args: --with system_tests
-      dist: trusty
       env: PUPPET_INSTALL_TYPE=agent BEAKER_debug=true BEAKER_PUPPET_COLLECTION=puppet6 BEAKER_set=ubuntu1804-64 BEAKER_TESTMODE=apply
-      rvm: 2.5.7
-      script: bundle exec rake beaker
-      services: docker
-      stage: acceptance
-      sudo: required
-    -
-      bundler_args: --with system_tests
-      dist: trusty
-      env: PUPPET_INSTALL_TYPE=agent BEAKER_debug=true BEAKER_PUPPET_COLLECTION=puppet6 BEAKER_set=centos6-64 BEAKER_TESTMODE=apply
       rvm: 2.5.7
       script: bundle exec rake beaker
       services: docker
