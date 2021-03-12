@@ -29,3 +29,8 @@ Rakefile:
 
 spec/spec_helper.rb:
   spec_overrides: "require 'spec_helper_local' if File.file?(File.join(File.dirname(__FILE__), 'spec_helper_local.rb'))"
+
+Gemfile:
+  required:
+    ":development":
+      - gem: 'overcommit'

@@ -59,6 +59,6 @@ PrePush:
     description: 'Run rake targets'
     targets:
       - 'validate'
-      - 'test'
+      - 'spec'
       - 'rubocop'
     command: [ 'bundle', 'exec', 'rake' ]
