@@ -101,10 +101,6 @@ jobs:
       env: DEPLOY_TO_FORGE=yes
       stage: deploy
 branches:
-  only:
-    - main
-    - /^v\d/
-    - master
 notifications:
   email: false
 deploy:

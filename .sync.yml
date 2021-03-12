@@ -8,9 +8,12 @@
 .github/PULL_REQUEST_TEMPLATE.md:
   delete: true
 
+.gitlab-ci.yml:
+  delete: true
+
 .travis.yml:
-  branches:
-    - master
+  remove_branches:
+    - main
     - /^v\d/
   docker_sets:
     - set: debian8-64
