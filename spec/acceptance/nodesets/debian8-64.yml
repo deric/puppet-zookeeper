@@ -8,7 +8,7 @@ HOSTS:
     debug: false
     docker_image_commands:
       - 'apt-get install -y wget'
-      - 'locale-gen en_US.UTF-8'
+      - 'echo "LANG=C\nLC_ALL=C" >> /etc/default/locale'
 CONFIG:
   masterless: true
   log_level: info

@@ -6,6 +6,9 @@ HOSTS:
     roles:
       - agent
     debug: false
+    docker_image_commands:
+      - 'apt-get install -y wget'
+      - 'echo "LANG=C\nLC_ALL=C" >> /etc/default/locale'
 CONFIG:
   masterless: true
   log_level: info
