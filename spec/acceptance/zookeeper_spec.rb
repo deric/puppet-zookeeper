@@ -1,11 +1,11 @@
 require 'spec_helper_acceptance'
 
-case fact('osfamily')
-when 'Debian'
-  service_name = 'zookeeper'
-when 'RedHat', 'Suse'
-  service_name = 'zookeeper-server'
-end
+# case fact('osfamily')
+# when 'Debian'
+#   service_name = 'zookeeper'
+# when 'RedHat', 'Suse'
+#   service_name = 'zookeeper-server'
+# end
 
 describe 'zookeeper defintion' do
   context 'basic setup' do
