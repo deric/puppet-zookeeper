@@ -9,6 +9,9 @@
   delete: true
 
 .travis.yml:
+  branches:
+    - master
+    - /^v\d/
   docker_sets:
     - set: debian8-64
     - set: debian9-64
