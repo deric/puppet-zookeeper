@@ -41,7 +41,9 @@ shared_examples 'zookeeper common' do |os_facts|
 
     it do
       is_expected.to contain_file(environment_file).with_content(%r{ERROR})
-      is_expected.to contain_file(environment_file).with_content(%r{CLASSPATH})
+      is_expected.to contain_file(environment_file).with_content(%r{ZOOCFG})
+      # CLASSPATH won't be overriden for all install methods
+      # is_expected.to contain_file(environment_file).with_content(%r{CLASSPATH})
     end
 
     it do
@@ -52,14 +54,14 @@ shared_examples 'zookeeper common' do |os_facts|
     it 'does not set maxClientCnxns by default' do
       # due to problem with should_not not matching, we're using more complicated way
       is_expected.to contain_file(
-        '/etc/zookeeper/conf/zoo.cfg'
+        '/etc/zookeeper/conf/zoo.cfg',
       ).with_content(%r{^#maxClientCnxns=})
     end
 
     # by default do not set client IP address
     it do
       is_expected.to contain_file(
-        '/etc/zookeeper/conf/zoo.cfg'
+        '/etc/zookeeper/conf/zoo.cfg',
       ).with_content(%r{^#clientPortAddress=})
     end
   end
@@ -101,7 +103,7 @@ shared_examples 'zookeeper common' do |os_facts|
 
     it do
       is_expected.to contain_file(
-        '/etc/zookeeper/conf/zoo.cfg'
+        '/etc/zookeeper/conf/zoo.cfg',
       ).with_content(%r{maxClientCnxns=15})
     end
   end
@@ -115,7 +117,7 @@ shared_examples 'zookeeper common' do |os_facts|
 
     it do
       is_expected.to contain_file(
-        '/etc/zookeeper/conf/zoo.cfg'
+        '/etc/zookeeper/conf/zoo.cfg',
       ).with_content(%r{clientPortAddress=192.168.1.1})
     end
   end
@@ -168,7 +170,7 @@ shared_examples 'zookeeper common' do |os_facts|
 
     it do
       is_expected.to contain_file(
-        '/var/lib/zookeeper/myid'
+        '/var/lib/zookeeper/myid',
       ).with('ensure' => 'link',
              'target' => '/etc/zookeeper/conf/myid')
     end
@@ -181,7 +183,7 @@ shared_examples 'zookeeper common' do |os_facts|
 
     it do
       is_expected.to contain_file(
-        '/etc/zookeeper/conf/zoo.cfg'
+        '/etc/zookeeper/conf/zoo.cfg',
       ).with_content(%r{# dataLogDir=/disk2/zookeeper})
     end
   end
@@ -201,7 +203,7 @@ shared_examples 'zookeeper common' do |os_facts|
 
     it do
       is_expected.to contain_file(
-        '/etc/zookeeper/conf/zoo.cfg'
+        '/etc/zookeeper/conf/zoo.cfg',
       ).with_content(%r{dataLogDir=/zookeeper/transaction/device})
     end
   end
@@ -217,13 +219,13 @@ shared_examples 'zookeeper common' do |os_facts|
 
     it do
       is_expected.to contain_file(
-        '/etc/zookeeper/conf/zoo.cfg'
+        '/etc/zookeeper/conf/zoo.cfg',
       ).with_content(%r{server.1=192.168.1.1:3000:4000})
     end
 
     it do
       is_expected.to contain_file(
-        '/etc/zookeeper/conf/zoo.cfg'
+        '/etc/zookeeper/conf/zoo.cfg',
       ).with_content(%r{server.2=192.168.1.2:3000:4000})
     end
   end
@@ -239,13 +241,13 @@ shared_examples 'zookeeper common' do |os_facts|
 
     it do
       is_expected.to contain_file(
-        '/etc/zookeeper/conf/zoo.cfg'
+        '/etc/zookeeper/conf/zoo.cfg',
       ).with_content(%r{server.12=192.168.1.1:3000:4000})
     end
 
     it do
       is_expected.to contain_file(
-        '/etc/zookeeper/conf/zoo.cfg'
+        '/etc/zookeeper/conf/zoo.cfg',
       ).with_content(%r{server.23=192.168.1.2:3000:4000})
     end
   end
@@ -259,13 +261,13 @@ shared_examples 'zookeeper common' do |os_facts|
 
     it do
       is_expected.to contain_file(
-        '/etc/zookeeper/conf/zoo.cfg'
+        '/etc/zookeeper/conf/zoo.cfg',
       ).with_content(%r{server.1=192.168.1.1:2888:3888})
     end
 
     it do
       is_expected.to contain_file(
-        '/etc/zookeeper/conf/zoo.cfg'
+        '/etc/zookeeper/conf/zoo.cfg',
       ).with_content(%r{server.2=192.168.1.2:2888:3888})
     end
   end
@@ -279,13 +281,13 @@ shared_examples 'zookeeper common' do |os_facts|
 
     it do
       is_expected.to contain_file(
-        '/etc/zookeeper/conf/zoo.cfg'
+        '/etc/zookeeper/conf/zoo.cfg',
       ).with_content(%r{server.12=192.168.1.1:2888:3888})
     end
 
     it do
       is_expected.to contain_file(
-        '/etc/zookeeper/conf/zoo.cfg'
+        '/etc/zookeeper/conf/zoo.cfg',
       ).with_content(%r{server.23=192.168.1.2:2888:3888})
     end
   end
@@ -300,49 +302,49 @@ shared_examples 'zookeeper common' do |os_facts|
 
     it do
       is_expected.to contain_file(
-        '/etc/zookeeper/conf/zoo.cfg'
+        '/etc/zookeeper/conf/zoo.cfg',
       ).with_content(%r{server.1=192.168.1.1:2888:3888})
     end
 
     it do
       is_expected.not_to contain_file(
-        '/etc/zookeeper/conf/zoo.cfg'
+        '/etc/zookeeper/conf/zoo.cfg',
       ).with_content(%r{server.1=192.168.1.1:2888:3888:observer})
     end
 
     it do
       is_expected.to contain_file(
-        '/etc/zookeeper/conf/zoo.cfg'
+        '/etc/zookeeper/conf/zoo.cfg',
       ).with_content(%r{server.2=192.168.1.2:2888:3888})
     end
 
     it do
       is_expected.not_to contain_file(
-        '/etc/zookeeper/conf/zoo.cfg'
+        '/etc/zookeeper/conf/zoo.cfg',
       ).with_content(%r{server.2=192.168.1.2:2888:3888:observer})
     end
 
     it do
       is_expected.to contain_file(
-        '/etc/zookeeper/conf/zoo.cfg'
+        '/etc/zookeeper/conf/zoo.cfg',
       ).with_content(%r{server.3=192.168.1.3:2888:3888})
     end
 
     it do
       is_expected.not_to contain_file(
-        '/etc/zookeeper/conf/zoo.cfg'
+        '/etc/zookeeper/conf/zoo.cfg',
       ).with_content(%r{server.3=192.168.1.3:2888:3888:observer})
     end
 
     it do
       is_expected.to contain_file(
-        '/etc/zookeeper/conf/zoo.cfg'
+        '/etc/zookeeper/conf/zoo.cfg',
       ).with_content(%r{server.4=192.168.1.4:2888:3888:observer})
     end
 
     it do
       is_expected.to contain_file(
-        '/etc/zookeeper/conf/zoo.cfg'
+        '/etc/zookeeper/conf/zoo.cfg',
       ).with_content(%r{server.5=192.168.1.5:2888:3888:observer})
     end
   end
@@ -361,49 +363,49 @@ shared_examples 'zookeeper common' do |os_facts|
 
     it do
       is_expected.to contain_file(
-        '/etc/zookeeper/conf/zoo.cfg'
+        '/etc/zookeeper/conf/zoo.cfg',
       ).with_content(%r{server.12=192.168.1.1:2888:3888})
     end
 
     it do
       is_expected.not_to contain_file(
-        '/etc/zookeeper/conf/zoo.cfg'
+        '/etc/zookeeper/conf/zoo.cfg',
       ).with_content(%r{server.12=192.168.1.1:2888:3888:observer})
     end
 
     it do
       is_expected.to contain_file(
-        '/etc/zookeeper/conf/zoo.cfg'
+        '/etc/zookeeper/conf/zoo.cfg',
       ).with_content(%r{server.23=192.168.1.2:2888:3888})
     end
 
     it do
       is_expected.not_to contain_file(
-        '/etc/zookeeper/conf/zoo.cfg'
+        '/etc/zookeeper/conf/zoo.cfg',
       ).with_content(%r{server.23=192.168.1.2:2888:3888:observer})
     end
 
     it do
       is_expected.to contain_file(
-        '/etc/zookeeper/conf/zoo.cfg'
+        '/etc/zookeeper/conf/zoo.cfg',
       ).with_content(%r{server.34=192.168.1.3:2888:3888})
     end
 
     it do
       is_expected.not_to contain_file(
-        '/etc/zookeeper/conf/zoo.cfg'
+        '/etc/zookeeper/conf/zoo.cfg',
       ).with_content(%r{server.34=192.168.1.3:2888:3888:observer})
     end
 
     it do
       is_expected.to contain_file(
-        '/etc/zookeeper/conf/zoo.cfg'
+        '/etc/zookeeper/conf/zoo.cfg',
       ).with_content(%r{server.45=192.168.1.4:2888:3888:observer})
     end
 
     it do
       is_expected.to contain_file(
-        '/etc/zookeeper/conf/zoo.cfg'
+        '/etc/zookeeper/conf/zoo.cfg',
       ).with_content(%r{server.56=192.168.1.5:2888:3888:observer})
     end
   end
@@ -417,7 +419,7 @@ shared_examples 'zookeeper common' do |os_facts|
 
     it do
       is_expected.to contain_file(
-        '/etc/zookeeper/conf/zoo.cfg'
+        '/etc/zookeeper/conf/zoo.cfg',
       ).with_content(%r{minSessionTimeout=5000})
     end
   end
@@ -431,7 +433,7 @@ shared_examples 'zookeeper common' do |os_facts|
 
     it do
       is_expected.to contain_file(
-        '/etc/zookeeper/conf/zoo.cfg'
+        '/etc/zookeeper/conf/zoo.cfg',
       ).with_content(%r{maxSessionTimeout=50000})
     end
   end
@@ -445,13 +447,13 @@ shared_examples 'zookeeper common' do |os_facts|
 
     it do
       is_expected.to contain_file(
-        '/etc/zookeeper/conf/zoo.cfg'
+        '/etc/zookeeper/conf/zoo.cfg',
       ).with_content(%r{server.1=192.168.1.1:2888:3888})
     end
 
     it do
       is_expected.to contain_file(
-        '/etc/zookeeper/conf/zoo.cfg'
+        '/etc/zookeeper/conf/zoo.cfg',
       ).with_content(%r{server.2=192.168.1.2:2888:3888})
     end
   end
@@ -464,13 +466,13 @@ shared_examples 'zookeeper common' do |os_facts|
 
       it do
         is_expected.to contain_file(
-          '/etc/zookeeper/conf/log4j.properties'
+          '/etc/zookeeper/conf/log4j.properties',
         ).with_content(%r{zookeeper.log.threshold=INFO})
       end
 
       it do
         is_expected.to contain_file(
-          '/etc/zookeeper/conf/log4j.properties'
+          '/etc/zookeeper/conf/log4j.properties',
         ).with_content(%r{zookeeper.console.threshold=INFO})
       end
     end
@@ -484,7 +486,7 @@ shared_examples 'zookeeper common' do |os_facts|
 
       it do
         is_expected.to contain_file(
-          '/etc/zookeeper/conf/log4j.properties'
+          '/etc/zookeeper/conf/log4j.properties',
         ).with_content(%r{zookeeper.log.threshold=TRACE})
       end
     end
@@ -498,7 +500,7 @@ shared_examples 'zookeeper common' do |os_facts|
 
       it do
         is_expected.to contain_file(
-          '/etc/zookeeper/conf/log4j.properties'
+          '/etc/zookeeper/conf/log4j.properties',
         ).with_content(%r{zookeeper.console.threshold=TRACE})
       end
     end
@@ -512,7 +514,7 @@ shared_examples 'zookeeper common' do |os_facts|
 
       it do
         is_expected.to contain_file(
-          '/etc/zookeeper/conf/log4j.properties'
+          '/etc/zookeeper/conf/log4j.properties',
         ).with_content(%r{log4j.appender.TRACEFILE.Threshold=DEBUG})
       end
     end
@@ -526,7 +528,7 @@ shared_examples 'zookeeper common' do |os_facts|
 
       it do
         is_expected.to contain_file(
-          '/etc/zookeeper/conf/zoo.cfg'
+          '/etc/zookeeper/conf/zoo.cfg',
         ).with_content(%r{4lw.commands.whitelist=ruok,stat})
       end
     end
@@ -540,7 +542,7 @@ shared_examples 'zookeeper common' do |os_facts|
 
       it do
         is_expected.to contain_file(
-          '/etc/zookeeper/conf/zoo.cfg'
+          '/etc/zookeeper/conf/zoo.cfg',
         ).with_content(%r{globalOutstandingLimit=2000})
       end
     end

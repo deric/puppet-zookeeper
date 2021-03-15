@@ -7,7 +7,7 @@ def get_os_info(facts)
     init_dir: nil,
     service_file: nil,
     should_install_cron: false,
-    zookeeper_shell: nil
+    zookeeper_shell: nil,
   }
 
   case facts[:osfamily]

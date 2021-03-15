@@ -146,9 +146,10 @@ shared_examples 'zookeeper install' do |os_facts|
     end
 
     it do
-      expect do
+      expect {
         is_expected.to compile
-      end.to raise_error(%r{Java installation is required}) end
+      }.to raise_error(%r{Java installation is required})
+    end
   end
 
   context 'removing package' do
