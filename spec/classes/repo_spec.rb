@@ -64,9 +64,11 @@ shared_examples 'zookeeper repo' do |os_facts|
         }'
       end
 
-      it {
-        is_expected.to contain_yumrepo('cloudera-cdh5').with(baseurl: "http://archive.cloudera.com/cdh5/#{os_name}/#{os_release}/#{os_hardware}/cdh/5/")
-      }
+      if (os_facts[:os]['family'] == 'RedHat') && (os_release.to_i < 8)
+        it do
+          is_expected.to contain_yumrepo('cloudera-cdh5').with(baseurl: "http://archive.cloudera.com/cdh5/#{os_name}/#{os_release}/#{os_hardware}/cdh/5/")
+        end
+      end
     end
   end
 

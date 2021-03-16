@@ -9,17 +9,15 @@ All notable changes to this project will be documented in this file. The format 
 ### Added
 
 - Add var for preAllocSize [\#166](https://github.com/deric/puppet-zookeeper/pull/166) ([deemon87](https://github.com/deemon87))
+- add port\_unification parameter [\#159](https://github.com/deric/puppet-zookeeper/pull/159) ([jduepmeier](https://github.com/jduepmeier))
 - Add support for parameter secureClientPort [\#156](https://github.com/deric/puppet-zookeeper/pull/156) ([dhoppe](https://github.com/dhoppe))
 - Add support for SLES 12 [\#155](https://github.com/deric/puppet-zookeeper/pull/155) ([dhoppe](https://github.com/dhoppe))
+- Support CentOS 8 [\#152](https://github.com/deric/puppet-zookeeper/pull/152) ([bjoernhaeuser](https://github.com/bjoernhaeuser))
 
 ### Fixed
 
-- Move daemon-reload to restart\_on\_change [\#162](https://github.com/deric/puppet-zookeeper/pull/162) ([yakirgb](https://github.com/yakirgb))
-
-### UNCATEGORIZED PRS; LABEL THEM ON GITHUB
-
 - install\_method set to archive should not try and install the repository [\#164](https://github.com/deric/puppet-zookeeper/pull/164) ([achevalet](https://github.com/achevalet))
-- add port\_unification parameter [\#159](https://github.com/deric/puppet-zookeeper/pull/159) ([jduepmeier](https://github.com/jduepmeier))
+- Move daemon-reload to restart\_on\_change [\#162](https://github.com/deric/puppet-zookeeper/pull/162) ([yakirgb](https://github.com/yakirgb))
 - Ignore CLASSPATH if systemd is used [\#157](https://github.com/deric/puppet-zookeeper/pull/157) ([dhoppe](https://github.com/dhoppe))
 
 ## [v1.0.0](https://github.com/deric/puppet-zookeeper/tree/v1.0.0) (2020-04-14)
@@ -35,6 +33,7 @@ All notable changes to this project will be documented in this file. The format 
 - Drop support for Debian \(6, 7\) and Ubuntu \(10.04, 12.04, 14.04\) [\#143](https://github.com/deric/puppet-zookeeper/pull/143) ([dhoppe](https://github.com/dhoppe))
 - Support for new distro releases [\#141](https://github.com/deric/puppet-zookeeper/pull/141) ([Hexta](https://github.com/Hexta))
 - allow configuring additional log appenders [\#139](https://github.com/deric/puppet-zookeeper/pull/139) ([automaticserver](https://github.com/automaticserver))
+- fixing typo in readme [\#121](https://github.com/deric/puppet-zookeeper/pull/121) ([sergigp](https://github.com/sergigp))
 - Symlink not needed if using Exhibitor [\#114](https://github.com/deric/puppet-zookeeper/pull/114) ([maximedevalland](https://github.com/maximedevalland))
 
 ## [v0.8.7](https://github.com/deric/puppet-zookeeper/tree/v0.8.7) (2019-08-13)
@@ -73,7 +72,6 @@ All notable changes to this project will be documented in this file. The format 
 
 ### UNCATEGORIZED PRS; LABEL THEM ON GITHUB
 
-- fixing typo in readme [\#121](https://github.com/deric/puppet-zookeeper/pull/121) ([sergigp](https://github.com/sergigp))
 - Fix JAVA\_OPTS broken with enabled sasl auth [\#120](https://github.com/deric/puppet-zookeeper/pull/120) ([Thor77](https://github.com/Thor77))
 
 ## [v0.8.1](https://github.com/deric/puppet-zookeeper/tree/v0.8.1) (2018-10-24)
@@ -177,15 +175,10 @@ All notable changes to this project will be documented in this file. The format 
 
 [Full Changelog](https://github.com/deric/puppet-zookeeper/compare/v0.5.5...v0.6.0)
 
-### Added
-
-- SASL authentication [\#70](https://github.com/deric/puppet-zookeeper/pull/70) ([deric](https://github.com/deric))
-
 ### UNCATEGORIZED PRS; LABEL THEM ON GITHUB
 
 - Custom zookeeper ids configurable [\#69](https://github.com/deric/puppet-zookeeper/pull/69) ([rohte](https://github.com/rohte))
 - Replaces "Redhat" by "RedHat" as it won't match [\#68](https://github.com/deric/puppet-zookeeper/pull/68) ([alejandroandreu](https://github.com/alejandroandreu))
-- Update zookeeper.init.erb [\#59](https://github.com/deric/puppet-zookeeper/pull/59) ([bobra200](https://github.com/bobra200))
 
 ## [v0.5.5](https://github.com/deric/puppet-zookeeper/tree/v0.5.5) (2016-05-27)
 
@@ -194,6 +187,10 @@ All notable changes to this project will be documented in this file. The format 
 ## [v0.5.4](https://github.com/deric/puppet-zookeeper/tree/v0.5.4) (2016-04-25)
 
 [Full Changelog](https://github.com/deric/puppet-zookeeper/compare/v0.5.3...v0.5.4)
+
+### Added
+
+- SASL authentication [\#70](https://github.com/deric/puppet-zookeeper/pull/70) ([deric](https://github.com/deric))
 
 ### UNCATEGORIZED PRS; LABEL THEM ON GITHUB
 
@@ -207,6 +204,7 @@ All notable changes to this project will be documented in this file. The format 
 ### UNCATEGORIZED PRS; LABEL THEM ON GITHUB
 
 - Tell systemd that this service needs a running process. [\#60](https://github.com/deric/puppet-zookeeper/pull/60) ([deric](https://github.com/deric))
+- Update zookeeper.init.erb [\#59](https://github.com/deric/puppet-zookeeper/pull/59) ([bobra200](https://github.com/bobra200))
 - Have $manage\_service\_file honored for init [\#58](https://github.com/deric/puppet-zookeeper/pull/58) ([RainofTerra](https://github.com/RainofTerra))
 
 ## [v0.5.2](https://github.com/deric/puppet-zookeeper/tree/v0.5.2) (2016-03-12)
@@ -305,7 +303,6 @@ All notable changes to this project will be documented in this file. The format 
 ### UNCATEGORIZED PRS; LABEL THEM ON GITHUB
 
 - fail is a function, not a type [\#13](https://github.com/deric/puppet-zookeeper/pull/13) ([cristifalcas](https://github.com/cristifalcas))
-- Provide options to override service name and initialize the datastore. [\#4](https://github.com/deric/puppet-zookeeper/pull/4) ([tomstockton](https://github.com/tomstockton))
 
 ## [v0.3.4](https://github.com/deric/puppet-zookeeper/tree/v0.3.4) (2015-01-29)
 
@@ -335,6 +332,10 @@ All notable changes to this project will be documented in this file. The format 
 ## [v0.3.1](https://github.com/deric/puppet-zookeeper/tree/v0.3.1) (2014-12-04)
 
 [Full Changelog](https://github.com/deric/puppet-zookeeper/compare/v0.3.0...v0.3.1)
+
+### UNCATEGORIZED PRS; LABEL THEM ON GITHUB
+
+- Provide options to override service name and initialize the datastore. [\#4](https://github.com/deric/puppet-zookeeper/pull/4) ([tomstockton](https://github.com/tomstockton))
 
 ## [v0.3.0](https://github.com/deric/puppet-zookeeper/tree/v0.3.0) (2014-11-29)
 
