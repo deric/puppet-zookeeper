@@ -36,7 +36,7 @@ shared_examples 'zookeeper::service' do |os_facts|
       it do
         is_expected.to contain_file(
           "/usr/lib/systemd/system/#{service_name}.service",
-        ).with('ensure' => 'present')
+        ).with('ensure' => 'file')
       end
 
       it do
