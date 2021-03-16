@@ -36,7 +36,7 @@ shared_examples 'zookeeper::service' do |os_facts|
       it do
         is_expected.to contain_file(
           "/usr/lib/systemd/system/#{service_name}.service",
-        ).with('ensure' => 'present')
+        ).with('ensure' => 'file')
       end
 
       it do
@@ -84,7 +84,7 @@ shared_examples 'zookeeper::service' do |os_facts|
         end
 
         it do
-          is_expected.not_to contain_file(service_file).with('ensure' => 'present')
+          is_expected.not_to contain_file(service_file).with('ensure' => 'file')
         end
       end
 
@@ -100,7 +100,7 @@ shared_examples 'zookeeper::service' do |os_facts|
         end
 
         it do
-          is_expected.to contain_file(service_file).with('ensure' => 'present')
+          is_expected.to contain_file(service_file).with('ensure' => 'file')
         end
 
         it do
@@ -159,7 +159,7 @@ shared_examples 'zookeeper::service' do |os_facts|
                             end
 
       it do
-        is_expected.to contain_file(custom_service_file).with('ensure' => 'present')
+        is_expected.to contain_file(custom_service_file).with('ensure' => 'file')
       end
 
       it do

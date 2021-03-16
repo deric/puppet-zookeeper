@@ -4,7 +4,6 @@
 #
 # PRIVATE CLASS - do not use directly (use main `zookeeper` class).
 class zookeeper::config inherits zookeeper {
-
   file { $zookeeper::cfg_dir:
     ensure  => directory,
     owner   => $zookeeper::user,
@@ -84,7 +83,7 @@ class zookeeper::config inherits zookeeper {
       command => "${zookeeper::initialize_datastore_bin} --myid=${zookeeper::id}",
       user    => $zookeeper::user,
       creates => "${zookeeper::datastore}/version-2",
-      require => [ File[$zookeeper::datastore], Class['zookeeper::install'] ],
+      require => [File[$zookeeper::datastore], Class['zookeeper::install']],
     }
   }
 }

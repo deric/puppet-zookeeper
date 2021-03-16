@@ -20,9 +20,11 @@ class zookeeper::install inherits zookeeper {
     anchor { 'zookeeper::install::java': }
 
     ensure_resource('package', $zookeeper::java_package,
-      {'ensure' => $zookeeper::ensure, 'allow_virtual' => true,
-      'before'  => Anchor['zookeeper::install::intermediate'],
-      'require' => Anchor['zookeeper::install::begin']}
+      { 'ensure'        => $zookeeper::ensure,
+        'allow_virtual' => true,
+        'before'        => Anchor['zookeeper::install::intermediate'],
+        'require'       => Anchor['zookeeper::install::begin']
+      }
     )
   }
 
