@@ -177,7 +177,7 @@ class zookeeper::params {
   $sasl_users = {}
   $keytab_path = '/etc/zookeeper/conf/zookeeper.keytab'
   $principal = "zookeeper/${facts['networking']['fqdn']}"
-  $realm = pick($trusted['domain'], $trusted['certname'])
+  $realm = pick($trusted['domain'], $trusted['certname'], 'puppet')
   $store_key = true
   $use_keytab = true
   $use_ticket_cache = false
