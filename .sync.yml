@@ -31,9 +31,9 @@ spec/spec_helper.rb:
   spec_overrides: "require 'spec_helper_local' if File.file?(File.join(File.dirname(__FILE__), 'spec_helper_local.rb'))"
 
 Gemfile:
-  optional:
+  required:
     ":development":
-      - gem: github_changelog_generator
+      - gem: 'github_changelog_generator'
         version: '~> 1.15'
         condition: "Gem::Version.new(RUBY_VERSION.dup) >= Gem::Version.new('2.3.0')"
       - gem: overcommit
