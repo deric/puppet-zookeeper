@@ -71,19 +71,6 @@ shared_examples 'zookeeper common' do |os_facts|
     end
   end
 
-  context 'install from archive' do
-    let :pre_condition do
-      'class {"zookeeper":
-         install_method  => "archive",
-         archive_version => "3.4.9",
-      }'
-    end
-
-    it do
-      is_expected.to contain_file(environment_file).without_content(%r{CLASSPATH})
-    end
-  end
-
   context 'extra environment_file parameter' do
     # set custom params
     let :pre_condition do
@@ -538,6 +525,27 @@ shared_examples 'zookeeper common' do |os_facts|
       end
     end
 
+    context 'setting metrics provider' do
+      let :pre_condition do
+        'class {"zookeeper":
+          metrics_provider_classname => "org.apache.zookeeper.metrics.prometheus.PrometheusMetricsProvider",
+          metrics_provider_http_port => 7007,
+         }'
+      end
+
+      it do
+        is_expected.to contain_file(
+          '/etc/zookeeper/conf/zoo.cfg',
+        ).with_content(%r{^metricsProvider.className=org.apache.zookeeper.metrics.prometheus.PrometheusMetricsProvider})
+      end
+
+      it do
+        is_expected.to contain_file(
+          '/etc/zookeeper/conf/zoo.cfg',
+        ).with_content(%r{^metricsProvider.httpPort=7007})
+      end
+    end
+
     context 'set global outstanding limit' do
       let :pre_condition do
         'class {"zookeeper":
@@ -575,6 +583,32 @@ shared_examples 'zookeeper common' do |os_facts|
           '/etc/zookeeper/conf/zoo.cfg',
         ).with_content(%r{portUnification})
       end
+    end
+  end
+  context 'setting metrics provider' do
+    let :pre_condition do
+      'class {"zookeeper":
+        metrics_provider_classname => "org.apache.zookeeper.metrics.prometheus.PrometheusMetricsProvider",
+        metrics_provider_http_port => 7007,
+        metrics_provider_export_jvm_info => false,
+       }'
+    end
+
+    it do
+      is_expected.to contain_file(
+        '/etc/zookeeper/conf/zoo.cfg',
+      ).with_content(%r{metricsProvider.className=org.apache.zookeeper.metrics.prometheus.PrometheusMetricsProvider})
+    end
+
+    it do
+      is_expected.to contain_file(
+        '/etc/zookeeper/conf/zoo.cfg',
+      ).with_content(%r{metricsProvider.httpPort=7007})
+    end
+    it do
+      is_expected.to contain_file(
+        '/etc/zookeeper/conf/zoo.cfg',
+      ).with_content(%r{metricsProvider.exportJvmInfo=false})
     end
   end
 end
