@@ -530,13 +530,13 @@ shared_examples 'zookeeper common' do |os_facts|
 
       it do
         is_expected.to contain_file(
-          '/etc/zookeeper/conf/zoo.cfg'
+          '/etc/zookeeper/conf/zoo.cfg',
         ).with_content(%r{^metricsProvider.className=org.apache.zookeeper.metrics.prometheus.PrometheusMetricsProvider})
       end
 
       it do
         is_expected.to contain_file(
-          '/etc/zookeeper/conf/zoo.cfg'
+          '/etc/zookeeper/conf/zoo.cfg',
         ).with_content(%r{^metricsProvider.httpPort=7007})
       end
     end
@@ -566,18 +566,18 @@ shared_examples 'zookeeper common' do |os_facts|
 
     it do
       is_expected.to contain_file(
-        '/etc/zookeeper/conf/zoo.cfg'
+        '/etc/zookeeper/conf/zoo.cfg',
       ).with_content(%r{metricsProvider.className=org.apache.zookeeper.metrics.prometheus.PrometheusMetricsProvider})
     end
 
     it do
       is_expected.to contain_file(
-        '/etc/zookeeper/conf/zoo.cfg'
+        '/etc/zookeeper/conf/zoo.cfg',
       ).with_content(%r{metricsProvider.httpPort=7007})
     end
     it do
       is_expected.to contain_file(
-        '/etc/zookeeper/conf/zoo.cfg'
+        '/etc/zookeeper/conf/zoo.cfg',
       ).with_content(%r{metricsProvider.exportJvmInfo=false})
     end
   end
