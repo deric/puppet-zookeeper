@@ -9,6 +9,7 @@ All notable changes to this project will be documented in this file. The format 
 ### Added
 
 - Add var for preAllocSize [\#166](https://github.com/deric/puppet-zookeeper/pull/166) ([deemon87](https://github.com/deemon87))
+- Allow changing initialize datastore binary path [\#163](https://github.com/deric/puppet-zookeeper/pull/163) ([olevole](https://github.com/olevole))
 - add port\_unification parameter [\#159](https://github.com/deric/puppet-zookeeper/pull/159) ([jduepmeier](https://github.com/jduepmeier))
 - Add support for parameter secureClientPort [\#156](https://github.com/deric/puppet-zookeeper/pull/156) ([dhoppe](https://github.com/dhoppe))
 - Add support for SLES 12 [\#155](https://github.com/deric/puppet-zookeeper/pull/155) ([dhoppe](https://github.com/dhoppe))
@@ -33,7 +34,6 @@ All notable changes to this project will be documented in this file. The format 
 - Drop support for Debian \(6, 7\) and Ubuntu \(10.04, 12.04, 14.04\) [\#143](https://github.com/deric/puppet-zookeeper/pull/143) ([dhoppe](https://github.com/dhoppe))
 - Support for new distro releases [\#141](https://github.com/deric/puppet-zookeeper/pull/141) ([Hexta](https://github.com/Hexta))
 - allow configuring additional log appenders [\#139](https://github.com/deric/puppet-zookeeper/pull/139) ([automaticserver](https://github.com/automaticserver))
-- fixing typo in readme [\#121](https://github.com/deric/puppet-zookeeper/pull/121) ([sergigp](https://github.com/sergigp))
 - Symlink not needed if using Exhibitor [\#114](https://github.com/deric/puppet-zookeeper/pull/114) ([maximedevalland](https://github.com/maximedevalland))
 
 ## [v0.8.7](https://github.com/deric/puppet-zookeeper/tree/v0.8.7) (2019-08-13)
@@ -72,6 +72,7 @@ All notable changes to this project will be documented in this file. The format 
 
 ### UNCATEGORIZED PRS; LABEL THEM ON GITHUB
 
+- fixing typo in readme [\#121](https://github.com/deric/puppet-zookeeper/pull/121) ([sergigp](https://github.com/sergigp))
 - Fix JAVA\_OPTS broken with enabled sasl auth [\#120](https://github.com/deric/puppet-zookeeper/pull/120) ([Thor77](https://github.com/Thor77))
 
 ## [v0.8.1](https://github.com/deric/puppet-zookeeper/tree/v0.8.1) (2018-10-24)
@@ -175,6 +176,10 @@ All notable changes to this project will be documented in this file. The format 
 
 [Full Changelog](https://github.com/deric/puppet-zookeeper/compare/v0.5.5...v0.6.0)
 
+### Added
+
+- SASL authentication [\#70](https://github.com/deric/puppet-zookeeper/pull/70) ([deric](https://github.com/deric))
+
 ### UNCATEGORIZED PRS; LABEL THEM ON GITHUB
 
 - Custom zookeeper ids configurable [\#69](https://github.com/deric/puppet-zookeeper/pull/69) ([rohte](https://github.com/rohte))
@@ -187,10 +192,6 @@ All notable changes to this project will be documented in this file. The format 
 ## [v0.5.4](https://github.com/deric/puppet-zookeeper/tree/v0.5.4) (2016-04-25)
 
 [Full Changelog](https://github.com/deric/puppet-zookeeper/compare/v0.5.3...v0.5.4)
-
-### Added
-
-- SASL authentication [\#70](https://github.com/deric/puppet-zookeeper/pull/70) ([deric](https://github.com/deric))
 
 ### UNCATEGORIZED PRS; LABEL THEM ON GITHUB
 
