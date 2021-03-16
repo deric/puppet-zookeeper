@@ -78,6 +78,7 @@ class zookeeper (
   Array[String]                              $observers                        = $zookeeper::params::observers,
   Integer                                    $purge_interval                   = $zookeeper::params::purge_interval,
   Variant[Array[String],Hash[String,String]] $servers                          = $zookeeper::params::servers,
+  Integer                                    $pre_alloc_size                   = $zookeeper::params::pre_alloc_size,
   Integer                                    $snap_count                       = $zookeeper::params::snap_count,
   Integer                                    $snap_retain_count                = $zookeeper::params::snap_retain_count,
   Integer                                    $sync_limit                       = $zookeeper::params::sync_limit,
