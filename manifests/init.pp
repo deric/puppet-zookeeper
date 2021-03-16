@@ -89,6 +89,7 @@ class zookeeper(
   Boolean                                    $use_sasl_auth            = $zookeeper::params::use_sasl_auth,
   String                                     $zoo_dir                  = $zookeeper::params::zoo_dir,
   String                                     $zoo_main                 = $zookeeper::params::zoo_main,
+  Boolean                                    $quorum_listen_on_all_ips = $zookeeper::params::quorum_listen_on_all_ips,
   # log4j properties
   String                                     $environment_file         = $zookeeper::params::environment_file,
   String                                     $log4j_prop               = $zookeeper::params::log4j_prop,

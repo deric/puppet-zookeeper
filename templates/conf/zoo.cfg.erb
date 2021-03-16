@@ -63,6 +63,9 @@ portUnification=<%= scope.lookupvar("zookeeper::port_unification") %>
 <%= "server.#{id}=#{host}:%s:%s%s" % [scope.lookupvar("zookeeper::election_port"), scope.lookupvar("zookeeper::leader_port"), observer_text ] %>
 <%- end -%>
 
+# Bind election_port and leader_port to all interfaces (0.0.0.0)
+quorumListenOnAllIPs=<%= scope.lookupvar("zookeeper::quorum_listen_on_all_ips") %>
+
 # To avoid seeks ZooKeeper allocates space in the transaction log file in
 # blocks of preAllocSize kilobytes. The default block size is 64M. One reason
 # for changing the size of the blocks is to reduce the block size if snapshots
