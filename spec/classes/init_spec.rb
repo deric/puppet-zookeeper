@@ -115,35 +115,22 @@ shared_examples 'zookeeper' do |os_facts|
       it { is_expected.not_to contain_yumrepo('cloudera-cdh5') }
     end
 
-    if os_facts[:os]['release']['major'].to_i < 7
-      context 'use Cloudera RPM repo' do
-        let(:params) do
-          {
-            repo: 'cloudera',
-            cdhver: '5',
-          }
-        end
-
-        it { is_expected.to compile.with_all_deps }
-        it { is_expected.to contain_class('zookeeper::install::repo') }
-
-        it { is_expected.to contain_yumrepo('cloudera-cdh5') }
-
-        context 'custom RPM repo' do
-          let(:params) do
-            {
-              repo: {
-                'name'  => 'myrepo',
-                'url'   => 'http://repo.url',
-                'descr' => 'custom repo',
-              },
-              cdhver: '5',
-            }
-          end
-
-          it { is_expected.to contain_yumrepo('myrepo').with(baseurl: 'http://repo.url') }
-        end
+    context 'custom RPM repo' do
+      let(:params) do
+        {
+          repo: {
+            'name'  => 'myrepo',
+            'url'   => 'http://repo.url',
+            'descr' => 'custom repo',
+          },
+          cdhver: '5',
+        }
       end
+
+      it { is_expected.to compile.with_all_deps }
+      it { is_expected.to contain_class('zookeeper::install::repo') }
+
+      it { is_expected.to contain_yumrepo('myrepo').with(baseurl: 'http://repo.url') }
     end
   end
 

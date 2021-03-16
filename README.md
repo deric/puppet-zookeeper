@@ -239,42 +239,18 @@ zookeeper::datastore: '/var/lib/zookeeper'
 zookeeper::datalogstore: '/disk2/zookeeper'
 ```
 
-## Cloudera package
-
-In Cloudera distribution ZooKeeper package does not provide init scripts (same as in Debian). Package containing init scripts
-is called `zookeeper-server` and the service as well. Moreover there's initialization script which should be called after installation.
-So, the configuration might look like this:
-
-```puppet
-class { 'zookeeper':
-  packages             => ['zookeeper', 'zookeeper-server'],
-  service_name         => 'zookeeper-server',
-  initialize_datastore => true
-}
-```
-
-### Managing repository
-
-For RedHat family currently we support also managing a `cloudera` yum repo versions 4, and 5. It can be enabled with `repo` parameter:
-
-```puppet
-class { 'zookeeper':
-  repo   => 'cloudera',
-  cdhver => '5',
-}
-```
-
-#### Custom RPM repository
+### Custom RPM repository
 
 Optionally you can specify a custom repository, using a hash configuration.
 
 ```puppet
 class { 'zookeeper':
-  cdhver     => '5',
   repo       =>  {
-    name  => 'myrepo',
-    url   => 'http://cusom.url',
-    descr => 'description'
+    name      => 'myrepo',
+    url       => 'http://custom.url',
+    descr     => 'description'
+    sslverify => 1,
+    gpgcheck  => true,
   }
 }
 ```

@@ -1,44 +1,21 @@
 require 'spec_helper'
 
 shared_examples 'zookeeper repo release support' do |os_facts|
-  os_name = if os_facts[:os]['family'] == 'RedHat'
-              os_facts[:os]['family'].downcase
-            else
-              os_facts[:os]['name'].downcase
-            end
-  os_release = os_facts[:os]['release']['major']
-
   context 'fail when release not supported' do
     let :pre_condition do
       'class {"zookeeper":
-        repo   => "cloudera",
-        cdhver => "5",
+          repo =>  {
+            name      => "myrepo",
+            url       => "http://custom.url",
+            descr     => "description",
+          }
        }'
     end
 
     it do
       expect {
         is_expected.to compile
-      }.to raise_error(%r{is not supported for #{os_name} version #{os_release}})
-    end
-  end
-end
-
-shared_examples 'zookeeper repo arch support' do |os_facts|
-  os_hardware = os_facts[:os]['hardware']
-
-  context 'fail when architecture not supported' do
-    let :pre_condition do
-      'class {"zookeeper":
-        repo   => "cloudera",
-        cdhver => "5",
-       }'
-    end
-
-    it do
-      expect {
-        is_expected.to compile
-      }.to raise_error(%r{is not supported for architecture #{os_hardware}})
+      }.to raise_error(%r{support repository for #{os_facts[:os]['family']}})
     end
   end
 end
@@ -47,43 +24,21 @@ shared_examples 'zookeeper repo' do |os_facts|
   let(:user) { 'zookeeper' }
   let(:group) { 'zookeeper' }
 
-  os_name = if os_facts[:os]['family'] == 'RedHat'
-              os_facts[:os]['family'].downcase
-            else
-              os_facts[:os]['name'].downcase
-            end
-  os_release = os_facts[:os]['release']['major']
-  os_hardware = os_facts[:os]['hardware']
-
   if %r{RedHat|Suse}.match?(os_facts[:os]['family'])
     context 'Cloudera repo' do
       let :pre_condition do
         'class {"zookeeper":
-          repo   => "cloudera",
-          cdhver => "5",
+          repo       =>  {
+            name      => "myrepo",
+            url       => "http://custom.url",
+            descr     => "description",
+          }
         }'
       end
 
-      if (os_facts[:os]['family'] == 'RedHat') && (os_release.to_i < 8)
-        it do
-          is_expected.to contain_yumrepo('cloudera-cdh5').with(baseurl: "http://archive.cloudera.com/cdh5/#{os_name}/#{os_release}/#{os_hardware}/cdh/5/")
-        end
+      it do
+        is_expected.to contain_yumrepo('myrepo').with(baseurl: 'http://custom.url')
       end
-    end
-  end
-
-  context 'fail when CDH version not supported' do
-    let :pre_condition do
-      'class {"zookeeper":
-        repo   => "cloudera",
-        cdhver => "6",
-       }'
-    end
-
-    it do
-      expect {
-        is_expected.to compile
-      }.to raise_error(%r{is not a supported cloudera repo.})
     end
   end
 
@@ -94,10 +49,10 @@ shared_examples 'zookeeper repo' do |os_facts|
        }'
     end
 
-    it do
+    it 'requires repo to be a Hash (or not defined)' do
       expect {
         is_expected.to compile
-      }.to raise_error(%r{provides no repository information for yum repository})
+      }.to raise_error(%r{type Undef or Hash})
     end
   end
 end
@@ -140,8 +95,8 @@ describe 'zookeeper::install::repo' do
     test_on = {
       supported_os: [
         {
-          'operatingsystem'        => 'RedHat',
-          'operatingsystemrelease' => ['8'],
+          'operatingsystem'        => 'Debian',
+          'operatingsystemrelease' => ['10'],
         },
       ],
     }

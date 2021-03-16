@@ -42,7 +42,7 @@ class zookeeper(
   String                                     $java_bin                 = $zookeeper::params::java_bin,
   String                                     $java_opts                = $zookeeper::params::java_opts,
   Optional[String]                           $java_package             = $zookeeper::params::java_package,
-  Optional[Variant[String,Hash]]             $repo                     = $zookeeper::params::repo,
+  Optional[Hash]                             $repo                     = $zookeeper::params::repo,
   # service options
   Boolean                                    $manage_service           = $zookeeper::params::manage_service,
   Boolean                                    $manage_service_file      = $zookeeper::params::manage_service_file,
@@ -120,11 +120,6 @@ class zookeeper(
     $pid_path = $pid_file
   } else {
     $pid_path = "${pid_dir}/zookeeper.pid"
-  }
-
-  $repo_source = is_hash($repo) ? {
-    true  => 'custom',
-    false => $repo
   }
 
   if $zookeeper::ensure_account {
