@@ -34,6 +34,10 @@ secureClientPort=<%= scope.lookupvar("zookeeper::secure_client_port") %>
 <% else -%>
 #secureClientPort=2281
 <% end -%>
+# Supported since 3.5.5
+<% if ! [nil, :undefined, :undef].include?(scope.lookupvar("zookeeper::port_unification")) -%>
+portUnification=<%= scope.lookupvar("zookeeper::port_unification") %>
+<% end -%>
 
 # specify all zookeeper servers
 # The first port is used by followers to connect to the leader
@@ -58,6 +62,9 @@ secureClientPort=<%= scope.lookupvar("zookeeper::secure_client_port") %>
   <%- end -%>
 <%= "server.#{id}=#{host}:%s:%s%s" % [scope.lookupvar("zookeeper::election_port"), scope.lookupvar("zookeeper::leader_port"), observer_text ] %>
 <%- end -%>
+
+# Bind election_port and leader_port to all interfaces (0.0.0.0)
+quorumListenOnAllIPs=<%= scope.lookupvar("zookeeper::quorum_listen_on_all_ips") %>
 
 # To avoid seeks ZooKeeper allocates space in the transaction log file in
 # blocks of preAllocSize kilobytes. The default block size is 64M. One reason

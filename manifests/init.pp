@@ -62,6 +62,7 @@ class zookeeper (
   Optional[String]                           $client_ip                        = $zookeeper::params::client_ip,
   Integer                                    $client_port                      = $zookeeper::params::client_port,
   Optional[Integer]                          $secure_client_port               = $zookeeper::params::secure_client_port,
+  Optional[Boolean]                          $port_unification                 = $zookeeper::params::port_unification,
   String                                     $datastore                        = $zookeeper::params::datastore,
   Optional[String]                           $datalogstore                     = $zookeeper::params::datalogstore,
   Integer                                    $election_port                    = $zookeeper::params::election_port,
@@ -69,6 +70,7 @@ class zookeeper (
   String                                     $id                               = $zookeeper::params::id,
   Integer                                    $init_limit                       = $zookeeper::params::init_limit,
   Boolean                                    $initialize_datastore             = $zookeeper::params::initialize_datastore,
+  String                                     $initialize_datastore_bin         = $zookeeper::params::initialize_datastore_bin,
   Boolean                                    $leader                           = $zookeeper::params::leader,
   Integer                                    $leader_port                      = $zookeeper::params::leader_port,
   String                                     $log_dir                          = $zookeeper::params::log_dir,
@@ -87,6 +89,7 @@ class zookeeper (
   Boolean                                    $use_sasl_auth                    = $zookeeper::params::use_sasl_auth,
   String                                     $zoo_dir                          = $zookeeper::params::zoo_dir,
   String                                     $zoo_main                         = $zookeeper::params::zoo_main,
+  Boolean                                    $quorum_listen_on_all_ips         = $zookeeper::params::quorum_listen_on_all_ips,
   # log4j properties
   String                                     $environment_file                 = $zookeeper::params::environment_file,
   String                                     $log4j_prop                       = $zookeeper::params::log4j_prop,
