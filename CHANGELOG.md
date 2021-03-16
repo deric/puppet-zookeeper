@@ -1,3 +1,12 @@
+## 1.1.0
+- New features:
+  - Add support for SLES 12 ([#149](https://github.com/deric/puppet-zookeeper/issues/149), [#155](https://github.com/deric/puppet-zookeeper/pull/155))
+  - Add var for `preAllocSize` ([#166](https://github.com/deric/puppet-zookeeper/pull/166))
+  - Add `port_unification` parameter (#158, [#159](https://github.com/deric/puppet-zookeeper/pull/159))
+- Fixes:
+  - Do not manage YUM repo ([#153](https://github.com/deric/puppet-zookeeper/issues/153), [#160](https://github.com/deric/puppet-zookeeper/issues/160), #164)
+  - Ignore CLASSPATH changes when systemd is used ([#157](https://github.com/deric/puppet-zookeeper/pull/157))
+
 ## 1.0.0
 - New features:
   - [Support Puppet 6](https://github.com/deric/puppet-zookeeper/issues/132) (#132)
