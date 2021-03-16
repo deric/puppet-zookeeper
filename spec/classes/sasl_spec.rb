@@ -17,13 +17,13 @@ shared_examples 'zookeeper::sasl' do |os_facts|
 
     it do
       is_expected.to contain_file(
-        '/etc/zookeeper/conf/jaas.conf'
+        '/etc/zookeeper/conf/jaas.conf',
       ).with_content(%r{storeKey=true})
     end
 
     it do
       is_expected.to contain_file(
-        environment_file
+        environment_file,
       ).with_content(%r{JAVA_OPTS=".* -Djava.security.auth.login.config=/etc/zookeeper/conf/jaas.conf"})
     end
   end
@@ -42,13 +42,13 @@ shared_examples 'zookeeper::sasl' do |os_facts|
 
     it do
       is_expected.to contain_file(
-        '/etc/zookeeper/conf/zoo.cfg'
+        '/etc/zookeeper/conf/zoo.cfg',
       ).with_content(%r{kerberos.removeHostFromPrincipal=true})
     end
 
     it do
       is_expected.to contain_file(
-        '/etc/zookeeper/conf/zoo.cfg'
+        '/etc/zookeeper/conf/zoo.cfg',
       ).with_content(%r{kerberos.removeRealmFromPrincipal=true})
     end
   end

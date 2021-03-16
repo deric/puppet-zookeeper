@@ -24,7 +24,7 @@ shared_examples 'zookeeper' do |os_facts|
   context 'skip service restart' do
     let(:params) do
       {
-        restart_on_change: false
+        restart_on_change: false,
       }
     end
 
@@ -38,7 +38,7 @@ shared_examples 'zookeeper' do |os_facts|
   context 'allow installing multiple packages' do
     let(:params) do
       {
-        packages: ['zookeeper', 'zookeeper-bin']
+        packages: ['zookeeper', 'zookeeper-bin'],
       }
     end
 
@@ -58,7 +58,7 @@ shared_examples 'zookeeper' do |os_facts|
       {
         packages: ['zookeeper', 'zookeeper-server'],
         service_name: 'zookeeper-server',
-        initialize_datastore: true
+        initialize_datastore: true,
       }
     end
 
@@ -71,13 +71,13 @@ shared_examples 'zookeeper' do |os_facts|
   context 'setting minSessionTimeout' do
     let(:params) do
       {
-        min_session_timeout: 3000
+        min_session_timeout: 3000,
       }
     end
 
     it do
       is_expected.to contain_file(
-        '/etc/zookeeper/conf/zoo.cfg'
+        '/etc/zookeeper/conf/zoo.cfg',
       ).with_content(%r{minSessionTimeout=3000})
     end
   end
@@ -85,13 +85,13 @@ shared_examples 'zookeeper' do |os_facts|
   context 'setting maxSessionTimeout' do
     let(:params) do
       {
-        max_session_timeout: 60_000
+        max_session_timeout: 60_000,
       }
     end
 
     it do
       is_expected.to contain_file(
-        '/etc/zookeeper/conf/zoo.cfg'
+        '/etc/zookeeper/conf/zoo.cfg',
       ).with_content(%r{maxSessionTimeout=60000})
     end
   end
@@ -99,7 +99,7 @@ shared_examples 'zookeeper' do |os_facts|
   context 'disable service management' do
     let(:params) do
       {
-        manage_service: false
+        manage_service: false,
       }
     end
 
@@ -108,7 +108,7 @@ shared_examples 'zookeeper' do |os_facts|
     it { is_expected.not_to contain_class('zookeeper::service') }
   end
 
-  if os_facts[:os]['family'] =~ %r{RedHat|Suse}
+  if %r{RedHat|Suse}.match?(os_facts[:os]['family'])
     context 'Do not use cloudera by default' do
       it { is_expected.to compile.with_all_deps }
       it { is_expected.to contain_class('zookeeper::install::repo') }
@@ -119,7 +119,7 @@ shared_examples 'zookeeper' do |os_facts|
       let(:params) do
         {
           repo: 'cloudera',
-          cdhver: '5'
+          cdhver: '5',
         }
       end
 
@@ -133,9 +133,9 @@ shared_examples 'zookeeper' do |os_facts|
             repo: {
               'name'  => 'myrepo',
               'url'   => 'http://repo.url',
-              'descr' => 'custom repo'
+              'descr' => 'custom repo',
             },
-            cdhver: '5'
+            cdhver: '5',
           }
         end
 
@@ -148,7 +148,7 @@ shared_examples 'zookeeper' do |os_facts|
     context 'autodetect provider' do
       it { is_expected.to contain_package('zookeeper').with(ensure: 'present') }
 
-      if os_facts[:os]['family'] =~ %r{RedHat|Suse}
+      if %r{RedHat|Suse}.match?(os_facts[:os]['family'])
         it { is_expected.to contain_package('zookeeper-server').with(ensure: 'present') }
       else
         it { is_expected.not_to contain_package('zookeeper-server').with(ensure: 'present') }
@@ -168,7 +168,7 @@ shared_examples 'zookeeper' do |os_facts|
 
     let(:params) do
       {
-        ensure: version
+        ensure: version,
       }
     end
 
@@ -190,13 +190,13 @@ shared_examples 'zookeeper' do |os_facts|
         log_dir: '/var/log/zookeeper',
         manage_service: true,
         manage_service_file: true,
-        service_provider: 'init'
+        service_provider: 'init',
       }
     end
 
     it do
       is_expected.to contain_file(
-        '/etc/zookeeper/conf/log4j.properties'
+        '/etc/zookeeper/conf/log4j.properties',
       ).with_content(%r{zookeeper.log.dir=/var/log/zookeeper})
     end
 
@@ -208,16 +208,16 @@ shared_examples 'zookeeper' do |os_facts|
       end
     end
 
-    if os_facts[:os]['family'] =~ %r{RedHat|Suse}
+    if %r{RedHat|Suse}.match?(os_facts[:os]['family'])
       it do
         is_expected.to contain_file(
-          "/etc/init.d/#{service_name}"
+          "/etc/init.d/#{service_name}",
         ).with_content(%r{pidfile=/var/run/zookeeper.pid})
       end
     else
       it do
         is_expected.to contain_file(
-          environment_file
+          environment_file,
         ).with_content(%r{PIDFILE=/var/run/zookeeper.pid})
       end
     end
@@ -226,7 +226,7 @@ shared_examples 'zookeeper' do |os_facts|
   context 'create env file' do
     it do
       is_expected.to contain_file(
-        environment_file
+        environment_file,
       )
     end
   end
@@ -236,7 +236,7 @@ shared_examples 'zookeeper' do |os_facts|
       {
         service_provider: 'exhibitor',
         service_name: 'zookeeper',
-        cfg_dir: '/opt/zookeeper/conf'
+        cfg_dir: '/opt/zookeeper/conf',
       }
     end
 
@@ -250,7 +250,7 @@ shared_examples 'zookeeper' do |os_facts|
     let(:params) do
       {
         install_method: 'archive',
-        archive_version: '3.4.9'
+        archive_version: '3.4.9',
       }
     end
 

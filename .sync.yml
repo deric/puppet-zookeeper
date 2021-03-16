@@ -8,14 +8,17 @@
 .github/PULL_REQUEST_TEMPLATE.md:
   delete: true
 
+.gitlab-ci.yml:
+  delete: true
+
 .travis.yml:
+  remove_branches:
+    - main
+    - /^v\d/
   docker_sets:
-    - set: debian8-64
     - set: debian9-64
     - set: debian10-64
-    - set: ubuntu1604-64
     - set: ubuntu1804-64
-    - set: centos6-64
     - set: centos7-64
   irc: false
   user: 'deric'
@@ -26,3 +29,15 @@ Rakefile:
 
 spec/spec_helper.rb:
   spec_overrides: "require 'spec_helper_local' if File.file?(File.join(File.dirname(__FILE__), 'spec_helper_local.rb'))"
+
+Gemfile:
+  required:
+    ":development":
+      - gem: 'overcommit'
+  optional:
+    ':acceptance':
+      - gem: beaker
+      - gem: beaker-rspec
+      - gem: beaker-docker
+      - gem: beaker-puppet_install_helper
+      - gem: beaker-module_install_helper

@@ -4,7 +4,7 @@ require 'beaker/puppet_install_helper'
 require 'beaker/module_install_helper'
 
 run_puppet_install_helper unless ENV['BEAKER_provision'] == 'no'
-install_ca_certs unless ENV['PUPPET_INSTALL_TYPE'] =~ %r{pe}i
+install_ca_certs unless %r{pe}i.match?(ENV['PUPPET_INSTALL_TYPE'])
 install_module_on(hosts)
 install_module_dependencies_on(hosts)
 
@@ -29,7 +29,7 @@ RSpec.configure do |c|
       on host, puppet('resource', 'package', 'net-tools', 'ensure=installed')
       on host, puppet('resource', 'package', 'netcat-openbsd', 'ensure=installed')
     end
-    if host[:platform] =~ %r{el-7-x86_64} && host[:hypervisor] =~ %r{docker}
+    if host[:platform].include?('el-7-x86_64') && host[:hypervisor].include?('docker')
       on(host, "sed -i '/nodocs/d' /etc/yum.conf")
     end
   end

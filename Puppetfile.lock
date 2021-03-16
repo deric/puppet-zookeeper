@@ -1,0 +1,15 @@
+FORGE
+  remote: https://forgeapi.puppetlabs.com
+  specs:
+    puppet-archive (4.4.0)
+      puppetlabs-stdlib (< 7.0.0, >= 4.18.0)
+    puppet-cron (2.0.0)
+    puppetlabs-stdlib (6.2.0)
+    puppetlabs-yumrepo_core (1.0.6)
+
+DEPENDENCIES
+  puppet-archive (< 5.0.0, >= 0.4.4)
+  puppet-cron (>= 1.3.1)
+  puppetlabs-stdlib (< 7.0.0, >= 2.3.3)
+  puppetlabs-yumrepo_core (>= 1.0.3)
+

@@ -17,9 +17,10 @@ shared_examples 'zookeeper repo release support' do |os_facts|
     end
 
     it do
-      expect do
+      expect {
         is_expected.to compile
-      end.to raise_error(%r{is not supported for #{os_name} version #{os_release}}) end
+      }.to raise_error(%r{is not supported for #{os_name} version #{os_release}})
+    end
   end
 end
 
@@ -35,9 +36,10 @@ shared_examples 'zookeeper repo arch support' do |os_facts|
     end
 
     it do
-      expect do
+      expect {
         is_expected.to compile
-      end.to raise_error(%r{is not supported for architecture #{os_hardware}}) end
+      }.to raise_error(%r{is not supported for architecture #{os_hardware}})
+    end
   end
 end
 
@@ -53,7 +55,7 @@ shared_examples 'zookeeper repo' do |os_facts|
   os_release = os_facts[:os]['release']['major']
   os_hardware = os_facts[:os]['hardware']
 
-  if os_facts[:os]['family'] =~ %r{RedHat|Suse}
+  if %r{RedHat|Suse}.match?(os_facts[:os]['family'])
     context 'Cloudera repo' do
       let :pre_condition do
         'class {"zookeeper":
@@ -77,9 +79,10 @@ shared_examples 'zookeeper repo' do |os_facts|
     end
 
     it do
-      expect do
+      expect {
         is_expected.to compile
-      end.to raise_error(%r{is not a supported cloudera repo.}) end
+      }.to raise_error(%r{is not a supported cloudera repo.})
+    end
   end
 
   context 'fail when repository source not supported' do
@@ -90,9 +93,10 @@ shared_examples 'zookeeper repo' do |os_facts|
     end
 
     it do
-      expect do
+      expect {
         is_expected.to compile
-      end.to raise_error(%r{provides no repository information for yum repository}) end
+      }.to raise_error(%r{provides no repository information for yum repository})
+    end
   end
 end
 
@@ -115,9 +119,9 @@ describe 'zookeeper::install::repo' do
       supported_os: [
         {
           'operatingsystem'        => 'RedHat',
-          'operatingsystemrelease' => ['7']
-        }
-      ]
+          'operatingsystemrelease' => ['7'],
+        },
+      ],
     }
     on_supported_os(test_on).each do |os, os_facts|
       context "on #{os}" do
@@ -135,9 +139,9 @@ describe 'zookeeper::install::repo' do
       supported_os: [
         {
           'operatingsystem'        => 'RedHat',
-          'operatingsystemrelease' => ['8']
-        }
-      ]
+          'operatingsystemrelease' => ['8'],
+        },
+      ],
     }
     on_supported_os(test_on).each do |os, os_facts|
       os_facts[:os]['hardware'] = 'x86_64'
