@@ -2,13 +2,15 @@
 
 All notable changes to this project will be documented in this file. The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) and this project adheres to [Semantic Versioning](http://semver.org).
 
-## [v1.1.0](https://github.com/deric/puppet-zookeeper/tree/v1.1.0) (2021-03-16)
+## [v1.1.0](https://github.com/deric/puppet-zookeeper/tree/v1.1.0) (2021-03-17)
 
 [Full Changelog](https://github.com/deric/puppet-zookeeper/compare/v1.0.0...v1.1.0)
 
 ### Added
 
+- Add quorum\_listen\_on\_all\_ips option [\#168](https://github.com/deric/puppet-zookeeper/pull/168) ([Wiston999](https://github.com/Wiston999))
 - Add var for preAllocSize [\#166](https://github.com/deric/puppet-zookeeper/pull/166) ([deemon87](https://github.com/deemon87))
+- Metrics provider [\#165](https://github.com/deric/puppet-zookeeper/pull/165) ([deemon87](https://github.com/deemon87))
 - Allow changing initialize datastore binary path [\#163](https://github.com/deric/puppet-zookeeper/pull/163) ([olevole](https://github.com/olevole))
 - add port\_unification parameter [\#159](https://github.com/deric/puppet-zookeeper/pull/159) ([jduepmeier](https://github.com/jduepmeier))
 - Add support for parameter secureClientPort [\#156](https://github.com/deric/puppet-zookeeper/pull/156) ([dhoppe](https://github.com/dhoppe))
