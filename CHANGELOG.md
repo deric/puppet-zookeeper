@@ -2,6 +2,11 @@
 
 All notable changes to this project will be documented in this file. The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) and this project adheres to [Semantic Versioning](http://semver.org).
 
+## [v1.2.0](https://github.com/deric/puppet-zookeeper/tree/v1.2.0) (2021-08-04)
+
+- Dropped Puppet 5 support, added Puppet 7
+- Allow latest archive and stdlib dependencies [#171](https://github.com/deric/puppet-zookeeper/pull/171)
+
 ## [v1.1.0](https://github.com/deric/puppet-zookeeper/tree/v1.1.0) (2021-03-17)
 
 [Full Changelog](https://github.com/deric/puppet-zookeeper/compare/v1.0.0...v1.1.0)
