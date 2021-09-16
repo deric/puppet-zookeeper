@@ -8,7 +8,7 @@ class zookeeper::install::archive inherits zookeeper::install {
   if versioncmp($zookeeper::archive_version, '3.5.5') >= 0 {
     $filename = "apache-${module_name}-${zookeeper::archive_version}-bin"
     $archive_dl_site = $zookeeper::archive_dl_site ? {
-      undef   => 'http://apache.org/dist/zookeeper',
+      undef   => 'https://downloads.apache.org/zookeeper',
       default => $zookeeper::archive_dl_site,
     }
   } else {
