@@ -14,8 +14,6 @@ class zookeeper::install inherits zookeeper {
       fail('Java installation is required, but no java package was provided.')
     }
 
-    validate_string($zookeeper::java_package)
-
     # Make sure the Java package is only installed once.
     anchor { 'zookeeper::install::java': }
 
