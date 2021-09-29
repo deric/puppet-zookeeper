@@ -10,7 +10,7 @@
   "dependencies": [
     {
       "name": "puppet/archive",
-      "version_requirement": ">= 0.4.4 < 6.0.0"
+      "version_requirement": ">= 0.4.4 < 7.0.0"
     },
     {
       "name": "puppet/cron",
@@ -18,7 +18,7 @@
     },
     {
       "name": "puppetlabs/stdlib",
-      "version_requirement": ">= 2.3.3 < 8.0.0"
+      "version_requirement": ">= 2.3.3 < 9.0.0"
     },
     {
       "name": "puppetlabs/yumrepo_core",
@@ -46,14 +46,16 @@
       "operatingsystemrelease": [
         "8",
         "9",
-        "10"
+        "10",
+        "11"
       ]
     },
     {
       "operatingsystem": "Ubuntu",
       "operatingsystemrelease": [
         "16.04",
-        "18.04"
+        "18.04",
+        "20.04"
       ]
     },
     {
