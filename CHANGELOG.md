@@ -2,10 +2,22 @@
 
 All notable changes to this project will be documented in this file. The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) and this project adheres to [Semantic Versioning](http://semver.org).
 
+## [v1.2.1](https://github.com/deric/puppet-zookeeper/tree/v1.2.1) (2021-10-08)
+
+[Full Changelog](https://github.com/deric/puppet-zookeeper/compare/v1.2.0...v1.2.1)
+
+### UNCATEGORIZED PRS; LABEL THEM ON GITHUB
+
+- Get rid of validate\_string due to deprecation [\#173](https://github.com/deric/puppet-zookeeper/pull/173) ([weastur](https://github.com/weastur))
+- Change default archive url [\#172](https://github.com/deric/puppet-zookeeper/pull/172) ([weastur](https://github.com/weastur))
+
 ## [v1.2.0](https://github.com/deric/puppet-zookeeper/tree/v1.2.0) (2021-08-04)
 
-- Dropped Puppet 5 support, added Puppet 7
-- Allow latest archive and stdlib dependencies [#171](https://github.com/deric/puppet-zookeeper/pull/171)
+[Full Changelog](https://github.com/deric/puppet-zookeeper/compare/v1.1.0...v1.2.0)
+
+### UNCATEGORIZED PRS; LABEL THEM ON GITHUB
+
+- allow latest archive and stdlib dependencies [\#171](https://github.com/deric/puppet-zookeeper/pull/171) ([kenyon](https://github.com/kenyon))
 
 ## [v1.1.0](https://github.com/deric/puppet-zookeeper/tree/v1.1.0) (2021-03-17)
 
