@@ -152,7 +152,8 @@ serverCnxnFactory=org.apache.zookeeper.server.NettyServerCnxnFactory
 ssl.protocol=<%= scope.lookupvar("zookeeper::ssl_protocol") %>
 # Hostname verification (default yes)
 ssl.hostnameVerification=<%= scope.lookupvar("zookeeper::ssl_hostname_verification") %>
-
+# Client authentication
+ssl.clientAuth=<%= scope.lookupvar("zookeeper::ssl_clientauth") %>
 
 ## Hint: if PEM is used, private key must be in PKCS#8 format
 # Line must begin with "-----BEGIN PRIVATE KEY-----" 

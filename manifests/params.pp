@@ -133,6 +133,7 @@ class zookeeper::params {
   $ssl_protocol = 'TLSv1.2'
   $ssl_ciphersuites = ''
   $ssl_hostname_verification = true
+  $ssl_clientauth = 'none'
   $keystore_location = "/etc/zookeeper/conf/keystores/${::fqdn}.pem"
   $keystore_type = 'PEM'
   $keystore_password = undef
