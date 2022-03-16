@@ -32,7 +32,7 @@ class zookeeper::params {
     }
     'RedHat': {
       case $os_name {
-        'RedHat', 'CentOS': {
+        'RedHat', 'CentOS', 'Rocky': {
           if versioncmp($os_release, '7') < 0 {
             $initstyle = 'redhat'
           } else {
