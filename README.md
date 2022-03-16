@@ -346,7 +346,7 @@ rake beaker:sets
 ## Supported platforms
 
   * Debian/Ubuntu
-  * RedHat/CentOS/Fedora
+  * RedHat/CentOS/Fedora/Rocky
 
 ### Tested on:
 
