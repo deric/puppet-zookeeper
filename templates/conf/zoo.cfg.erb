@@ -156,7 +156,7 @@ ssl.hostnameVerification=<%= scope.lookupvar("zookeeper::ssl_hostname_verificati
 ssl.clientAuth=<%= scope.lookupvar("zookeeper::ssl_clientauth") %>
 
 ## Hint: if PEM is used, private key must be in PKCS#8 format
-# Line must begin with "-----BEGIN PRIVATE KEY-----" 
+# Line must begin with "-----BEGIN PRIVATE KEY-----"
 # and not "-----BEGIN RSA PRIVATE KEY-----"
 # Client TLS configuration
 ssl.keyStore.location=<%= scope.lookupvar("zookeeper::keystore_location") %>
@@ -167,10 +167,10 @@ ssl.keyStore.password=<%= scope.lookupvar("zookeeper::keystore_password") %>
 
 
 ## Hint: if PEM is used, private key must be in PKCS#8 format
-# Line must begin with "-----BEGIN PRIVATE KEY-----" 
+# Line must begin with "-----BEGIN PRIVATE KEY-----"
 # and not "-----BEGIN RSA PRIVATE KEY-----"
 ssl.trustStore.location=<%= scope.lookupvar("zookeeper::truststore_location") %>
-ssl.trustStore.type=<%= scope.lookupvar("zookeeper::keystore_type") %>
+ssl.trustStore.type=<%= scope.lookupvar("zookeeper::truststore_type") %>
 <% if scope.lookupvar("zookeeper::truststore_password") %>
 ssl.trustStore.password=<%= scope.lookupvar("zookeeper::truststore_password") %>
 <% end -%>
@@ -187,7 +187,7 @@ ssl.quorum.protocol=<%= scope.lookupvar("zookeeper::ssl_quorum_protocol") %>
 ssl.quorum.hostnameVerification=<%= scope.lookupvar("zookeeper::ssl_quorum_hostname_verification") %>
 
 ## Hint: if PEM is used, private key must be in PKCS#8 format
-# Line must begin with "-----BEGIN PRIVATE KEY-----" 
+# Line must begin with "-----BEGIN PRIVATE KEY-----"
 # and not "-----BEGIN RSA PRIVATE KEY-----"
 ssl.quorum.keyStore.location=<%= scope.lookupvar("zookeeper::keystore_quorum_location") %>
 ssl.quorum.keyStore.type=<%= scope.lookupvar("zookeeper::keystore_quorum_type") %>
@@ -195,9 +195,9 @@ ssl.quorum.keyStore.type=<%= scope.lookupvar("zookeeper::keystore_quorum_type") 
 ssl.quorum.keyStore.password=<%= scope.lookupvar("zookeeper::keystore_quorum_password") %>
 <% end -%>
 
-ssl.quorum.trustStore.type=<%= scope.lookupvar("zookeeper::keystore_quorum_type") %>
+ssl.quorum.trustStore.type=<%= scope.lookupvar("zookeeper::truststore_quorum_type") %>
 ## Hint: if PEM is used, private key must be in PKCS#8 format
-# Line must begin with "-----BEGIN PRIVATE KEY-----" 
+# Line must begin with "-----BEGIN PRIVATE KEY-----"
 # and not "-----BEGIN RSA PRIVATE KEY-----"
 ssl.quorum.trustStore.location=<%= scope.lookupvar("zookeeper::truststore_quorum_location") %>
 <% if scope.lookupvar("zookeeper::truststore_quorum_password") %>
