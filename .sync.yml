@@ -1,16 +1,16 @@
 ---
 .github/CONTRIBUTING.md:
   delete: true
-
 .github/ISSUE_TEMPLATE.md:
   delete: true
-
 .github/PULL_REQUEST_TEMPLATE.md:
   delete: true
-
 .gitlab-ci.yml:
   delete: true
-
+.gitignore:
+  paths:
+    - '/.vscode/'
+    - '/.devcontainer/'
 .travis.yml:
   remove_branches:
     - main
