@@ -191,7 +191,7 @@ ssl.quorum.hostnameVerification=<%= scope.lookupvar("zookeeper::ssl_quorum_hostn
 # and not "-----BEGIN RSA PRIVATE KEY-----"
 ssl.quorum.keyStore.location=<%= scope.lookupvar("zookeeper::keystore_quorum_location") %>
 ssl.quorum.keyStore.type=<%= scope.lookupvar("zookeeper::keystore_quorum_type") %>
-<% if scope.lookupvar("zookeeper::keystore_keystore_quorum_password") %>
+<% if scope.lookupvar("zookeeper::keystore_quorum_password") %>
 ssl.quorum.keyStore.password=<%= scope.lookupvar("zookeeper::keystore_quorum_password") %>
 <% end -%>
 
