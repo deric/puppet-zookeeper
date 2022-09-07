@@ -1,0 +1,33 @@
+name: "Static & Spec Tests"
+
+on:
+  - push
+  - pull_request
+
+jobs:
+  StaticAndSpecTests:
+    name: "Static & Spec Tests (Ruby ${{ matrix.ruby_version }})"
+    env:
+      BUNDLE_JOBS: 4
+      BUNDLE_WITH: "development"
+    strategy:
+      fail-fast: false
+      matrix:
+        ruby_version: ['2.7']
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout Source
+      uses: actions/checkout@v2
+
+    - name: "Activate Ruby ${{ matrix.ruby_version }}"
+      uses: ruby/setup-ruby@v1
+      with:
+        ruby-version: ${{ matrix.ruby_version }}
+        bundler-cache: true
+
+    - name: Rubocop
+      run: bundle exec rake rubocop
+
+    - name: 'Spec'
+      run: bundle exec rake spec
