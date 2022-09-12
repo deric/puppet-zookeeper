@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) and this project adheres to [Semantic Versioning](http://semver.org).
 
+## [v1.3.0](https://github.com/deric/puppet-zookeeper/tree/v1.3.0) (2022-09-13)
+
+
+### Features
+
+- Add SSL/TLS support for client and node configuration ([#176](https://github.com/deric/puppet-zookeeper/pull/176))
+- Add support for Rocky Linux 8 ([#176](https://github.com/deric/puppet-zookeeper/pull/176))
+
+### Fixes
+
+- Fix truststore type parameter used in zoo.cfg ruby template ([#180](https://github.com/deric/puppet-zookeeper/pull/180))
+
 ## [v1.2.1](https://github.com/deric/puppet-zookeeper/tree/v1.2.1) (2021-10-08)
 
 [Full Changelog](https://github.com/deric/puppet-zookeeper/compare/v1.2.0...v1.2.1)
