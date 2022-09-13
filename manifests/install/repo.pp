@@ -5,7 +5,7 @@
 # PRIVATE CLASS - do not use directly (use main `zookeeper` class).
 class zookeeper::install::repo inherits zookeeper::install {
   if $zookeeper::repo {
-    case $facts['os']['family']{
+    case $facts['os']['family'] {
       'RedHat', 'Suse': {
         $_config = $zookeeper::repo
         validate_hash($_config)

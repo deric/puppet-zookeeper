@@ -24,7 +24,7 @@ class zookeeper::params {
         'service_name'             => 'zookeeper',
         'service_provider'         => $initstyle,
         'shell'                    => '/bin/false',
-        'initialize_datastore_bin' => '/usr/bin/zookeeper-server-initialize'
+        'initialize_datastore_bin' => '/usr/bin/zookeeper-server-initialize',
       }
       # 'environment' file probably read just by Debian
       # see #16, #81
@@ -49,7 +49,7 @@ class zookeeper::params {
         'service_name'             => 'zookeeper-server',
         'service_provider'         => $initstyle,
         'shell'                    => '/sbin/nologin',
-        'initialize_datastore_bin' => '/usr/bin/zookeeper-server-initialize'
+        'initialize_datastore_bin' => '/usr/bin/zookeeper-server-initialize',
       }
       $environment_file = 'java.env'
     }
@@ -66,7 +66,7 @@ class zookeeper::params {
         'service_name'             => 'zookeeper-server',
         'service_provider'         => $initstyle,
         'shell'                    => '/bin/false',
-        'initialize_datastore_bin' => '/usr/bin/zookeeper-server-initialize'
+        'initialize_datastore_bin' => '/usr/bin/zookeeper-server-initialize',
       }
       $environment_file = 'java.env'
     }
@@ -134,13 +134,13 @@ class zookeeper::params {
   $ssl_ciphersuites = ''
   $ssl_hostname_verification = true
   $ssl_clientauth = 'none'
-  $keystore_location = "/etc/zookeeper/conf/keystores/${::fqdn}.pem"
+  $keystore_location = "/etc/zookeeper/conf/keystores/${facts['networking']['fqdn']}.pem"
   $keystore_type = 'PEM'
   $keystore_password = undef
   $truststore_location = '/etc/ssl/certs/ca-certificates.crt'
   $truststore_type = 'PEM'
   $truststore_password = undef
-  $keystore_quorum_location = "/etc/zookeeper/conf/keystores/${::fqdn}.pem"
+  $keystore_quorum_location = "/etc/zookeeper/conf/keystores/${facts['networking']['fqdn']}.pem"
   $keystore_quorum_type = 'PEM'
   $keystore_quorum_password = undef
   $truststore_quorum_location = '/etc/ssl/certs/ca-certificates.crt'
