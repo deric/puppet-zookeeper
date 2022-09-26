@@ -34,6 +34,8 @@ class zookeeper (
   Boolean                                    $archive_symlink                  = $zookeeper::params::archive_symlink,
   String                                     $archive_symlink_name             = $zookeeper::params::archive_symlink_name,
   String                                     $archive_version                  = $zookeeper::params::archive_version,
+  Optional[String]                           $repo_user                        = $zookeeper::params::repo_user,
+  Optional[String]                           $repo_password                    = $zookeeper::params::repo_password,
   Optional[String]                           $proxy_server                     = $zookeeper::params::proxy_server,
   Optional[String]                           $proxy_type                       = $zookeeper::params::proxy_type,
   Optional[String]                           $cdhver                           = $zookeeper::params::cdhver,

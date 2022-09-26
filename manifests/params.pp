@@ -104,6 +104,8 @@ class zookeeper::params {
   $java_opts = ''
   $java_package = undef
   $repo = undef
+  $repo_user = undef
+  $repo_password = undef
   $proxy_server = undef
   $proxy_type = undef
 

@@ -34,6 +34,8 @@ class zookeeper::install::archive inherits zookeeper::install {
     checksum      => $zookeeper::archive_checksum['hash'],
     checksum_type => $zookeeper::archive_checksum['type'],
     extract_path  => $zookeeper::archive_install_dir,
+    username      => $zookeeper::repo_user,
+    password      => $zookeeper::repo_password,
     # Extract files as the user doing the extracting, which is the user
     # that runs Puppet, usually root
     extract_flags => '-x --no-same-owner -f',
