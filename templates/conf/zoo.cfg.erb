@@ -20,9 +20,13 @@ dataLogDir=<%= scope.lookupvar("zookeeper::datalogstore") %>
 <% end -%>
 
 # the port at which the clients will connect
+<% if scope.lookupvar("zookeeper::secure_port_only") -%>
+#clientPort=
+<% else -%>
 clientPort=<%= scope.lookupvar("zookeeper::client_port") %>
+<% end -%>
 # interface to bind
-<% if ! [nil, :undefined, :undef].include?(scope.lookupvar("zookeeper::client_ip")) -%>
+<% if ! [nil, :undefined, :undef].include?(scope.lookupvar("zookeeper::client_ip")) and ! scope.lookupvar("zookeeper::secure_port_only") -%>
 clientPortAddress=<%= scope.lookupvar("zookeeper::client_ip") %>
 <% else -%>
 #clientPortAddress=
