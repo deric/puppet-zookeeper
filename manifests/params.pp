@@ -128,8 +128,11 @@ class zookeeper::params {
   $cleanup_sh = '/usr/share/zookeeper/bin/zkCleanup.sh'
   $client_ip = undef # use e.g. $::ipaddress if you want to bind to single interface
   $client_port = 2181
+  $commit_log_count = 500
   $secure_client_port = undef
   $ssl = false
+  $enforce_auth_enabled = undef
+  $enforce_auth_schemes = undef
   $ssl_protocol = 'TLSv1.2'
   $ssl_ciphersuites = ''
   $ssl_hostname_verification = true
@@ -146,6 +149,7 @@ class zookeeper::params {
   $truststore_quorum_location = '/etc/ssl/certs/ca-certificates.crt'
   $truststore_quorum_password = undef
   $truststore_quorum_type = 'PEM'
+  $ssl_quorum_clientauth = undef
   $ssl_quorum_ciphersuites = ''
   $ssl_quorum_hostname_verification = true
   $ssl_quorum_protocol = 'TLSv1.2'
@@ -168,6 +172,7 @@ class zookeeper::params {
   $max_allowed_connections = undef
   $max_session_timeout = undef
   $min_session_timeout = undef
+  $max_connexions = undef
   $observers = []
   # interval in hours, purging enabled when >= 1
   $purge_interval = 0
@@ -176,12 +181,23 @@ class zookeeper::params {
   $snap_count = 10000
   # since zookeeper 3.4, for earlier version cron task might be used
   $snap_retain_count = 3
+  $snap_size_limit_kb = 4194304
   $sync_limit = 5
   $tick_time = 2000
+  $txn_log_size_limit_kb = undef
   $global_outstanding_limit = 1000
   $use_sasl_auth = false
   $zoo_dir = '/usr/lib/zookeeper'
   $zoo_main = 'org.apache.zookeeper.server.quorum.QuorumPeerMain'
+
+  # Admin server properties
+  $admin_server_enabled = true
+  $admin_server_address = "0.0.0.0"
+  $admin_server_port = 8080
+  $admin_idle_timeout = 30000
+  $admin_command_url = "/commands"
+  $admin_force_https = false
+  $admin_port_unification = false
 
   # log4j properties
   $log4j_prop = 'INFO,ROLLINGFILE'

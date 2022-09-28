@@ -71,6 +71,42 @@ preAllocSize=<%= scope.lookupvar("zookeeper::pre_alloc_size") %>
 # snapCount is 10,000.
 snapCount=<%= scope.lookupvar("zookeeper::snap_count") %>
 
+# ZooKeeper records its transactions using snapshots and a transaction log
+# (think write-ahead log). The total size in bytes allowed in the set of
+# transactions recorded in the transaction log before a snapshot can be taken
+# (and the transaction log rolled) is determined by snapSize.
+# In order to prevent all of the machines in the quorum from taking a snapshot
+# at the same time, each ZooKeeper server will take a snapshot when the
+# size in bytes of the set of transactions in the transaction log reaches a
+# runtime generated random value in the [snapSize/2+1, snapSize] range.
+# Each file system has a minimum standard file size and in order to for
+# valid functioning of this feature, the number chosen must be larger than
+# that value. The default snapSizeLimitInKb is 4,194,304 (4GB).
+# A non-positive value will disable the feature.
+snapSizeLimitInKb=<%= scope.lookupvar("zookeeper::snap_size_limit_kb") %>
+
+# Zookeeper maintains an in-memory list of last committed requests for fast
+# synchronization with followers when the followers are not too behind.
+# This improves sync performance in case when your snapshots are
+# large (>100,000). The default value is 500 which is the recommended minimum.
+commitLogCount=<%= scope.lookupvar("zookeeper::commit_log_count") %>
+
+# Transaction log file size in Kb
+# This feature is turned off by default and snapCount and
+# snapSizeLimitInKb are the only values that limit transaction log size.
+# When enabled Zookeeper will roll the log when any of the limits is hit.
+# Please note that actual log size can exceed this value by the size of the
+# serialized transaction. On the other hand, if this value is set too close
+# to (or smaller than) preAllocSize, it can cause Zookeeper to roll the log for
+# every transaction. While this is not a correctness issue, this may cause
+# severely degraded performance. To avoid this and to get most out of this
+# feature, it is recommended to set the value to N * preAllocSize where N >= 2.
+<% if ! [nil, :undefined, :undef].include?(scope.lookupvar("zookeeper::txn_log_size_limit_kb")) -%>
+txnLogSizeLimitInKb=<%= scope.lookupvar("zookeeper::txn_log_size_limit_kb") %>
+<% else -%>
+# txnLogSizeLimitInKb=
+<% end -%>
+
 # If this option is defined, requests will be will logged to a trace file named
 # traceFile.year.month.day.
 #traceFile=
@@ -100,7 +136,15 @@ autopurge.snapRetainCount=<%= scope.lookupvar("zookeeper::snap_retain_count") %>
 # Defaults to 0.
 autopurge.purgeInterval=<%= scope.lookupvar("zookeeper::purge_interval") %>
 
-# Maximum allowed connections
+# Maximum of concurrent connections (per client Port of each server )
+<% if ! [nil, :undefined, :undef].include?(scope.lookupvar("zookeeper::max_connexions")) -%>
+maxCnxns=<%= scope.lookupvar("zookeeper::max_connexions") %>
+<% else -%>
+#maxCnxns=0
+<% end -%>
+
+# Maximum of concurrent connections (at the socket level) that a single client
+# identified by IP address, may make to a single member of the ZooKeeper ensemble
 <% if ! [nil, :undefined, :undef].include?(scope.lookupvar("zookeeper::max_allowed_connections")) -%>
 maxClientCnxns=<%= scope.lookupvar("zookeeper::max_allowed_connections") %>
 <% else -%>
@@ -112,14 +156,16 @@ maxClientCnxns=<%= scope.lookupvar("zookeeper::max_allowed_connections") %>
 peerType=<%= scope.lookupvar("zookeeper::peer_type") %>
 <% end -%>
 
-# The minimum session timeout in milliseconds that the server will allow the # client to negotiate. Defaults to 2 times the tickTime.
+# The minimum session timeout in milliseconds that the server will allow the
+# client to negotiate. Defaults to 2 times the tickTime.
 <% if ! [nil, :undefined, :undef].include?(scope.lookupvar("zookeeper::min_session_timeout")) -%>
 minSessionTimeout=<%= scope.lookupvar("zookeeper::min_session_timeout") %>
 <% else -%>
 #minSessionTimeout=2
 <% end -%>
 
-# The maximum session timeout in milliseconds that the server will allow the # client to negotiate. Defaults to 20 times the tickTime.
+# The maximum session timeout in milliseconds that the server will allow the
+# client to negotiate. Defaults to 20 times the tickTime.
 <% if ! [nil, :undefined, :undef].include?(scope.lookupvar("zookeeper::max_session_timeout")) -%>
 maxSessionTimeout=<%= scope.lookupvar("zookeeper::max_session_timeout") %>
 <% else -%>
@@ -148,6 +194,20 @@ secureClientPort=<%= scope.lookupvar("zookeeper::secure_client_port") %>
 
 # Client TLS configuration
 serverCnxnFactory=org.apache.zookeeper.server.NettyServerCnxnFactory
+# Server will only accept connections and requests from clients that have
+# authenticated with server via configured auth scheme
+<% if ! [nil, :undefined, :undef].include?(scope.lookupvar("zookeeper::enforce_auth_enabled")) -%>
+enforce.auth.enabled=<%= scope.lookupvar("zookeeper::enforce_auth_enabled") %>
+# Comma separated list of authentication schemes
+<% if ! [nil, :undefined, :undef].include?(scope.lookupvar("zookeeper::enforce_auth_schemes")) -%>
+enforce.auth.schemes=<%= scope.lookupvar("zookeeper::enforce_auth_schemes") %>
+<% else -%>
+#enforce.auth.schemes=
+<% end -%>
+<% else -%>
+#enforce.auth.enabled=
+<% end -%>
+
 # Force TLS version
 ssl.protocol=<%= scope.lookupvar("zookeeper::ssl_protocol") %>
 # Hostname verification (default yes)
@@ -164,7 +224,6 @@ ssl.keyStore.type=<%= scope.lookupvar("zookeeper::keystore_type") %>
 <% if scope.lookupvar("zookeeper::keystore_password") %>
 ssl.keyStore.password=<%= scope.lookupvar("zookeeper::keystore_password") %>
 <% end -%>
-
 
 ## Hint: if PEM is used, private key must be in PKCS#8 format
 # Line must begin with "-----BEGIN PRIVATE KEY-----"
@@ -185,7 +244,10 @@ sslQuorum=<%= scope.lookupvar("zookeeper::ssl_quorum") %>
 ssl.quorum.protocol=<%= scope.lookupvar("zookeeper::ssl_quorum_protocol") %>
 # Hostname verification from node to node (default yes)
 ssl.quorum.hostnameVerification=<%= scope.lookupvar("zookeeper::ssl_quorum_hostname_verification") %>
-
+<% if ! [nil, :undefined, :undef].include?(scope.lookupvar("zookeeper::ssl_quorum_clientauth")) -%>
+# Client authentication from node to node
+ssl.quorum.clientAuth=<%= scope.lookupvar("zookeeper::ssl_quorum_clientauth") %>
+<% end -%>
 ## Hint: if PEM is used, private key must be in PKCS#8 format
 # Line must begin with "-----BEGIN PRIVATE KEY-----"
 # and not "-----BEGIN RSA PRIVATE KEY-----"
@@ -213,6 +275,26 @@ ssl.quorum.ciphersuites=<%=ssl.ciphersuites=scope.lookupvar("zookeeper:ssl_quoru
 <% unless scope.lookupvar("zookeeper::whitelist_4lw").empty? -%>
 # Supported since 3.4.10
 4lw.commands.whitelist=<%= scope.lookupvar("zookeeper::whitelist_4lw").join(',') %>
+<% end -%>
+
+## AdminServer configuration
+# Set to "false" to disable the AdminServer. Enabled by default.
+<% if scope.lookupvar("zookeeper::admin_server_enabled") -%>
+admin.enableServer=true
+# The address the embedded Jetty server listens on. Defaults to 0.0.0.0.
+admin.serverAddress=<%= scope.lookupvar("zookeeper::admin_server_address") %>
+# The port the embedded Jetty server listens on. Defaults to 8080.
+admin.serverPort=<%= scope.lookupvar("zookeeper::admin_server_port") %>
+# Maximum idle time in milliseconds that a connection can wait. Defaults to 30000 ms.
+admin.idleTimeout=<%= scope.lookupvar("zookeeper::admin_idle_timeout") %>
+# Commands URL relative to the root URL. Defaults to "/commands".
+admin.commandURL=<%= scope.lookupvar("zookeeper::admin_command_url") %>
+# Force AdminServer to use SSL. Defaults to disabled.
+admin.forceHttps=<%= scope.lookupvar("zookeeper::admin_force_https") %>
+# Accept both HTTP and HTTPS traffic. Defaults to disabled.
+admin.portUnification=<%= scope.lookupvar("zookeeper::admin_port_unification") %>
+<% else -%>
+admin.enableServer=false
 <% end -%>
 
 # Supported since 3.6
