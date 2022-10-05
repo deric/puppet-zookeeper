@@ -62,6 +62,7 @@ class zookeeper (
   Optional[String]                           $client_ip                        = $zookeeper::params::client_ip,
   Integer                                    $client_port                      = $zookeeper::params::client_port,
   Optional[Integer]                          $secure_client_port               = $zookeeper::params::secure_client_port,
+  Optional[Boolean]                          $secure_port_only                 = $zookeeper::params::secure_port_only,
   Optional[Boolean]                          $ssl                              = $zookeeper::params::ssl,
   Optional[String]                           $ssl_clientauth                   = $zookeeper::params::ssl_clientauth,
   Optional[String]                           $keystore_location                = $zookeeper::params::keystore_location,

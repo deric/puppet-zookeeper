@@ -129,6 +129,7 @@ class zookeeper::params {
   $client_ip = undef # use e.g. $::ipaddress if you want to bind to single interface
   $client_port = 2181
   $secure_client_port = undef
+  $secure_port_only = false
   $ssl = false
   $ssl_protocol = 'TLSv1.2'
   $ssl_ciphersuites = ''
