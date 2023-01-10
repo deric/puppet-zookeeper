@@ -210,7 +210,7 @@ ssl.quorum.trustStore.password=<%= scope.lookupvar("zookeeper::truststore_quorum
 
 <% if scope.lookupvar("zookeeper::ssl_quorum_ciphersuites") %>
 # Set allowed Ciphers
-ssl.quorum.ciphersuites=<%=ssl.ciphersuites=scope.lookupvar("zookeeper::ssl_quorum_ciphersuites") %>
+ssl.quorum.ciphersuites=<%=scope.lookupvar("zookeeper::ssl_quorum_ciphersuites") %>
 <% end -%>
 <% end -%>
 
