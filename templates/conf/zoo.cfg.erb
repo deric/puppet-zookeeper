@@ -178,9 +178,9 @@ ssl.trustStore.type=<%= scope.lookupvar("zookeeper::truststore_type") %>
 <% if scope.lookupvar("zookeeper::truststore_password") %>
 ssl.trustStore.password=<%= scope.lookupvar("zookeeper::truststore_password") %>
 <% end -%>
-<% if scope.lookupvar("zookeeper::zookeeper:ssl_ciphersuites") %>
+<% if scope.lookupvar("zookeeper::ssl_ciphersuites") %>
 # Set allowed Ciphers
-ssl.ciphersuites=<%= scope.lookupvar("zookeeper:ssl_ciphersuites") %>
+ssl.ciphersuites=<%= scope.lookupvar("zookeeper::ssl_ciphersuites") %>
 <% end -%>
 
 # Server TLS configuration
@@ -208,9 +208,9 @@ ssl.quorum.trustStore.location=<%= scope.lookupvar("zookeeper::truststore_quorum
 ssl.quorum.trustStore.password=<%= scope.lookupvar("zookeeper::truststore_quorum_password") %>
 <% end -%>
 
-<% if scope.lookupvar("zookeeper::zookeeper:ssl_quorum_ciphersuites") %>
+<% if scope.lookupvar("zookeeper::ssl_quorum_ciphersuites") %>
 # Set allowed Ciphers
-ssl.quorum.ciphersuites=<%=ssl.ciphersuites=scope.lookupvar("zookeeper:ssl_quorum_ciphersuites") %>
+ssl.quorum.ciphersuites=<%=ssl.ciphersuites=scope.lookupvar("zookeeper::ssl_quorum_ciphersuites") %>
 <% end -%>
 <% end -%>
 
