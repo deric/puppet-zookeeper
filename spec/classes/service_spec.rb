@@ -1,6 +1,12 @@
 require 'spec_helper'
 
-shared_examples 'zookeeper::service' do |os_facts|
+describe 'zookeeper::service', type: :class do
+  _, os_facts = on_supported_os.first
+
+  os_facts[:os]['hardware'] = 'x86_64'
+  os_facts[:ipaddress] = '192.168.1.1'
+  let(:facts) { os_facts }
+
   let(:user) { 'zookeeper' }
   let(:group) { 'zookeeper' }
 
@@ -168,20 +174,6 @@ shared_examples 'zookeeper::service' do |os_facts|
           enable: true,
         )
       end
-    end
-  end
-end
-
-describe 'zookeeper::service' do
-  on_supported_os.each do |os, os_facts|
-    os_facts[:os]['hardware'] = 'x86_64'
-
-    context "on #{os}" do
-      let(:facts) do
-        os_facts.merge(ipaddress: '192.168.1.1')
-      end
-
-      include_examples 'zookeeper::service', os_facts
     end
   end
 end

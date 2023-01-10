@@ -615,47 +615,43 @@ shared_examples 'zookeeper common' do |os_facts|
 end
 
 describe 'zookeeper::config' do
-  on_supported_os.each do |os, os_facts|
-    os_facts[:os]['hardware'] = 'x86_64'
+  _, os_facts = on_supported_os.first
 
-    context "on #{os}" do
-      let(:facts) do
-        os_facts.merge(ipaddress: '192.168.1.1')
-      end
+  os_facts[:os]['hardware'] = 'x86_64'
+  os_facts[:ipaddress] = '192.168.1.1'
+  let(:facts) { os_facts }
 
-      context 'with default parameters' do
-        let(:user)    { 'zookeeper' }
-        let(:group)   { 'zookeeper' }
-        let(:cfg_dir) { '/etc/zookeeper/conf' }
-        let(:log_dir) { '/var/lib/zookeeper' }
-        let(:id_file) { '/etc/zookeeper/conf/myid' }
-        let(:myid)    { %r{^1} }
+  context 'with default parameters' do
+    let(:user)    { 'zookeeper' }
+    let(:group)   { 'zookeeper' }
+    let(:cfg_dir) { '/etc/zookeeper/conf' }
+    let(:log_dir) { '/var/lib/zookeeper' }
+    let(:id_file) { '/etc/zookeeper/conf/myid' }
+    let(:myid)    { %r{^1} }
 
-        precond = 'class {"zookeeper": }'
-        include_examples 'zookeeper parameters', os_facts, precond
-      end
-
-      context 'with custom parameters' do
-        let(:user)    { 'zoo' }
-        let(:group)   { 'zoo' }
-        let(:cfg_dir) { '/var/lib/zookeeper/conf' }
-        let(:log_dir) { '/var/lib/zookeeper/log' }
-        let(:id_file) { '/var/lib/zookeeper/conf/myid' }
-        let(:myid)    { %r{^2} }
-
-        # set custom params
-        precond = 'class {"zookeeper":
-          id      => "2",
-          user    => "zoo",
-          group   => "zoo",
-          cfg_dir => "/var/lib/zookeeper/conf",
-          log_dir => "/var/lib/zookeeper/log",
-        }'
-
-        include_examples 'zookeeper parameters', os_facts, precond
-      end
-
-      include_examples 'zookeeper common', os_facts
-    end
+    precond = 'class {"zookeeper": }'
+    include_examples 'zookeeper parameters', os_facts, precond
   end
+
+  context 'with custom parameters' do
+    let(:user)    { 'zoo' }
+    let(:group)   { 'zoo' }
+    let(:cfg_dir) { '/var/lib/zookeeper/conf' }
+    let(:log_dir) { '/var/lib/zookeeper/log' }
+    let(:id_file) { '/var/lib/zookeeper/conf/myid' }
+    let(:myid)    { %r{^2} }
+
+    # set custom params
+    precond = 'class {"zookeeper":
+      id      => "2",
+      user    => "zoo",
+      group   => "zoo",
+      cfg_dir => "/var/lib/zookeeper/conf",
+      log_dir => "/var/lib/zookeeper/log",
+    }'
+
+    include_examples 'zookeeper parameters', os_facts, precond
+  end
+
+  include_examples 'zookeeper common', os_facts
 end

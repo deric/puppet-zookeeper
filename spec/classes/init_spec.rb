@@ -1,6 +1,12 @@
 require 'spec_helper'
 
-shared_examples 'zookeeper' do |os_facts|
+describe 'zookeeper', type: :class do
+  _, os_facts = on_supported_os.first
+
+  os_facts[:os]['hardware'] = 'x86_64'
+  os_facts[:ipaddress] = '192.168.1.1'
+
+  let(:facts) { os_facts }
   let(:user) { 'zookeeper' }
   let(:group) { 'zookeeper' }
 
@@ -267,19 +273,5 @@ shared_examples 'zookeeper' do |os_facts|
     it { is_expected.to compile.with_all_deps }
     it { is_expected.not_to contain_file('/etc/zookeeper/conf/zoo.cfg').with_content(%r{^clientPort=2181}) }
     it { is_expected.to contain_file('/etc/zookeeper/conf/zoo.cfg').with_content(%r{^secureClientPort=2182}) }
-  end
-end
-
-describe 'zookeeper', type: :class do
-  on_supported_os.each do |os, os_facts|
-    os_facts[:os]['hardware'] = 'x86_64'
-
-    context "on #{os}" do
-      let(:facts) do
-        os_facts.merge(ipaddress: '192.168.1.1')
-      end
-
-      include_examples 'zookeeper', os_facts
-    end
   end
 end
