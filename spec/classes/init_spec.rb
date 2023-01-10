@@ -253,6 +253,21 @@ shared_examples 'zookeeper' do |os_facts|
     it { is_expected.to contain_user('zookeeper').with(ensure: 'present') }
     it { is_expected.to contain_group('zookeeper').with(ensure: 'present') }
   end
+
+  context 'configure secure port only' do
+    let(:params) do
+      {
+        ssl: true,
+        client_port: 2181,
+        secure_client_port: 2182,
+        secure_port_only: true,
+      }
+    end
+
+    it { is_expected.to compile.with_all_deps }
+    it { is_expected.not_to contain_file('/etc/zookeeper/conf/zoo.cfg').with_content(%r{^clientPort=2181}) }
+    it { is_expected.to contain_file('/etc/zookeeper/conf/zoo.cfg').with_content(%r{^secureClientPort=2182}) }
+  end
 end
 
 describe 'zookeeper', type: :class do
