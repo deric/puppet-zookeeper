@@ -134,7 +134,7 @@ class zookeeper::params {
   $secure_port_only = false
   $ssl = false
   $ssl_protocol = 'TLSv1.2'
-  $ssl_ciphersuites = ''
+  $ssl_ciphersuites = undef
   $ssl_hostname_verification = true
   $ssl_clientauth = 'none'
   $keystore_location = "/etc/zookeeper/conf/keystores/${facts['networking']['fqdn']}.pem"
@@ -149,7 +149,7 @@ class zookeeper::params {
   $truststore_quorum_location = '/etc/ssl/certs/ca-certificates.crt'
   $truststore_quorum_password = undef
   $truststore_quorum_type = 'PEM'
-  $ssl_quorum_ciphersuites = ''
+  $ssl_quorum_ciphersuites = undef
   $ssl_quorum_hostname_verification = true
   $ssl_quorum_protocol = 'TLSv1.2'
   $ssl_quorum = false
