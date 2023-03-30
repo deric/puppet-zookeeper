@@ -210,6 +210,13 @@ class zookeeper::params {
   # whitelist of Four Letter Words commands, see https://zookeeper.apache.org/doc/r3.4.12/zookeeperAdmin.html#sc_zkCommands
   $whitelist_4lw = []
 
+  # quorum SASL
+  $quorum_auth_enable_sasl = false
+  $quorum_auth_learner_require_sasl = false
+  $quorum_auth_server_require_sasl = false
+  $quorum_sasl_user = undef
+  $quorum_sasl_password = undef
+
   # Metrics Providers
   $metrics_provider_classname = undef
   $metrics_provider_http_port = 7000
