@@ -114,6 +114,7 @@ class zookeeper (
   String                                     $zoo_dir                          = $zookeeper::params::zoo_dir,
   String                                     $zoo_main                         = $zookeeper::params::zoo_main,
   Boolean                                    $quorum_listen_on_all_ips         = $zookeeper::params::quorum_listen_on_all_ips,
+  Boolean                                    $audit_enable                     = $zookeeper::params::audit_enable,
   # log4j properties
   String                                     $environment_file                 = $zookeeper::params::environment_file,
   String                                     $log4j_prop                       = $zookeeper::params::log4j_prop,
@@ -125,6 +126,9 @@ class zookeeper (
   String                                     $tracefile_threshold              = $zookeeper::params::tracefile_threshold,
   String                                     $console_threshold                = $zookeeper::params::console_threshold,
   Hash[String,Hash[String,String]]           $extra_appenders                  = $zookeeper::params::extra_appenders,
+  String                                     $audit_threshold                  = $zookeeper::params::audit_threshold,
+  String                                     $audit_maxfilesize                = $zookeeper::params::audit_maxfilesize,
+  String                                     $audit_maxbackupindex             = $zookeeper::params::audit_maxbackupindex,
   # sasl options
   Hash[String, String]                       $sasl_users                       = $zookeeper::params::sasl_users,
   String                                     $keytab_path                      = $zookeeper::params::keytab_path,

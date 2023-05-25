@@ -236,3 +236,10 @@ metricsProvider.exportJvmInfo=<%= scope.lookupvar("zookeeper::metrics_provider_e
 #metricsProvider.httpPort=7000
 #metricsProvider.exportJvmInfo=true
 <% end -%>
+
+# ZooKeeper Audit Logs (supported since 3.6)
+<% if scope.lookupvar("zookeeper::audit_enable") %>
+audit.enable=true
+<% else -%>
+#audit.enable=
+<% end -%>
