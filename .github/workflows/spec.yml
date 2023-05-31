@@ -1,33 +1,40 @@
 name: "Static & Spec Tests"
 
 on:
-  - push
   - pull_request
+  - push
+
+env:
+  BUNDLE_WITHOUT: release
 
 jobs:
-  StaticAndSpecTests:
-    name: "Static & Spec Tests (Ruby ${{ matrix.ruby_version }})"
-    env:
-      BUNDLE_JOBS: 4
-      BUNDLE_WITH: "development"
+  test:
+    runs-on: ubuntu-latest
     strategy:
       fail-fast: false
       matrix:
-        ruby_version: ['2.7']
-    runs-on: ubuntu-latest
+        ruby:
+          - "3.1"
+          - "3.0"
+          - "2.7"
+        puppet:
+          - "~> 8.0"
+          - "~> 7.0"
+        exclude:
+          - ruby: "2.7"
+            puppet: "~> 8.0"
 
+    name: "Ruby ${{ matrix.ruby }} - Puppet ${{ matrix.puppet }}"
+    env:
+      PUPPET_VERSION: ${{ matrix.puppet }}
     steps:
-    - name: Checkout Source
-      uses: actions/checkout@v2
-
-    - name: "Activate Ruby ${{ matrix.ruby_version }}"
-      uses: ruby/setup-ruby@v1
-      with:
-        ruby-version: ${{ matrix.ruby_version }}
-        bundler-cache: true
-
-    - name: Rubocop
-      run: bundle exec rake rubocop
-
-    - name: 'Spec'
-      run: bundle exec rake spec
+      - uses: actions/checkout@v3
+      - name: Install Ruby ${{ matrix.ruby }}
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: ${{ matrix.ruby }}
+          bundler-cache: true
+      - name: Run tests
+        run: bundle exec rake spec
+      - name: Rubocop
+        run: bundle exec rake rubocop

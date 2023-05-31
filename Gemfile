@@ -24,7 +24,7 @@ group :development do
   gem "puppet-module-posix-dev-r#{minor_version}", '~> 1.0',     require: false, platforms: [:ruby]
   gem "puppet-module-win-default-r#{minor_version}", '~> 1.0',   require: false, platforms: [:mswin, :mingw, :x64_mingw]
   gem "puppet-module-win-dev-r#{minor_version}", '~> 1.0',       require: false, platforms: [:mswin, :mingw, :x64_mingw]
-  gem "voxpupuli-puppet-lint-plugins", '~> 3.0',                 require: false
+  gem "voxpupuli-puppet-lint-plugins", '>= 3.0',                 require: false
   gem "github_changelog_generator", '~> 1.15',                   require: false if Gem::Version.new(RUBY_VERSION.dup) >= Gem::Version.new('2.3.0')
   gem "overcommit",                                              require: false
   gem "librarian-puppet",                                        require: false
