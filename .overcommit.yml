@@ -53,11 +53,3 @@ PreCommit:
   TrailingWhitespace:
     enabled: true
 
-PrePush:
-  RakeTarget:
-    enabled: true
-    description: 'Run rake targets'
-    targets:
-      - 'validate'
-      - 'rubocop'
-    command: [ 'bundle', 'exec', 'rake' ]

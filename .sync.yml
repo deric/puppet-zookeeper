@@ -12,17 +12,7 @@
     - '/.vscode/'
     - '/.devcontainer/'
 .travis.yml:
-  remove_branches:
-    - main
-    - /^v\d/
-  docker_sets:
-    - set: debian9-64
-    - set: debian10-64
-    - set: ubuntu1804-64
-    - set: centos7-64
-  irc: false
-  user: 'deric'
-  secure: 'K3gfvfUtsZ4l6TTChG5jBLIB4j9ZG3zQECBCMI0ZcYiyiFYIihDtraO6sTf0qOcocRg5TpihBNJ8IpBPdDvd8bOrQCIWnSor2hP6NKA8J0XCDX5H4hmyieJhFCuGydaopia6rATEbj4TIOzMk8zPVc/lavg4yRkpwcxCy7UQVKc='
+  delete: true
 
 Rakefile:
   config.user: 'deric'
@@ -46,6 +36,9 @@ Gemfile:
       - gem: beaker-docker
       - gem: beaker-puppet_install_helper
       - gem: beaker-module_install_helper
+      - gem: 'voxpupuli-acceptance'
+    ':release':
+      - gem: 'puppet-blacksmith'
 .gitignore:
   paths:
     - .tmp/*
