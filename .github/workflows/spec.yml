@@ -5,7 +5,7 @@ on:
   - push
 
 env:
-  BUNDLE_WITHOUT: release
+  BUNDLE_WITH: 'development:system_tests:acceptance'
 
 jobs:
   test:
@@ -34,7 +34,6 @@ jobs:
         with:
           ruby-version: ${{ matrix.ruby }}
           bundler-cache: true
-          rubygems: 3.2.3
       - name: Run tests
         run: bundle exec rake spec
       - name: Rubocop
