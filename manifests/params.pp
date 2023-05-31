@@ -154,6 +154,7 @@ class zookeeper::params {
   $ssl_quorum_protocol = 'TLSv1.2'
   $ssl_quorum = false
   $quorum_listen_on_all_ips = false
+  $audit_enable = false
   $port_unification = undef
   $datastore = '/var/lib/zookeeper'
   # datalogstore used to put transaction logs in separate location than snapshots
@@ -195,6 +196,9 @@ class zookeeper::params {
   $maxfilesize = '256MB'
   $maxbackupindex = 20
   $extra_appenders = {}
+  $audit_threshold = 'INFO'
+  $audit_maxfilesize = '10M'
+  $audit_maxbackupindex = '10'
 
   # sasl options
   $sasl_krb5 = true
