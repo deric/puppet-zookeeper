@@ -24,7 +24,7 @@ jobs:
     name: "Ruby ${{ matrix.ruby }} - Puppet ${{ matrix.puppet }}"
     env:
       PUPPET_VERSION: ${{ matrix.puppet }}
-      BUNDLE_WITH: development:system_tests
+      BUNDLE_WITH: development:system_tests:acceptance
     steps:
       - uses: actions/checkout@v3
       - name: Install Ruby ${{ matrix.ruby }}
