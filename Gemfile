@@ -48,6 +48,10 @@ group :acceptance do
   gem "beaker-docker",                require: false
   gem "beaker-puppet_install_helper", require: false
   gem "beaker-module_install_helper", require: false
+  gem "voxpupuli-acceptance",         require: false
+end
+group :release do
+  gem "puppet-blacksmith", require: false
 end
 
 puppet_version = ENV['PUPPET_GEM_VERSION']

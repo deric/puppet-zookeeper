@@ -24,14 +24,13 @@ jobs:
     name: "Ruby ${{ matrix.ruby }} - Puppet ${{ matrix.puppet }}"
     env:
       PUPPET_VERSION: ${{ matrix.puppet }}
-      BUNDLE_WITH: development:system_tests:acceptance
     steps:
       - uses: actions/checkout@v3
       - name: Install Ruby ${{ matrix.ruby }}
         uses: ruby/setup-ruby@v1
         with:
           ruby-version: ${{ matrix.ruby }}
-          bundler-cache: false
+          bundler-cache: true
       - name: Run tests
         run: bundle exec rake spec
       - name: Rubocop
