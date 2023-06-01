@@ -68,3 +68,12 @@ jobs:
           bundler-cache: true
       - name: Run acceptance
         run: bundle exec rake beaker
+  tests:
+    needs:
+      - rubocop
+      - test
+      - acceptance
+    runs-on: ubuntu-latest
+    name: Test suite
+    steps:
+      - run: echo Test suite completed
