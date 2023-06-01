@@ -5,6 +5,19 @@ on:
   - push
 
 jobs:
+  rubocop:
+    env:
+      BUNDLE_WITHOUT: release
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Install Ruby ${{ matrix.ruby }}
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: "3.1"
+          bundler-cache: true
+      - name: Run Rubocop
+        run: bundle exec rake rubocop
   test:
     runs-on: ubuntu-latest
     strategy:
@@ -32,8 +45,6 @@ jobs:
           bundler-cache: true
       - name: Run tests
         run: bundle exec rake spec
-      - name: Rubocop
-        run: bundle exec rake rubocop
   acceptance:
     runs-on: ubuntu-latest
     env:
