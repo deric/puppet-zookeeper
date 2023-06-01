@@ -1,10 +1,22 @@
 name: "Static & Spec Tests"
 
 on:
-  - pull_request
   - push
 
 jobs:
+  rubocop:
+    env:
+      BUNDLE_WITHOUT: release
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Install Ruby ${{ matrix.ruby }}
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: "3.1"
+          bundler-cache: true
+      - name: Run Rubocop
+        run: bundle exec rake rubocop
   test:
     runs-on: ubuntu-latest
     strategy:
@@ -32,5 +44,35 @@ jobs:
           bundler-cache: true
       - name: Run tests
         run: bundle exec rake spec
-      - name: Rubocop
-        run: bundle exec rake rubocop
+  acceptance:
+    runs-on: ubuntu-latest
+    env:
+      BEAKER_setfile: ${{ matrix.beaker }}
+    strategy:
+      fail-fast: false
+      matrix:
+        beaker:
+          - debian10-64a
+          - debian11-64a
+          - ubuntu2204-64a
+          - centos9-64a
+          - rocky9-64a
+    name: Acceptance / Image ${{ matrix.beaker }}
+    steps:
+      - uses: actions/checkout@v3
+      - name: Setup ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: "3.0"
+          bundler-cache: true
+      - name: Run acceptance
+        run: bundle exec rake beaker
+  tests:
+    needs:
+      - rubocop
+      - test
+      - acceptance
+    runs-on: ubuntu-latest
+    name: Test suite
+    steps:
+      - run: echo Test suite completed
