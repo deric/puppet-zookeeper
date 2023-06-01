@@ -42,11 +42,11 @@ jobs:
       fail-fast: false
       matrix:
         beaker:
-          - debian10-64
-          - debian11-64
-          - ubuntu2204-64
-          - redhat9-64
-          - rocky9-64
+          - debian10-64a
+          - debian11-64a
+          - ubuntu2204-64a
+          - centos9-64a
+          - rocky9-64a
     name: Acceptance / Image ${{ matrix.beaker }}
     steps:
       - uses: actions/checkout@v3
