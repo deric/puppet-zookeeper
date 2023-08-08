@@ -1,18 +1,150 @@
-# Class: zookeeper
+# @summary Manages ZooKeeper installation
 #
-# This module manages ZooKeeper installation
+# @param ensure
+#   Package ensure, `present`, `absent` or specific version, default: present
+# @param ensure_account
+#   Wheter user account and group should be created, default: present
+# @param ensure_cron
 #
+# @param group
+#   Name of the group, default: zookeeper
+# @param system_group
+#   Whether create system group, default: false
+# @param packages
+#   Array of packages to be installed, default: OS dependent
+# @param shell
 #
-# Parameters:
-# * [global_outstanding_limit] Clients can submit requests faster than ZooKeeper can process them,
-#    especially if there are a lot of clients. To prevent ZooKeeper from running out of memory due to
-#    queued requests, ZooKeeper will throttle clients so that there is no more than globalOutstandingLimit
-#    outstanding requests in the system
-#
-#
-# * [whitelist_4lw] Fine grained control over the set of commands ZooKeeper can execute
+# @param user
+#   User account name
+# @param system_user
+#   Whether create a system user, default:false
+# @param archive_checksum
+# @param archive_dl_site
+# @param archive_dl_timeout
+# @param archive_dl_url
+# @param archive_install_dir
+# @param archive_symlink
+# @param archive_symlink_name
+# @param archive_version
+# @param repo_user
+# @param repo_password
+# @param proxy_server
+# @param proxy_type
+# @param cdhver
+# @param install_java
+# @param install_method
+# @param java_bin
+# @param java_opts
+# @param java_package
+# @param repo
+# @param manage_service
+# @param manage_service_file
+# @param pid_dir
+# @param pid_file
+# @param restart_on_change
+# @param service_ensure
+# @param service_name
+# @param service_provider
+# @param systemd_unit_want
+# @param systemd_unit_after
+# @param systemd_path
+# @param zk_dir
+
+# @param cfg_dir
+# @param cleanup_sh
+# @param client_ip
+# @param client_port
+# @param secure_client_port
+# @param secure_port_only
+# @param ssl
+# @param ssl_clientauth
+# @param keystore_location
+# @param keystore_type
+# @param keystore_password
+# @param truststore_location
+# @param truststore_type
+# @param truststore_password
+# @param ssl_hostname_verification
+# @param ssl_ciphersuites
+# @param ssl_protocol
+# @param keystore_quorum_location
+# @param keystore_quorum_type
+# @param keystore_quorum_password
+# @param truststore_quorum_location
+# @param truststore_quorum_type
+# @param truststore_quorum_password
+# @param ssl_quorum_hostname_verification
+# @param ssl_quorum_ciphersuites
+# @param ssl_quorum_protocol
+# @param ssl_quorum
+# @param port_unification
+# @param datastore
+# @param datalogstore
+#   Defining `dataLogDir` allows ZooKeeper transaction logs to be stored in a different location,
+#   might improve I/O performance (e.g. if path is mounted on dedicated disk)
+# @param election_port
+# @param export_tag
+# @param id
+#   Cluster-unique zookeeper's instance ID (integer 1-255)
+# @param init_limit
+# @param initialize_datastore
+# @param initialize_datastore_bin
+# @param leader
+# @param leader_port
+# @param log_dir
+# @param manual_clean
+# @param max_session_timeout
+# @param min_session_timeout
+# @param observers
+# @param purge_interval
+#   Automatically delete ZooKeeper logs (available since ZooKeeper 3.4.0)
+# @param servers
+# @param pre_alloc_size
+# @param snap_count
+# @param snap_retain_count
+# @param sync_limit
+# @param tick_time
+# @param global_outstanding_limit
+#   Clients can submit requests faster than ZooKeeper can process them,
+#   especially if there are a lot of clients. To prevent ZooKeeper from running out of memory due to
+#   queued requests, ZooKeeper will throttle clients so that there is no more than globalOutstandingLimit
+#   outstanding requests in the system
+# @param use_sasl_auth
+# @param zoo_dir
+# @param zoo_main
+# @param quorum_listen_on_all_ips
+# @param audit_enable
+
+# @param environment_file
+# @param log4j_prop
+# @param maxfilesize
+# @param maxbackupindex
+# @param max_allowed_connections
+# @param peer_type
+# @param rollingfile_threshold
+# @param tracefile_threshold
+# @param console_threshold
+# @param extra_appenders
+# @param audit_threshold
+# @param audit_maxfilesize
+# @param audit_maxbackupindex
+# @param sasl_users
+# @param keytab_path
+# @param principal
+# @param realm
+# @param sasl_krb5
+# @param store_key
+# @param use_keytab
+# @param use_ticket_cache
+# @param remove_host_principal
+# @param remove_realm_principal
+# @param whitelist_4lw
+#   Fine grained control over the set of commands ZooKeeper can execute
 #
 #                   whitelist_4lw = ['stat','ruok']
+# @param metrics_provider_classname
+# @param metrics_provider_http_port
+# @param metrics_provider_export_jvm_info
 #
 class zookeeper (
   # meta options

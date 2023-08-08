@@ -17,6 +17,19 @@ jobs:
           bundler-cache: true
       - name: Run Rubocop
         run: bundle exec rake rubocop
+  lint:
+    env:
+      BUNDLE_WITHOUT: release
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Install Ruby ${{ matrix.ruby }}
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: "3.1"
+          bundler-cache: true
+      - name: Run Rubocop
+        run: bundle exec rake lint
   test:
     runs-on: ubuntu-latest
     strategy:
@@ -74,6 +87,7 @@ jobs:
       - rubocop
       - test
       - acceptance
+      - lint
     runs-on: ubuntu-latest
     name: Test suite
     steps:

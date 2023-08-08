@@ -150,7 +150,7 @@ After=network-online.target
 
    - `id` - cluster-unique zookeeper's instance id (1-255)
    - `datastore`
-   - `datalogstore` - specifying this configures the `dataLogDir` ZooKeeper config values and allows for transaction logs to be stored in a different location, improving IO performance
+   - `datalogstore` - Defining `dataLogDir` allows ZooKeeper transaction logs to be stored in a different location, might improve I/O performance (e.g. if path is mounted on dedicated disk)
    - `log_dir`
    - `purge_interval` - automatically will delete ZooKeeper logs (available since ZooKeeper 3.4.0)
    - `snap_retain_count` - number of snapshots that will be kept after purging (since ZooKeeper 3.4.0)
