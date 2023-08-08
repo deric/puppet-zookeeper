@@ -11,14 +11,6 @@ A puppet receipt for [Apache Zookeeper](http://zookeeper.apache.org/). ZooKeeper
   * Puppet
   * Binary or ZooKeeper source code archive
 
-Compatibility matrix:
-
-| `puppet-zookeeper`| Puppet 3.x    | Puppet 4.x   | Puppet 5.x | Puppet 6.x     |
-| ----------------- | ------------- |--------------| -----------|----------------|
-| `0.7.x`           | :heavy_check_mark: | :heavy_check_mark: | :question: | :x: |
-| `0.8.x`           | :x:  | :heavy_check_mark: | :heavy_check_mark: | :x:       |
-| `1.0.x`           | :x:  | :x: | :heavy_check_mark: | :heavy_check_mark: |
-
 ## Basic Usage:
 
 ```puppet
