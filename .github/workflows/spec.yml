@@ -28,7 +28,7 @@ jobs:
         with:
           ruby-version: "3.1"
           bundler-cache: true
-      - name: Run Rubocop
+      - name: Puppet Lint
         run: bundle exec rake lint
   test:
     runs-on: ubuntu-latest

@@ -2,6 +2,23 @@
 
 All notable changes to this project will be documented in this file. The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) and this project adheres to [Semantic Versioning](http://semver.org).
 
+## [v1.5.0](https://github.com/deric/puppet-zookeeper/tree/v1.5.0) (2023-08-08)
+
+### Features
+
+- Allow audit logs  ([#190](https://github.com/deric/puppet-zookeeper/pull/190))
+- Support Puppet 8
+- Support puppetlabs/stdlib 9
+- Improve CI tests
+
+### Fixes
+
+- Fix ssl ciphersuites is optional, and removed when not set ([#188](https://github.com/deric/puppet-zookeeper/pull/188))
+- Remove anchors, use `contain`
+
+
+[Full Changelog](https://github.com/deric/puppet-zookeeper/compare/v1.4.0...v1.5.0)
+
 ## [v1.4.0](https://github.com/deric/puppet-zookeeper/tree/v1.4.0) (2023-01-10)
 
 ### Features
