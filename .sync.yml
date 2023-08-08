@@ -32,7 +32,6 @@ Gemfile:
         version: '~> 1.15'
         condition: "Gem::Version.new(RUBY_VERSION.dup) >= Gem::Version.new('2.3.0')"
       - gem: overcommit
-      - gem: librarian-puppet
   optional:
     ':acceptance':
       - gem: beaker
