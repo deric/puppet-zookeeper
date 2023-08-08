@@ -1,4 +1,8 @@
 ---
+appveyor.yml:
+  delete: true
+.editorconfig:
+  unmanaged: true
 .github/CONTRIBUTING.md:
   delete: true
 .github/ISSUE_TEMPLATE.md:
