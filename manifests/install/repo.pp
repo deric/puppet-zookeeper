@@ -2,13 +2,12 @@
 #
 # This class manages yum repository for Zookeeper packages
 #
-# PRIVATE CLASS - do not use directly (use main `zookeeper` class).
+# @private - do not use directly (use main `zookeeper` class).
 class zookeeper::install::repo inherits zookeeper::install {
   if $zookeeper::repo {
     case $facts['os']['family'] {
       'RedHat', 'Suse': {
         $_config = $zookeeper::repo
-        validate_hash($_config)
         if $_config['name'] == undef or $_config['url'] == undef or $_config['descr'] == undef {
           fail('Invalid parameter settings for custom repo')
         }
