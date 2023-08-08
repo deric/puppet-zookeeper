@@ -2,10 +2,8 @@
 #
 # This module manages installation tasks.
 #
-# PRIVATE CLASS - do not use directly (use main `zookeeper` class).
+# @private - do not use directly (use main `zookeeper` class).
 class zookeeper::install inherits zookeeper {
-  anchor { 'zookeeper::install::begin': }
-
   $os_family = $facts['os']['family']
 
   # Java installation
@@ -15,52 +13,43 @@ class zookeeper::install inherits zookeeper {
     }
 
     # Make sure the Java package is only installed once.
-    anchor { 'zookeeper::install::java': }
-
-    ensure_resource('package', $zookeeper::java_package,
-      { 'ensure'        => $zookeeper::ensure,
+    ensure_resource('package', $zookeeper::java_package, {
+        'ensure'        => $zookeeper::ensure,
         'allow_virtual' => true,
-        'before'        => Anchor['zookeeper::install::intermediate'],
-        'require'       => Anchor['zookeeper::install::begin']
+        'before'        => Class['zookeeper::post_install'],
       }
     )
   }
 
-  anchor { 'zookeeper::install::intermediate': }
-
   # Package installation
   case $zookeeper::install_method {
     'archive': {
-      include zookeeper::install::archive
-      Anchor['zookeeper::install::intermediate']
-      -> Class['zookeeper::install::archive']
-      -> Anchor['zookeeper::install::end']
+      contain zookeeper::install::archive
+
+      Class['zookeeper::install::archive']
+      -> Class['zookeeper::post_install']
     }
     'package': {
       # Repo management
       case $os_family {
         'RedHat', 'Suse': {
-          include zookeeper::install::repo
-          Anchor['zookeeper::install::begin']
-          -> Class['zookeeper::install::repo']
+          contain zookeeper::install::repo
+
+          Class['zookeeper::install::repo']
+          -> Class['zookeeper::post_install']
         }
         default: {} # nothing to do
       }
 
-      include zookeeper::install::package
-      Anchor['zookeeper::install::intermediate']
-      -> Class['zookeeper::install::package']
-      -> Anchor['zookeeper::install::end']
+      contain zookeeper::install::package
+      Class['zookeeper::install::package']
+      -> Class['zookeeper::post_install']
     }
     default: {
       fail('Valid installation methods are `package` or `archive`')
     }
   }
 
-  anchor { 'zookeeper::install::end': }
-
   # Post installation tasks
-  class { 'zookeeper::post_install':
-    require => Anchor['zookeeper::install::end'],
-  }
+  contain zookeeper::post_install
 }

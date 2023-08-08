@@ -170,24 +170,21 @@ class zookeeper (
     }
   }
 
-  include zookeeper::install
-  include zookeeper::config
-  anchor { 'zookeeper::start': }
-  -> Class['zookeeper::install']
+  contain zookeeper::install
+  contain zookeeper::config
+  Class['zookeeper::install']
   -> Class['zookeeper::config']
 
   if ($use_sasl_auth) {
-    include zookeeper::sasl
+    contain zookeeper::sasl
     Class['zookeeper::config']
     -> Class['zookeeper::sasl']
     -> Class['zookeeper::service']
   }
 
   if ($manage_service) and ($service_provider != 'exhibitor') {
-    include zookeeper::service
+    contain zookeeper::service
     Class['zookeeper::config']
     -> Class['zookeeper::service']
-    -> Anchor['zookeeper::end']
   }
-  anchor { 'zookeeper::end': }
 }
