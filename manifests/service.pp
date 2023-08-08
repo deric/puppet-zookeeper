@@ -1,8 +1,7 @@
 # Class: zookeeper::service
 #
-# PRIVATE CLASS - do not use directly (use main `zookeeper` class).
+# @private - do not use directly (use main `zookeeper` class).
 class zookeeper::service inherits zookeeper {
-#
   case $zookeeper::install_method {
     'archive': {
       $_zoo_dir = "${zookeeper::archive_install_dir}/${module_name}"
@@ -18,7 +17,7 @@ class zookeeper::service inherits zookeeper {
   if $zookeeper::manage_service_file == true {
     exec { 'systemctl daemon-reload # for zookeeper':
       refreshonly => true,
-      path        => $::path,
+      path        => $facts['path'],
     }
     if $zookeeper::service_provider == 'systemd' {
       file { "${zookeeper::systemd_path}/${zookeeper::service_name}.service":
