@@ -55,7 +55,7 @@ jobs:
         beaker:
           - debian10-64a
           - debian11-64a
-          - debian12-64a
+          # - debian12-64a # voxpupuli/beaker-hostgenerator doesn't support Debian 12 yet
           - ubuntu2204-64a
           - centos9-64a
           - rocky9-64a
