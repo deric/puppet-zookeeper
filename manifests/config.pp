@@ -77,6 +77,13 @@ class zookeeper::config inherits zookeeper {
     content => template("${module_name}/conf/log4j.properties.erb"),
   }
 
+  file { "${zookeeper::cfg_dir}/logback.xml":
+    owner   => $zookeeper::user,
+    group   => $zookeeper::group,
+    mode    => '0644',
+    content => template("${module_name}/conf/logback.xml.erb"),
+  }
+
   # Initialize the datastore if required
   if $zookeeper::initialize_datastore {
     exec { 'initialize_datastore':
