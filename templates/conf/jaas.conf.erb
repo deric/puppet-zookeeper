@@ -13,3 +13,17 @@ Server {
     <% end %>;
 <% end -%>
 };
+
+<% if scope.lookupvar("zookeeper::quorum_auth_enable_sasl") -%>
+<%# Only tested with Digest-MD5 authentication scheme but it can also work with Kerberos -%>
+QuorumServer {
+       org.apache.zookeeper.server.auth.DigestLoginModule required
+       user_<%= scope.lookupvar("zookeeper::quorum_sasl_user") %>="<%= scope.lookupvar("zookeeper::quorum_sasl_password") %>";
+};
+
+QuorumLearner {
+       org.apache.zookeeper.server.auth.DigestLoginModule required
+       username="<%= scope.lookupvar("zookeeper::quorum_sasl_user") %>"
+       password="<%= scope.lookupvar("zookeeper::quorum_sasl_password") %>";
+};
+<% end -%>
