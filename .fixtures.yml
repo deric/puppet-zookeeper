@@ -1,9 +1,13 @@
 ---
 fixtures:
   forge_modules:
-     archive: puppet/archive
+     archive:
+       repo: puppet/archive
+       # ref: 0.4.4
      cron: puppet/cron
-     stdlib: puppetlabs/stdlib
+     stdlib:
+      repo: puppetlabs/stdlib
+      # ref: 5.0.0
      yumrepo_core: puppetlabs/yumrepo_core
   symlinks:
     zookeeper: "#{source_dir}"
