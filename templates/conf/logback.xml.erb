@@ -29,6 +29,7 @@
   <property name="zookeeper.log.file" value="zookeeper.log" />
   <property name="zookeeper.log.threshold" value="<%= scope.lookupvar("zookeeper::rollingfile_threshold") %>" />
   <property name="zookeeper.log.maxfilesize" value="<%= scope.lookupvar("zookeeper::maxfilesize") %>" />
+  <property name="zookeeper.log.days" value="<%= scope.lookupvar("zookeeper::logrotate_days") %>" />
   <property name="zookeeper.log.maxbackupindex" value="<%= scope.lookupvar("zookeeper::maxbackupindex") %>" />
 
   <!--
@@ -52,6 +53,12 @@
     <encoder>
       <pattern>%d{ISO8601} [myid:%X{myid}] - %-5p [%t:%C{1}@%L] - %m%n</pattern>
     </encoder>
+<% if @logrotate_timebased -%>
+    <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+      <maxHistory>${zookeeper.log.days}</maxHistory>
+      <FileNamePattern>${zookeeper.log.dir}/${zookeeper.log.file}-%d{yyyy-MM-dd}</FileNamePattern>
+    </rollingPolicy>
+<% else -%>
     <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
       <level>${zookeeper.log.threshold}</level>
     </filter>
@@ -62,6 +69,7 @@
     <triggeringPolicy class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
       <MaxFileSize>${zookeeper.log.maxfilesize}</MaxFileSize>
     </triggeringPolicy>
+<% end -%>
   </appender>
 
   <!--

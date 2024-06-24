@@ -199,6 +199,8 @@ class zookeeper::params {
   $audit_threshold = 'INFO'
   $audit_maxfilesize = '10M'
   $audit_maxbackupindex = '10'
+  $logrotate_days = 7
+  $logrotate_timebased = false
 
   # sasl options
   $sasl_krb5 = true
