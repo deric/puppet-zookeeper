@@ -279,6 +279,12 @@ class zookeeper (
   Boolean                                    $use_ticket_cache                 = $zookeeper::params::use_ticket_cache,
   Boolean                                    $remove_host_principal            = $zookeeper::params::remove_host_principal,
   Boolean                                    $remove_realm_principal           = $zookeeper::params::remove_realm_principal,
+  # Quorum SASL /!\ Only works with ZK 3.4.10 or more recent; disabled by default /!\
+  Boolean                                    $quorum_auth_enable_sasl          = $zookeeper::params::quorum_auth_enable_sasl,
+  Boolean                                    $quorum_auth_learner_require_sasl = $zookeeper::params::quorum_auth_learner_require_sasl,
+  Boolean                                    $quorum_auth_server_require_sasl  = $zookeeper::params::quorum_auth_server_require_sasl,
+  String                                     $quorum_sasl_user                 = $zookeeper::params::quorum_sasl_user,
+  String                                     $quorum_sasl_password             = $zookeeper::params::quorum_sasl_password,
   # four letter words whitelist
   Array[String]                              $whitelist_4lw                    = $zookeeper::params::whitelist_4lw,
   # Metrics Providers

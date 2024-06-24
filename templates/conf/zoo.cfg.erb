@@ -142,6 +142,16 @@ kerberos.removeRealmFromPrincipal=true
 <% end -%>
 <% end -%>
 
+<% if scope.lookupvar("zookeeper::quorum_auth_enable_sasl") -%>
+quorum.auth.enableSasl=true
+<% end -%>
+<% if scope.lookupvar("zookeeper::quorum_auth_learner_require_sasl") -%>
+quorum.auth.learnerRequireSasl=true
+<% end -%>
+<% if scope.lookupvar("zookeeper::quorum_auth_server_require_sasl") -%>
+quorum.auth.serverRequireSasl=true
+<% end -%>
+
 <% if scope.lookupvar("zookeeper::ssl") -%>
 # Supported since 3.5.1
 <% if ! [nil, :undefined, :undef].include?(scope.lookupvar("zookeeper::secure_client_port")) -%>
