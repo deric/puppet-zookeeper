@@ -75,7 +75,7 @@ class zookeeper::params {
       fail("Module '${module_name}' is not supported on OS: '${os_name}', family: '${os_family}'")
     }
   }
-  $_params = merge($_defaults, $_os_overrides)
+  $_params = $_defaults + $_os_overrides
 
   # meta options
   $ensure = present
