@@ -128,9 +128,10 @@
 # @param audit_threshold
 # @param audit_maxfilesize
 # @param audit_maxbackupindex
+# @param logrotate_timebased
+#   logback TimeBasedRollingPolicy
 # @param logrotate_days
-# @param $logrotate_timebased
-
+#   max number of days kept, `logrotate_timebase` needs to be `true`
 # @param sasl_users
 # @param keytab_path
 # @param principal
@@ -264,8 +265,8 @@ class zookeeper (
   String                                     $audit_threshold                  = $zookeeper::params::audit_threshold,
   String                                     $audit_maxfilesize                = $zookeeper::params::audit_maxfilesize,
   String                                     $audit_maxbackupindex             = $zookeeper::params::audit_maxbackupindex,
+  Boolean                                    $logrotate_timebased              = $zookeeper::params::logrotate_timebased,
   Integer                                    $logrotate_days                   = $zookeeper::params::logrotate_days,
-  Boolean                                    $logrotate_timebased              = $zookeeper::params::logrotate_timebased, 
 
   # sasl options
   Hash[String, String]                       $sasl_users                       = $zookeeper::params::sasl_users,
