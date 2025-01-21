@@ -78,7 +78,7 @@
     }
   ],
   "description": "ZooKeeper is a centralized service for maintaining configuration information, naming, providing distributed synchronization, and providing group services.",
-  "pdk-version": "3.2.0",
-  "template-url": "https://github.com/puppetlabs/pdk-templates#3.2.0",
-  "template-ref": "tags/3.2.0-0-gb257ef1"
+  "pdk-version": "3.4.0",
+  "template-url": "https://github.com/puppetlabs/pdk-templates#3.4.0",
+  "template-ref": "tags/3.4.0-0-gd3cc13f"
 }

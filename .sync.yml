@@ -40,8 +40,6 @@ Gemfile:
       - gem: beaker-puppet_install_helper
       - gem: beaker-module_install_helper
       - gem: 'voxpupuli-acceptance'
-    ':release':
-      - gem: 'puppet-blacksmith'
 .gitignore:
   paths:
     - .tmp/*
