@@ -88,7 +88,7 @@
     </filter>
   </appender-->
 
-<% if @audit_enable -%>
+<% if scope.lookupvar("zookeeper::audit_enable") -%>
   <!--
     zk audit logging
   -->

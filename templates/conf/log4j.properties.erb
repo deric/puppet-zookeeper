@@ -34,7 +34,7 @@ zookeeper.tracelog.file=zookeeper_trace.log
 
 log4j.rootLogger=${zookeeper.root.logger}
 
-<% if @audit_enable -%>
+<% if scope.lookupvar("zookeeper::audit_enable") -%>
 #
 # zk audit logging
 #
