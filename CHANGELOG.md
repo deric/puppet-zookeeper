@@ -2,6 +2,27 @@
 
 All notable changes to this project will be documented in this file. The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) and this project adheres to [Semantic Versioning](http://semver.org).
 
+## [v1.6.0](https://github.com/deric/puppet-zookeeper/tree/v1.6.0) (2025-01-25)
+
+### Changes
+
+- Drop old distributions
+- Added `audit_enable` tests
+
+## Features
+
+- manage logback.xml (#197)
+- add possibility to logrotate timebased instead on filesize. (only implemented in the logback configuration) (#198)
+
+### Fixes
+
+- Fix bug with wrong reference to `audit_enable` in logging templates([#199](https://github.com/deric/puppet-zookeeper/pull/199))
+- Avoid using `stdlib::merge()` function (#194)
+
+
+[Full Changelog](https://github.com/deric/puppet-zookeeper/compare/v1.5.0...v1.6.0)
+
+
 ## [v1.5.0](https://github.com/deric/puppet-zookeeper/tree/v1.5.0) (2023-08-08)
 
 ### Features
