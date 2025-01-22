@@ -274,4 +274,22 @@ describe 'zookeeper', type: :class do
     it { is_expected.not_to contain_file('/etc/zookeeper/conf/zoo.cfg').with_content(%r{^clientPort=2181}) }
     it { is_expected.to contain_file('/etc/zookeeper/conf/zoo.cfg').with_content(%r{^secureClientPort=2182}) }
   end
+
+  context 'with audit_enable' do
+    let(:params) do
+      {
+        audit_enable: true,
+        audit_maxfilesize: '5M',
+        audit_maxbackupindex: 5,
+        audit_threshold: 'ERROR',
+      }
+    end
+
+    it { is_expected.to compile.with_all_deps }
+    it { is_expected.to contain_file('/etc/zookeeper/conf/zoo.cfg').with_content(%r{^audit.enable=true}) }
+    it { is_expected.to contain_file('/etc/zookeeper/conf/log4j.properties').with_content(%r{^zookeeper.auditlog.file=zookeeper_audit.log}) }
+    it { is_expected.to contain_file('/etc/zookeeper/conf/log4j.properties').with_content(%r{^log4j.appender.RFAAUDIT.MaxFileSize=5M}) }
+    it { is_expected.to contain_file('/etc/zookeeper/conf/log4j.properties').with_content(%r{^log4j.appender.RFAAUDIT.MaxBackupIndex=5}) }
+    it { is_expected.to contain_file('/etc/zookeeper/conf/log4j.properties').with_content(%r{^zookeeper.auditlog.threshold=ERROR}) }
+  end
 end

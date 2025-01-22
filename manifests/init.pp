@@ -264,7 +264,7 @@ class zookeeper (
   Hash[String,Hash[String,String]]           $extra_appenders                  = $zookeeper::params::extra_appenders,
   String                                     $audit_threshold                  = $zookeeper::params::audit_threshold,
   String                                     $audit_maxfilesize                = $zookeeper::params::audit_maxfilesize,
-  String                                     $audit_maxbackupindex             = $zookeeper::params::audit_maxbackupindex,
+  Variant[Integer,String]                    $audit_maxbackupindex             = $zookeeper::params::audit_maxbackupindex,
   Boolean                                    $logrotate_timebased              = $zookeeper::params::logrotate_timebased,
   Integer                                    $logrotate_days                   = $zookeeper::params::logrotate_days,
 
