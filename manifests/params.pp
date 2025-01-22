@@ -197,7 +197,7 @@ class zookeeper::params {
   $maxbackupindex = 20
   $extra_appenders = {}
   $audit_threshold = 'INFO'
-  $audit_maxfilesize = '10M'
+  $audit_maxfilesize = '10MB'
   $audit_maxbackupindex = '10'
   $logrotate_days = 7
   $logrotate_timebased = false
