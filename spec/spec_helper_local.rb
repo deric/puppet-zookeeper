@@ -10,7 +10,7 @@ def get_os_info(facts)
     zookeeper_shell: nil,
   }
 
-  case facts[:osfamily]
+  case facts[:os]['family']
   when 'Debian'
     info[:service_name] = 'zookeeper'
     info[:environment_file] = '/etc/zookeeper/conf/environment'
@@ -33,6 +33,8 @@ def get_os_info(facts)
     info[:should_install_zookeeperd] = false
     info[:zookeeper_shell] = '/bin/false'
     info[:init_provider] = 'systemd'
+  else
+    raise "Unsupported OS: #{facts[:os]['family']}"
   end
 
   case info[:init_provider]
@@ -49,6 +51,5 @@ def get_os_info(facts)
                         else
                           "#{info[:init_dir]}/#{info[:service_name]}"
                         end
-
   info
 end
