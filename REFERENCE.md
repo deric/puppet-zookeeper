@@ -83,6 +83,7 @@ The following parameters are available in the `zookeeper` class:
 * [`java_bin`](#-zookeeper--java_bin)
 * [`java_opts`](#-zookeeper--java_opts)
 * [`java_package`](#-zookeeper--java_package)
+* [`java_home`](#-zookeeper--java_home)
 * [`repo`](#-zookeeper--repo)
 * [`manage_service`](#-zookeeper--manage_service)
 * [`manage_service_file`](#-zookeeper--manage_service_file)
@@ -602,6 +603,14 @@ Data type: `Optional[String]`
 
 
 Default value: `$zookeeper::params::java_package`
+
+##### <a name="-zookeeper--java_home"></a>`java_home`
+
+Data type: `Optional[String]`
+
+
+
+Default value: `undef`
 
 ##### <a name="-zookeeper--repo"></a>`repo`
 

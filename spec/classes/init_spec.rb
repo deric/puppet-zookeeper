@@ -227,6 +227,20 @@ describe 'zookeeper', type: :class do
     end
   end
 
+  context 'with java_home' do
+    let(:params) do
+      {
+        java_home: '/usr/lib/jvm/java-21',
+      }
+    end
+
+    it {
+      is_expected.to contain_file(
+        environment_file,
+      ).with_content(%r{JAVA_HOME="\/usr\/lib\/jvm\/java-21"})
+    }
+  end
+
   context 'managed by exhibitor' do
     let(:params) do
       {
