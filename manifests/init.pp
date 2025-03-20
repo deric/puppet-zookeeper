@@ -34,6 +34,8 @@
 # @param install_java
 # @param install_method
 # @param java_bin
+# @param java_home
+#   Sets JAVA_HOME, if defined
 # @param java_opts
 # @param java_package
 # @param repo
@@ -180,6 +182,7 @@ class zookeeper (
   String                                     $java_bin                         = $zookeeper::params::java_bin,
   String                                     $java_opts                        = $zookeeper::params::java_opts,
   Optional[String]                           $java_package                     = $zookeeper::params::java_package,
+  Optional[String]                           $java_home                        = undef,
   Optional[Hash]                             $repo                             = $zookeeper::params::repo,
   # service options
   Boolean                                    $manage_service                   = $zookeeper::params::manage_service,
